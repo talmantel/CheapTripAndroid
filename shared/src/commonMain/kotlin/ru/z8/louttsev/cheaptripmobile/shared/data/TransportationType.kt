@@ -4,6 +4,8 @@
  */
 package ru.z8.louttsev.cheaptripmobile.shared.data
 
+
+import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.StringDesc
@@ -13,13 +15,17 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 /**
  * Declares path type in relation to transport.
  */
-enum class TransportationType(val value: String, private val resourceId: StringResource) {
-    BUS("Bus", MR.strings.transportation_type_bus),
-    TRAIN("Train", MR.strings.transportation_type_train),
-    FLIGHT("Flight", MR.strings.transportation_type_flight),
-    RIDE_SHARE("Ride Share", MR.strings.transportation_type_ride_share);
+enum class TransportationType(
+    val value: String,
+    private val stringResourceId: StringResource,
+    val imageResource: ImageResource
+) {
+    BUS("Bus", MR.strings.transportation_type_bus, MR.images.ic_bus),
+    TRAIN("Train", MR.strings.transportation_type_train, MR.images.ic_train),
+    FLIGHT("Flight", MR.strings.transportation_type_flight, MR.images.ic_plane),
+    RIDE_SHARE("Ride Share", MR.strings.transportation_type_ride_share, MR.images.ic_ride_share);
 
     override fun toString(): String {
-        return StringDesc.Resource(resourceId).convertToString()
+        return StringDesc.Resource(stringResourceId).convertToString()
     }
 }

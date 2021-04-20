@@ -13,7 +13,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 /**
  * Declares route type in relation to ways of moving.
  */
-enum class RouteType(val value: String, private val resourceId: StringResource) {
+enum class RouteType(val value: String, private val stringResourceId: StringResource) {
     GROUND_ROUTES("ground_routes", MR.strings.route_type_ground),
     MIXED_ROUTES("mixed_routes", MR.strings.route_type_ground),
     FLYING_ROUTES("flying_routes", MR.strings.route_type_ground),
@@ -25,6 +25,6 @@ enum class RouteType(val value: String, private val resourceId: StringResource) 
     DIRECT_ROUTES("direct_routes", MR.strings.route_type_ground);
 
     override fun toString(): String {
-        return StringDesc.Resource(resourceId).convertToString()
+        return StringDesc.Resource(stringResourceId).convertToString()
     }
 }
