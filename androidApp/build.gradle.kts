@@ -25,6 +25,7 @@ android {
             isMinifyEnabled = true
         }
         getByName("debug") {
+            isDebuggable = true
             isMinifyEnabled = false
         }
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="transportation_type_bus">Автобус</string>
+    <string name="transportation_type_train">Поезд</string>
+    <string name="transportation_type_flight">Самолет</string>
+    <string name="transportation_type_ride_share">Попутка</string>
+    <string name="route_type_ground">Наземный</string>
+    <string name="route_type_mixed">Смешанный</string>
+    <string name="route_type_flying">Воздушный</string>
+    <string name="route_type_fixed_without_ride_share">Наземный (без попуток)</string>
+    <string name="route_type_without_ride_share">Без попуток</string>
+    <string name="route_type_direct">Прямой</string>
+</resources>

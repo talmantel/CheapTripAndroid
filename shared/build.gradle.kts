@@ -19,9 +19,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-                api("dev.icerock.moko:resources:0.13.2")
-                api("dev.icerock.moko:mvvm-core:0.9.0") // only ViewModel, EventsDispatcher, Dispatchers.UI
-                api("dev.icerock.moko:mvvm-livedata:0.9.0") // api mvvm-core, LiveData and extensions
+                api("dev.icerock.moko:resources:0.15.1")
+//                api("dev.icerock.moko:mvvm-core:0.9.0") // only ViewModel, EventsDispatcher, Dispatchers.UI
+//                api("dev.icerock.moko:mvvm-livedata:0.9.0") // api mvvm-core, LiveData and extensions
             }
         }
         val commonTest by getting {
