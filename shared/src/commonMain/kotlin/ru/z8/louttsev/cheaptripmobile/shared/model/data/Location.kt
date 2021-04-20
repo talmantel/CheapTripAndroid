@@ -13,4 +13,11 @@ package ru.z8.louttsev.cheaptripmobile.shared.model.data
 data class Location(
     val id: Int,
     val name: String
-)
+) {
+    /**
+     * Declares location type in relation to route.
+     */
+    enum class Type {
+        ALL, FROM, TO
+    }
+}

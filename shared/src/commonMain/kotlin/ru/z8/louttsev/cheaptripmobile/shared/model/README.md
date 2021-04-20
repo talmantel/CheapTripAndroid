@@ -11,7 +11,8 @@ Contains repositories and data sources.
 Type                  | Name                   | Description
 ----------------------|------------------------|--------------------------------------------------------------------
 package               | **data**               | Data classes for Model.
-class                 | **LocationRepository** | 
+class                 | **LocationRepository** | Read-only storage of available locations.
+enum                  | **Locale**             | Supported language.
 class                 | **RouteRepository**    | 
 interface             | **DataSource**         | 
 class                 | **FullDbDataSource**   | 
