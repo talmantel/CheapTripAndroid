@@ -6,4 +6,7 @@ package ru.z8.louttsev.cheaptripmobile.shared
 
 import ru.z8.louttsev.cheaptripmobile.shared.model.Locale
 
+/**
+ * A platform-specific property declaration for default language.
+ */
 expect val currentLocale: Locale

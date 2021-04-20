@@ -12,7 +12,10 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.ALL
 /**
  * Declares read-only storage of available locations.
  */
-class LocationRepository {
+class LocationRepository(
+    private val mainSource: DataSource,
+    private val reserveSource: DataStorage
+) {
     fun getLocationById(id: Int): Location {
         return null
     }

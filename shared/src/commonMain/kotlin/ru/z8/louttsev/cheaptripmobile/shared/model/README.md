@@ -14,7 +14,7 @@ package               | **data**               | Data classes for Model.
 class                 | **LocationRepository** | Read-only storage of available locations.
 enum                  | **Locale**             | Supported language.
 class                 | **RouteRepository**    | 
-interface             | **DataSource**         | 
+interface             | **DataSource**         | Read-only data access logic.
 class                 | **FullDbDataSource**   | 
-interface             | **DataStorage**        | 
+interface             | **DataStorage**        | Full data access logic.
 class                 | **LocalDbStorage**     | 
