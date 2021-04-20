@@ -1,4 +1,4 @@
-# Package ru.z8.louttsev.cheaptripmobile.shared.data
+# Package ru.z8.louttsev.cheaptripmobile.shared.model.data
 
 Data model classes.
 

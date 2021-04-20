@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ru.z8.louttsev.cheaptripmobile.shared.convertToString
-import ru.z8.louttsev.cheaptripmobile.shared.data.TransportationType
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

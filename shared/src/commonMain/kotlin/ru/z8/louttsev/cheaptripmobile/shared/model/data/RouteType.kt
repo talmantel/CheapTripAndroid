@@ -2,7 +2,7 @@
  * CheapTrip Mobile
  * This is mobile client for LowCostsTrip server.
  */
-package ru.z8.louttsev.cheaptripmobile.shared.data
+package ru.z8.louttsev.cheaptripmobile.shared.model.data
 
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
