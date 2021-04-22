@@ -4,28 +4,17 @@
  */
 package ru.z8.louttsev.cheaptripmobile.shared.model
 
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
-
 /**
  * Determines read-only data access logic.
  */
-interface DataSource {
+interface DataSource<T> {
     /**
-     * Finds all locations matching parameters.
+     * Finds all data matching parameters.
      *
      * @param parameters Request specification
      * @return List of matching results (m.b. empty) or null if an error occurred
      */
-    fun getLocations(parameters: ParamsBundle): List<Location>?
-
-    /**
-     * Finds all routes matching parameters.
-     *
-     * @param parameters Request specification
-     * @return List of matching results (m.b. empty) or null if an error occurred
-     */
-    fun getRoutes(parameters: ParamsBundle): List<Route>?
+    fun get(parameters: ParamsBundle): List<T>?
 
     /**
      * Declares a merger of isolated parameters.

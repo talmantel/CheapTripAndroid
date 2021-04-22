@@ -7,6 +7,7 @@ package ru.z8.louttsev.cheaptripmobile.shared.model
 import ru.z8.louttsev.cheaptripmobile.shared.currentLocale
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.ALL
@@ -15,9 +16,12 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.ALL
  * Declares read-only storage of available locations.
  */
 class LocationRepository(
-    private val mainSource: DataSource,
-    private val reserveSource: DataStorage
+    mainSource: DataSource<Location>,
+    reserveSource: DataStorage<Location>,
+    strategy: RepositoryStrategy
 ) {
+    private val loadLocations = strategy.combineLoaderFrom(mainSource, reserveSource)
+
     /**
      * Finds all locations with matching fragments in the name.
      *
@@ -40,10 +44,6 @@ class LocationRepository(
             put(Key.LOCALE, locale)
         }
 
-        val result = mainSource.getLocations(params)
-
-        return result?.also {
-            reserveSource.saveLocations(result)
-        } ?: reserveSource.getLocations(params)
+        return loadLocations(params)
     }
 }

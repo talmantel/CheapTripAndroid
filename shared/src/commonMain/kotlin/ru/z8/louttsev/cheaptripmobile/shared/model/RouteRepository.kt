@@ -5,8 +5,9 @@
 package ru.z8.louttsev.cheaptripmobile.shared.model
 
 import ru.z8.louttsev.cheaptripmobile.shared.currentLocale
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.*
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
+import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
@@ -14,9 +15,12 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
  * Declares read-only storage of available routes.
  */
 class RouteRepository(
-    private val mainSource: DataSource,
-    private val reserveSource: DataStorage
+    mainSource: DataSource<Route>,
+    reserveSource: DataStorage<Route>,
+    strategy: RepositoryStrategy
 ) {
+    private val loadRoutes = strategy.combineLoaderFrom(mainSource, reserveSource)
+
     /**
      * Finds possible routes between specified locations.
      *
@@ -36,10 +40,6 @@ class RouteRepository(
             put(Key.LOCALE, locale)
         }
 
-        val result = mainSource.getRoutes(params)
-
-        return result?.also {
-            reserveSource.saveRoutes(result)
-        } ?: reserveSource.getRoutes(params)
+        return loadRoutes(params)
     }
 }

@@ -5,17 +5,17 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataStorage
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
+import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class LocationRepositoryTest {
-    private val dataSourceFake = object : DataSource {
+    private val dataSourceFake = object : DataSource<Location> {
         var isAvailable: Boolean = true
 
-        override fun getLocations(parameters: ParamsBundle): List<Location>? {
+        override fun get(parameters: ParamsBundle): List<Location>? {
             if (!isAvailable) {
                 return null
             }
@@ -28,24 +28,16 @@ class LocationRepositoryTest {
                 )
             }
         }
-
-        override fun getRoutes(parameters: ParamsBundle): List<Route>? {
-            TODO("Not yet implemented")
-        }
     }
 
-    private val dataStorageFake = object : DataStorage {
+    private val dataStorageFake = object : DataStorage<Location> {
         val locationStorage = emptyMap<String, Location>().toMutableMap()
 
-        override fun saveLocations(locations: List<Location>) {
-            locations.forEach { locationStorage[it.name] = it }
+        override fun put(data: List<Location>) {
+            data.forEach { locationStorage[it.name] = it }
         }
 
-        override fun saveRoutes(routes: List<Route>) {
-            TODO("Not yet implemented")
-        }
-
-        override fun getLocations(parameters: ParamsBundle): List<Location> {
+        override fun get(parameters: ParamsBundle): List<Location> {
             val needle = parameters.get(Key.NEEDLE).toString()
             if (needle.isEmpty() || needle.isBlank()) {
                 return emptyList()
@@ -53,13 +45,13 @@ class LocationRepositoryTest {
                 return locationStorage.filterKeys { it.contains(needle) }.values.toList()
             }
         }
-
-        override fun getRoutes(parameters: ParamsBundle): List<Route> {
-            TODO("Not yet implemented")
-        }
     }
 
-    private val repositoryUnderTest = LocationRepository(dataSourceFake, dataStorageFake)
+    private val repositoryUnderTest = LocationRepository(
+        dataSourceFake,
+        dataStorageFake,
+        RepositoryStrategy.BACKUP
+    )
 
     @Test
     fun searchLocationsByName() {

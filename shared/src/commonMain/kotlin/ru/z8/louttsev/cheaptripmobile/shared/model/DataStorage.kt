@@ -5,34 +5,20 @@
 package ru.z8.louttsev.cheaptripmobile.shared.model
 
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
 /**
  * Determines full data access logic.
  */
-interface DataStorage : DataSource {
+interface DataStorage<T> : DataSource<T> {
     /**
-     * Keeps a list of locations.
+     * Saves a data.
      *
-     * @param locations List of locations (m.b. empty)
+     * @param data List of saving data (m.b. empty)
      */
-    fun saveLocations(locations: List<Location>)
-
-    /**
-     * Keeps a list of routes.
-     *
-     * @param routes List of routes (m.b. empty)
-     */
-    fun saveRoutes(routes: List<Route>)
+    fun put(data: List<T>)
 
     /**
      * Narrows data source result to nonnull value, excluding internal errors.
      */
-    override fun getLocations(parameters: ParamsBundle): List<Location>
-
-    /**
-     * Narrows data source result to nonnull value, excluding internal errors.
-     */
-    override fun getRoutes(parameters: ParamsBundle): List<Route>
+    override fun get(parameters: ParamsBundle): List<T>
 }

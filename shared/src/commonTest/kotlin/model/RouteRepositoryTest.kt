@@ -4,25 +4,22 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataStorage
+import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.RouteType
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class RouteRepositoryTest {
-    private val dataSourceFake = object : DataSource {
+    private val dataSourceFake = object : DataSource<Route> {
         var isAvailable: Boolean = true
 
-        override fun getLocations(parameters: ParamsBundle): List<Location>? {
-            TODO("Not yet implemented")
-        }
-
-        override fun getRoutes(parameters: ParamsBundle): List<Route>? {
+        override fun get(parameters: ParamsBundle): List<Route>? {
             if (!isAvailable) {
                 return null
             }
@@ -47,31 +44,27 @@ class RouteRepositoryTest {
         }
     }
 
-    private val dataStorageFake = object : DataStorage {
+    private val dataStorageFake = object : DataStorage<Route> {
         val routeStorage = emptyMap<Pair<String, String>, Route>().toMutableMap()
 
-        override fun saveLocations(locations: List<Location>) {
-            TODO("Not yet implemented")
-        }
-
-        override fun saveRoutes(routes: List<Route>) {
-            routes.forEach {
+        override fun put(data: List<Route>) {
+            data.forEach {
                 routeStorage[it.directPaths.first().from to it.directPaths.last().to] = it
             }
         }
 
-        override fun getLocations(parameters: ParamsBundle): List<Location> {
-            TODO("Not yet implemented")
-        }
-
-        override fun getRoutes(parameters: ParamsBundle): List<Route> {
+        override fun get(parameters: ParamsBundle): List<Route> {
             val from = parameters.get(Key.FROM) as Location
             val to = parameters.get(Key.TO) as Location
             return routeStorage.filterKeys { it == from.name to to.name }.values.toList()
         }
     }
 
-    private val repositoryUnderTest = RouteRepository(dataSourceFake, dataStorageFake)
+    private val repositoryUnderTest = RouteRepository(
+        dataSourceFake,
+        dataStorageFake,
+        RepositoryStrategy.BACKUP
+    )
 
     @Test
     fun getRoutes() {

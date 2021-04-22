@@ -2,7 +2,7 @@
  * CheapTrip Mobile
  * This is mobile client for LowCostsTrip server.
  */
-package ru.z8.louttsev.cheaptripmobile.shared.model
+package ru.z8.louttsev.cheaptripmobile.shared.model.data
 
 /**
  * Declares supported language.

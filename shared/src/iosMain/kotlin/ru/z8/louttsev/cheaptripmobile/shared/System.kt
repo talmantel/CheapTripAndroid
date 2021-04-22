@@ -4,7 +4,7 @@
  */
 package ru.z8.louttsev.cheaptripmobile.shared
 
-import ru.z8.louttsev.cheaptripmobile.shared.model.Locale
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 
 /**
  * A platform-specific property implementation for default language.
