@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("dev.icerock.mobile.multiplatform-resources")
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -22,6 +23,7 @@ kotlin {
                 api("dev.icerock.moko:resources:0.15.1")
 //                api("dev.icerock.moko:mvvm-core:0.9.0") // only ViewModel, EventsDispatcher, Dispatchers.UI
 //                api("dev.icerock.moko:mvvm-livedata:0.9.0") // api mvvm-core, LiveData and extensions
+                implementation("com.squareup.sqldelight:runtime:1.4.4")
             }
         }
         val commonTest by getting {
@@ -35,6 +37,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
                 implementation("com.google.android.material:material:1.3.0")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+                implementation("com.squareup.sqldelight:android-driver:1.4.4")
             }
         }
         val androidTest by getting {
@@ -59,6 +62,12 @@ android {
 
 multiplatformResources {
     multiplatformResourcesPackage = "ru.z8.louttsev.cheaptripmobile"
+}
+
+sqldelight {
+    database("LocalDb") {
+        packageName = "ru.z8.louttsev.cheaptripmobile.persistence"
+    }
 }
 
 val packForXcode by tasks.creating(Sync::class) {
