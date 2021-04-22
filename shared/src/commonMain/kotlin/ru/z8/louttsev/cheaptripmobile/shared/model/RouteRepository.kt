@@ -20,10 +20,10 @@ class RouteRepository(
     /**
      * Finds possible routes between specified locations.
      *
-     * @param from origin location
-     * @param to destination location
-     * @param locale results language
-     * @return list of matching results (m.b. empty)
+     * @param from Origin location
+     * @param to Destination location
+     * @param locale Results language
+     * @return List of matching results (m.b. empty)
      */
     fun getRoutes(
         from: Location,
@@ -35,7 +35,9 @@ class RouteRepository(
             put(Key.TO, to)
             put(Key.LOCALE, locale)
         }
+
         val result = mainSource.getRoutes(params)
+
         return result?.also {
             reserveSource.saveRoutes(result)
         } ?: reserveSource.getRoutes(params)

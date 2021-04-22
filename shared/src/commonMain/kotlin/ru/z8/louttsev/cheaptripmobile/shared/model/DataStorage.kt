@@ -15,14 +15,14 @@ interface DataStorage : DataSource {
     /**
      * Keeps a list of locations.
      *
-     * @param locations list of locations (m.b. empty)
+     * @param locations List of locations (m.b. empty)
      */
     fun saveLocations(locations: List<Location>)
 
     /**
      * Keeps a list of routes.
      *
-     * @param routes list of routes (m.b. empty)
+     * @param routes List of routes (m.b. empty)
      */
     fun saveRoutes(routes: List<Route>)
 

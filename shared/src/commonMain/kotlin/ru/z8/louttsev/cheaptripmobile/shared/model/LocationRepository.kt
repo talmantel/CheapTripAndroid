@@ -21,11 +21,11 @@ class LocationRepository(
     /**
      * Finds all locations with matching fragments in the name.
      *
-     * @param needle search pattern
-     * @param type narrows the search by route start/finish point
-     * @param limit desired number of search results
-     * @param locale search and results language
-     * @return list of matching results (m.b. empty)
+     * @param needle Search pattern
+     * @param type Narrows the search by route start/finish point
+     * @param limit Desired number of search results
+     * @param locale Search and results language
+     * @return List of matching results (m.b. empty)
      */
     fun searchLocationsByName(
         needle: String,
@@ -39,6 +39,7 @@ class LocationRepository(
             put(Key.LIMIT, limit)
             put(Key.LOCALE, locale)
         }
+
         val result = mainSource.getLocations(params)
 
         return result?.also {

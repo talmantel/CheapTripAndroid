@@ -14,16 +14,16 @@ interface DataSource {
     /**
      * Finds all locations matching parameters.
      *
-     * @param parameters request specification
-     * @return list of matching results (m.b. empty) or null if an error occurred
+     * @param parameters Request specification
+     * @return List of matching results (m.b. empty) or null if an error occurred
      */
     fun getLocations(parameters: ParamsBundle): List<Location>?
 
     /**
      * Finds all routes matching parameters.
      *
-     * @param parameters request specification
-     * @return list of matching results (m.b. empty) or null if an error occurred
+     * @param parameters Request specification
+     * @return List of matching results (m.b. empty) or null if an error occurred
      */
     fun getRoutes(parameters: ParamsBundle): List<Route>?
 
@@ -36,8 +36,8 @@ interface DataSource {
         /**
          * Adds parameter into bundle.
          *
-         * @param key allowable parameter's key
-         * @param value added parameter
+         * @param key Allowable parameter's key
+         * @param value Added parameter
          */
         fun put(key: Key, value: Any) {
             params[key.value] = value
@@ -46,8 +46,8 @@ interface DataSource {
         /**
          * Extract parameter from bundle.
          *
-         * @param key allowable parameter's key
-         * @return extracted parameter or null if it wasn't added early
+         * @param key Allowable parameter's key
+         * @return Extracted parameter or null if it wasn't added early
          */
         fun get(key: Key): Any? {
             return params[key.value]
