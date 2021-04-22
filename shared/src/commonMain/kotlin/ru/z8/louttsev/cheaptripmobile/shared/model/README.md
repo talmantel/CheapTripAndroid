@@ -17,6 +17,6 @@ interface             | **DataSource**                  | Read-only data access 
 nested class          | **DataSource.ParamsBundle**     | A merger of isolated parameters.
 nested enum           | **DataSource.ParamsBundle.Key** | Valid parameter key.
 interface             | **DataStorage**                 | Full data access logic.
-class                 | **RepositoryStrategy**          | Data sources usage logic.
+enum                  | **RepositoryStrategy**          | Data sources usage logic.
 class                 | **FullDbDataSource**            | 
 class                 | **LocalDbStorage**              | 
