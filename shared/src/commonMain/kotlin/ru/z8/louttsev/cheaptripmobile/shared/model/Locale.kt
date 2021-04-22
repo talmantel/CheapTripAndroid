@@ -15,6 +15,12 @@ enum class Locale(val languageCode: String) {
     }
 
     companion object {
+        /**
+         * Gives the locale by its string representation.
+         *
+         * @param languageCode two-letter code accordingly ISO 639-1
+         * @return supported locale or EN as default
+         */
         fun fromLanguageCode(languageCode: String): Locale {
             return Locale.values().find { it.languageCode == languageCode } ?: EN
         }

@@ -13,7 +13,7 @@ Type                  | Name                            | Description
 package               | **data**                        | Data classes for Model.
 class                 | **LocationRepository**          | Read-only storage of available locations.
 enum                  | **Locale**                      | Supported language.
-class                 | **RouteRepository**             | 
+class                 | **RouteRepository**             | Read-only storage of available routes.
 interface             | **DataSource**                  | Read-only data access logic.
 nested class          | **DataSource.ParamsBundle**     | A merger of isolated parameters.
 nested enum           | **DataSource.ParamsBundle.Key** | List of valid parameter keys.

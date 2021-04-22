@@ -59,6 +59,8 @@ interface DataSource {
         enum class Key(internal val value: String) {
             NEEDLE("needle"),
             TYPE("type"),
+            FROM("from"),
+            TO("to"),
             LIMIT("limit"),
             LOCALE("locale");
         }
