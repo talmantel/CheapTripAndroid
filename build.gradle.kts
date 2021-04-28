@@ -4,7 +4,6 @@ buildscript {
         jcenter()
         google()
         mavenCentral()
-        maven(url = "https://dl.bintray.com/icerockdev/plugins")
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
@@ -20,6 +19,5 @@ allprojects {
         jcenter()
         mavenCentral()
         maven(url = "https://kotlin.bintray.com/kotlinx/")
-        maven(url = "https://dl.bintray.com/icerockdev/moko")
     }
 }
