@@ -18,5 +18,3 @@ nested class          | **DataSource.ParamsBundle**     | A merger of isolated p
 nested enum           | **DataSource.ParamsBundle.Key** | Valid parameter key.
 interface             | **DataStorage**                 | Full data access logic.
 enum                  | **RepositoryStrategy**          | Data sources usage logic.
-class                 | **FullDbDataSource**            | 
-class                 | **LocalDbStorage**              | 
