@@ -2,3 +2,11 @@ CREATE TABLE location (
     id INTEGER AS Int NOT NULL PRIMARY KEY,
     name TEXT NOT NULL
 );
+
+upsertLocation {
+  UPDATE location SET name = :name WHERE id = :id;
+  INSERT OR IGNORE INTO location (id, name) VALUES (:id, :name);
+}
+
+selectLocationByName:
+SELECT * FROM location WHERE name LIKE ('%' || :needle || '%');
