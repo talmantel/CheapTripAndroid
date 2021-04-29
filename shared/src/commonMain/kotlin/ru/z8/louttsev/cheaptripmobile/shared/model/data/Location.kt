@@ -9,10 +9,14 @@ package ru.z8.louttsev.cheaptripmobile.shared.model.data
  *
  * @param id Location ID.
  * @param name Location name.
+ * @param type Location type.
+ * @param locale Location's name language.
  */
 data class Location(
     val id: Int,
-    val name: String
+    val name: String,
+    val type: Type,
+    val locale: Locale
 ) {
     /**
      * Declares location type in relation to route.

@@ -9,5 +9,5 @@ Contains local data storage implementation.
 ## Summary
 
 Type                  | Name                            | Description
-----------------------|---------------------------------|-----------------------------------------------
-class                 | **LocalDbStorage**              | *Not yet implemented*
+----------------------|---------------------------------|-----------------------------------------------------
+class                 | **LocalDbStorage**              | Data storage implementation based on local database.

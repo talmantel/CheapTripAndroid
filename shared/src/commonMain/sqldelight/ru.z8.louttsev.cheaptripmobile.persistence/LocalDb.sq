@@ -1,12 +1,15 @@
 CREATE TABLE location (
-    id INTEGER AS Int NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL
+    id INTEGER AS Int NOT NULL,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    language TEXT NOT NULL,
+    PRIMARY KEY (id, type, language)
 );
 
 upsertLocation {
-  UPDATE location SET name = :name WHERE id = :id;
-  INSERT OR IGNORE INTO location (id, name) VALUES (:id, :name);
+  UPDATE location SET name = :name WHERE id = :id AND type = :type AND language = :language;
+  INSERT OR IGNORE INTO location (id, name, type, language) VALUES (:id, :name, :type, :language);
 }
 
-selectLocationByName:
-SELECT * FROM location WHERE name LIKE ('%' || :needle || '%');
+selectLocationsByName:
+SELECT * FROM location WHERE name LIKE ('%' || :needle || '%') LIMIT :limit;
