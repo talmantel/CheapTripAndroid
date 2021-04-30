@@ -6,11 +6,9 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataStorage
 import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.*
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.RouteType
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -68,8 +66,8 @@ class RouteRepositoryTest {
 
     @Test
     fun getRoutes() {
-        val fromLocation = Location(1, "Moscow")
-        val toLocation = Location(2, "Petersburg")
+        val fromLocation = Location(1, "Moscow", Type.ALL, Locale.EN)
+        val toLocation = Location(2, "Petersburg", Type.ALL, Locale.EN)
         assertTrue(dataSourceFake.isAvailable)
         val result = repositoryUnderTest.getRoutes(fromLocation, toLocation)
         assertEquals(result, dataStorageFake.routeStorage.values.toList())
