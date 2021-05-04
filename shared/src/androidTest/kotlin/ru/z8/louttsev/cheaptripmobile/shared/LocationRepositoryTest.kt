@@ -1,6 +1,9 @@
 package ru.z8.louttsev.cheaptripmobile.shared
 
-import android.app.Instrumentation
+import android.content.Context
+import android.support.test.runner.AndroidJUnit4
+import androidx.test.core.app.ApplicationProvider
+import org.junit.runner.RunWith
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
@@ -14,6 +17,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@RunWith(AndroidJUnit4::class)
 class LocationRepositoryTest {
     private val dataSourceFake = object : DataSource<Location> {
         var isAvailable: Boolean = true
@@ -47,7 +51,7 @@ class LocationRepositoryTest {
     private val dataStorage: LocalDbStorage
 
     init {
-        val context = Instrumentation().context
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val driver = DatabaseDriverFactory(context).createDriver()
         dataStorage = LocalDbStorage(driver)
     }

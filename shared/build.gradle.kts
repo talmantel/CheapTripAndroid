@@ -44,6 +44,10 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
+                implementation("androidx.test:core:1.3.0")
+                implementation("com.android.support:support-annotations:28.0.0")
+                implementation("com.android.support.test:runner:1.0.2")
+                api("org.robolectric:robolectric:4.2.1")
             }
         }
         val iosMain by getting {
@@ -61,6 +65,11 @@ android {
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(29)
+    }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
     }
 }
 

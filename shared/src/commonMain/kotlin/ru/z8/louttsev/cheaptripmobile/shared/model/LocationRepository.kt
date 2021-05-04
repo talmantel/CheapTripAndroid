@@ -34,7 +34,7 @@ class LocationRepository(
     fun searchLocationsByName(
         needle: String,
         type: Type = ALL,
-        limit: Int = 10,
+        limit: Long = 10,
         locale: Locale = currentLocale
     ): List<Location> {
         val params = ParamsBundle().apply {
