@@ -36,7 +36,7 @@ class LocationRepository(
         type: Type = ALL,
         limit: Long = 10,
         locale: Locale = currentLocale
-    ): List<Location> {
+    ): List<Location.Dto> {
         val params = ParamsBundle().apply {
             put(Key.NEEDLE, needle)
             put(Key.TYPE, type)
@@ -44,6 +44,6 @@ class LocationRepository(
             put(Key.LOCALE, locale)
         }
 
-        return loadLocations(params)
+        return loadLocations(params).map { it.toDto() }
     }
 }

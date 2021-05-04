@@ -24,4 +24,17 @@ data class Location(
     enum class Type {
         ALL, FROM, TO
     }
+
+    /**
+     * Declares simplified location data.
+     */
+    data class Dto(
+        val id: Int,
+        val name: String
+    )
+
+    /**
+     * Maps to simplified form.
+     */
+    fun toDto() = Dto(id, name)
 }

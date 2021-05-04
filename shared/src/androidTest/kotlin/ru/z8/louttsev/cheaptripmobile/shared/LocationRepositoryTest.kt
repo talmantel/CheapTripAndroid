@@ -65,10 +65,10 @@ class LocationRepositoryTest {
     @Test
     fun searchLocationsByName() {
         assertTrue(dataSourceFake.isAvailable)
-        val result =
+        val result: List<Location.Dto> =
             repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
         dataSourceFake.isAvailable = false
-        val cachedResult =
+        val cachedResult: List<Location.Dto> =
             repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
         assertEquals(result, cachedResult)
     }
