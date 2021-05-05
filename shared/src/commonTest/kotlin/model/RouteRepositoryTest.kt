@@ -45,7 +45,7 @@ class RouteRepositoryTest {
     private val dataStorageFake = object : DataStorage<Route> {
         val routeStorage = emptyMap<Pair<String, String>, Route>().toMutableMap()
 
-        override fun put(data: List<Route>) {
+        override fun put(data: List<Route>, parameters: ParamsBundle) {
             data.forEach {
                 routeStorage[it.directPaths.first().from to it.directPaths.last().to] = it
             }
@@ -66,8 +66,8 @@ class RouteRepositoryTest {
 
     @Test
     fun getRoutes() {
-        val fromLocation = Location(1, "Moscow", Type.ALL, Locale.EN)
-        val toLocation = Location(2, "Petersburg", Type.ALL, Locale.EN)
+        val fromLocation = Location(1, "Moscow")
+        val toLocation = Location(2, "Petersburg")
         assertTrue(dataSourceFake.isAvailable)
         val result = repositoryUnderTest.getRoutes(fromLocation, toLocation)
         assertEquals(result, dataStorageFake.routeStorage.values.toList())

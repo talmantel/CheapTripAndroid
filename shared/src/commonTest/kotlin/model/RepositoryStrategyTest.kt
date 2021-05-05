@@ -33,7 +33,7 @@ class RepositoryStrategyTest {
     private val dataStorageFake = object : DataStorage<String> {
         val storage = emptyMap<String, String>().toMutableMap()
 
-        override fun put(data: List<String>) {
+        override fun put(data: List<String>, parameters: ParamsBundle) {
             data.forEach { storage[it] = it }
         }
 

@@ -47,7 +47,7 @@ kotlin {
                 implementation("androidx.test:core:1.3.0")
                 implementation("com.android.support:support-annotations:28.0.0")
                 implementation("com.android.support.test:runner:1.0.2")
-                api("org.robolectric:robolectric:4.2.1")
+                implementation("org.robolectric:robolectric:4.2.1")
             }
         }
         val iosMain by getting {

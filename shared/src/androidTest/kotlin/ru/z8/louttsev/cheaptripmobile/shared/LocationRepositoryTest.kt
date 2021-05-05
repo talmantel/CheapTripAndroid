@@ -24,10 +24,10 @@ class LocationRepositoryTest {
         val locationStorage = emptyMap<Triple<Int, Type, Locale>, Location>()
             .toMutableMap()
             .also {
-                it[Triple(1, Type.ALL, Locale.EN)] = Location(1, "Moscow", Type.ALL, Locale.EN)
-                it[Triple(1, Type.FROM, Locale.EN)] = Location(1, "Moscow", Type.FROM, Locale.EN)
-                it[Triple(1, Type.TO, Locale.EN)] = Location(1, "Moscow", Type.TO, Locale.EN)
-                it[Triple(1, Type.ALL, Locale.RU)] = Location(1, "Москва", Type.ALL, Locale.RU)
+                it[Triple(1, Type.ALL, Locale.EN)] = Location(1, "Moscow")
+                it[Triple(1, Type.FROM, Locale.EN)] = Location(1, "Moscow")
+                it[Triple(1, Type.TO, Locale.EN)] = Location(1, "Moscow")
+                it[Triple(1, Type.ALL, Locale.RU)] = Location(1, "Москва")
             }
 
         override fun get(parameters: ParamsBundle): List<Location>? {
@@ -65,10 +65,10 @@ class LocationRepositoryTest {
     @Test
     fun searchLocationsByName() {
         assertTrue(dataSourceFake.isAvailable)
-        val result: List<Location.Dto> =
+        val result: List<Location> =
             repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
         dataSourceFake.isAvailable = false
-        val cachedResult: List<Location.Dto> =
+        val cachedResult: List<Location> =
             repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
         assertEquals(result, cachedResult)
     }
