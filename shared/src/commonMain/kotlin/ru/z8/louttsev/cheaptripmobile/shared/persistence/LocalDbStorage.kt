@@ -16,13 +16,15 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 class LocalDbStorage(sqlDriver: SqlDriver) : DataStorage<Location> {
     private val queries = LocalDb(sqlDriver).localDbQueries
 
-    override fun put(data: List<Location>) {
+    override fun put(data: List<Location>, parameters: ParamsBundle) {
+        val type = parameters.get(Key.TYPE) as Location.Type
+        val locale = parameters.get(Key.LOCALE) as Locale
         data.forEach { location: Location ->
             queries.upsertLocation(
                 id = location.id,
                 name = location.name,
-                type = location.type.name,
-                language = location.locale.languageCode
+                type = type.name,
+                language = locale.languageCode
             )
         }
     }
@@ -30,8 +32,8 @@ class LocalDbStorage(sqlDriver: SqlDriver) : DataStorage<Location> {
     override fun get(parameters: ParamsBundle): List<Location> {
         val needle = parameters.get(Key.NEEDLE) as String
         val limit = parameters.get(Key.LIMIT) as Long
-        return queries.selectLocationsByName(needle, limit) { id, name, type, language ->
-            Location(id, name, Location.Type.valueOf(type), Locale.fromLanguageCode(language))
+        return queries.selectLocationsByName(needle, limit) { id, name ->
+            Location(id, name)
         }.executeAsList()
     }
 }

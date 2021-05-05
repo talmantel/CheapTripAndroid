@@ -12,4 +12,4 @@ upsertLocation {
 }
 
 selectLocationsByName:
-SELECT * FROM location WHERE name LIKE ('%' || :needle || '%') LIMIT :limit;
+SELECT id, name FROM location WHERE name LIKE ('%' || :needle || '%') LIMIT :limit;

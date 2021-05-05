@@ -14,8 +14,9 @@ interface DataStorage<T> : DataSource<T> {
      * Saves a data.
      *
      * @param data List of saving data (m.b. empty)
+     * @param parameters Source request specification
      */
-    fun put(data: List<T>)
+    fun put(data: List<T>, parameters: ParamsBundle)
 
     /**
      * Narrows data source result to nonnull value, excluding internal errors.
