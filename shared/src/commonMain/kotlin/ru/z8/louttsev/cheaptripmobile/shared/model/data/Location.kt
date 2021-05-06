@@ -7,8 +7,8 @@ package ru.z8.louttsev.cheaptripmobile.shared.model.data
 /**
  * Declares concrete location (city).
  *
- * @param id Location ID.
- * @param name Location name.
+ * @property id Location ID.
+ * @property name Location name.
  */
 data class Location(
     val id: Int,

@@ -21,6 +21,13 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType
 abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
     private val queries = LocalDb(sqlDriver).localDbQueries
 
+    /**
+     * Tries to update location record; if it doesn't exist, inserts it.
+     *
+     * @param location Updated/inserted location
+     * @param typeName Location's type in relation to route
+     * @param languageCode Two-letter code accordingly ISO 639-1
+     */
     protected fun updateOrInsertLocation(
         location: Location,
         typeName: String,
@@ -32,6 +39,13 @@ abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
         queries.updateOrInsertLocation(locationName, locationId, typeName, languageCode)
     }
 
+    /**
+     * Finds locations that have search string in their name.
+     *
+     * @param needle Search string
+     * @param limit Desired number of locations in the response
+     * @return List of matching locations no larger than the specified size
+     */
     protected fun selectLocationsByName(needle: String, limit: Long): List<Location> =
         queries.selectLocationsByName(
             needle,
@@ -39,6 +53,14 @@ abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
             mapper = { id, name -> Location(id, name) }
         ).executeAsList()
 
+    /**
+     * Tries to update route record; if it doesn't exist, inserts it.
+     *
+     * @param route Updated/inserted route
+     * @param fromLocationName Origin location name
+     * @param toLocationName Destination location name
+     * @param languageCode Two-letter code accordingly ISO 639-1
+     */
     protected fun updateOrInsertRoute(
         route: Route,
         fromLocationName: String,
@@ -48,6 +70,8 @@ abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
         val (type, price, duration, paths) = route
         val typeName = type.name
 
+        // wrapped in transaction, due to associated path records are deleted
+        // and inserted at the same time.
         queries.transaction {
             val routeId =
                 // the method violates the expected order of the arguments
@@ -68,6 +92,13 @@ abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
         }
     }
 
+    /**
+     * Finds routes by origin/destination locations.
+     *
+     * @param fromLocationName Origin location name
+     * @param toLocationName Destination location name
+     * @param languageCode Two-letter code accordingly ISO 639-1
+     */
     protected fun selectRoutesByLocations(
         fromLocationName: String,
         toLocationName: String,

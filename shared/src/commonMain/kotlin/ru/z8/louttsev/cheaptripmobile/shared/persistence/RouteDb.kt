@@ -13,6 +13,8 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
 /**
  * Declares routes storage implementation.
+ *
+ * @param sqlDriver A platform-specific implementation of the SQLite driver.
  */
 class RouteDb(sqlDriver: SqlDriver) : LocalDbStorage<Route>(sqlDriver) {
     override fun put(data: List<Route>, parameters: ParamsBundle) {

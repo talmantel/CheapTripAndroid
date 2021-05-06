@@ -33,7 +33,7 @@ interface DataSource<T> {
         }
 
         /**
-         * Extract parameter from bundle.
+         * Extracts parameter from bundle.
          *
          * @param key Allowable parameter's key
          * @return Extracted parameter or null if it wasn't added early

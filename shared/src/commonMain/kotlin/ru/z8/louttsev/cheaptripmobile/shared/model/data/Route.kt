@@ -13,10 +13,10 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 /**
  * Declares aggregate route between selected locations.
  *
- * @param routeType Route type in relation to ways of moving.
- * @param euroPrice Total route cost in EUR currency.
- * @param durationMinutes Total route duration in minutes.
- * @param directPaths Particular sections (paths) within aggregate route.
+ * @property routeType Route type in relation to ways of moving.
+ * @property euroPrice Total route cost in EUR currency.
+ * @property durationMinutes Total route duration in minutes.
+ * @property directPaths Particular sections (paths) within aggregate route.
  */
 data class Route(
     val routeType: Type,
@@ -26,6 +26,8 @@ data class Route(
 ) {
     /**
      * Declares route type in relation to ways of moving.
+     *
+     * @property value String representation for JSON conversion
      */
     enum class Type(val value: String, private val stringResourceId: StringResource) {
         GROUND("ground_routes", MR.strings.route_type_ground),

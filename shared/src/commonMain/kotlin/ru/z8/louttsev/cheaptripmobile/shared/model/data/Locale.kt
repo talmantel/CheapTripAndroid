@@ -6,6 +6,8 @@ package ru.z8.louttsev.cheaptripmobile.shared.model.data
 
 /**
  * Declares supported language.
+ *
+ * @property languageCode Two-letter code accordingly ISO 639-1
  */
 enum class Locale(val languageCode: String) {
     RU("ru"), EN("en");

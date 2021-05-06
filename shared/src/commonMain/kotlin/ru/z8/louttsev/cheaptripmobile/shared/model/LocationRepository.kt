@@ -14,6 +14,10 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.ALL
 
 /**
  * Declares read-only storage of available locations.
+ *
+ * @param mainSource Read-only data access source
+ * @param reserveSource Full data access source
+ * @param strategy Data sources usage logic
  */
 class LocationRepository(
     mainSource: DataSource<Location>,

@@ -28,6 +28,7 @@ enum class RepositoryStrategy {
     };
 
     /**
+     * Creates loader function according specified logic.
      *
      * @param dataSource Read-only data access source
      * @param dataStorage Full data access source

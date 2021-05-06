@@ -14,6 +14,9 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 
 /**
  * Declares path type in relation to transport.
+ *
+ * @property value String representation for JSON conversion
+ * @property imageResource Resource ID for image representation into UI
  */
 enum class TransportationType(
     val value: String,

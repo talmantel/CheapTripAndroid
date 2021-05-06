@@ -12,6 +12,8 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 
 /**
  * Declares locations storage implementation.
+ *
+ * @param sqlDriver A platform-specific implementation of the SQLite driver.
  */
 class LocationDb(sqlDriver: SqlDriver) : LocalDbStorage<Location>(sqlDriver) {
     override fun put(data: List<Location>, parameters: ParamsBundle) {

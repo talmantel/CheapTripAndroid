@@ -7,11 +7,11 @@ package ru.z8.louttsev.cheaptripmobile.shared.model.data
 /**
  * Declares particular section (path) within aggregate route.
  *
- * @param transportationType Path type in relation to transport.
- * @param euroPrice Path cost in EUR currency.
- * @param durationMinutes Path duration in minutes.
- * @param from Origin name.
- * @param to Destination name.
+ * @property transportationType Path type in relation to transport.
+ * @property euroPrice Path cost in EUR currency.
+ * @property durationMinutes Path duration in minutes.
+ * @property from Origin name.
+ * @property to Destination name.
  */
 data class Path(
     val transportationType: TransportationType,
