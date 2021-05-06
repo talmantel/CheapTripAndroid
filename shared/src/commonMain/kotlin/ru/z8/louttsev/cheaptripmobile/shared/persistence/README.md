@@ -10,4 +10,6 @@ Contains local data storage implementation.
 
 Type                  | Name                            | Description
 ----------------------|---------------------------------|-----------------------------------------------------
-class                 | **LocalDbStorage**              | Data storage implementation based on local database.
+abstract class        | **LocalDbStorage**              | Data storage based on local database.
+class                 | **LocationDb**                  | Locations storage implementation.
+class                 | **RouteDb**                     | Routes storage implementation.

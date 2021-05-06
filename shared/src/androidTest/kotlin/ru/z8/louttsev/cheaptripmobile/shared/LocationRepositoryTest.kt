@@ -13,6 +13,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.persistence.LocalDbStorage
+import ru.z8.louttsev.cheaptripmobile.shared.persistence.LocationDb
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -48,12 +49,12 @@ class LocationRepositoryTest {
         }
     }
 
-    private val dataStorage: LocalDbStorage
+    private val dataStorage: LocalDbStorage<Location>
 
     init {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val driver = DatabaseDriverFactory(context).createDriver()
-        dataStorage = LocalDbStorage(driver)
+        dataStorage = LocationDb(driver)
     }
 
     private val repositoryUnderTest = LocationRepository(

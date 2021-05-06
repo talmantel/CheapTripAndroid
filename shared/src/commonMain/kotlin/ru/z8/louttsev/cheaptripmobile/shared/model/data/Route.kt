@@ -19,7 +19,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
  * @param directPaths Particular sections (paths) within aggregate route.
  */
 data class Route(
-    val routeType: RouteType,
+    val routeType: Type,
     val euroPrice: Float,
     val durationMinutes: Int,
     val directPaths: List<Path>
@@ -27,7 +27,7 @@ data class Route(
     /**
      * Declares route type in relation to ways of moving.
      */
-    enum class RouteType(val value: String, private val stringResourceId: StringResource) {
+    enum class Type(val value: String, private val stringResourceId: StringResource) {
         GROUND("ground_routes", MR.strings.route_type_ground),
         MIXED("mixed_routes", MR.strings.route_type_ground),
         FLYING("flying_routes", MR.strings.route_type_ground),
