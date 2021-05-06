@@ -1,12 +1,17 @@
+/**
+ * CheapTrip Mobile
+ * This is mobile client for LowCostsTrip server.
+ */
 package ru.z8.louttsev.cheaptripmobile.shared.persistence
 
 import com.squareup.sqldelight.db.SqlDriver
 import ru.z8.louttsev.cheaptripmobile.persistence.LocalDb
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataStorage
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType
 
 /**
  * Declares data storage based on local database.
@@ -14,109 +19,140 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type
  * @param sqlDriver A platform-specific implementation of the SQLite driver.
  */
 abstract class LocalDbStorage<T>(sqlDriver: SqlDriver) : DataStorage<T> {
-    protected val queries = LocalDb(sqlDriver).localDbQueries
-}
+    private val queries = LocalDb(sqlDriver).localDbQueries
 
-/**
- * Declares locations storage implementation.
- */
-class LocationDb(sqlDriver: SqlDriver) : LocalDbStorage<Location>(sqlDriver) {
-    override fun put(data: List<Location>, parameters: ParamsBundle) {
-        val type = parameters.get(Key.TYPE) as Location.Type
-        val locale = parameters.get(Key.LOCALE) as Locale
-        data.forEach { location: Location ->
-            queries.upsertLocation(
-                id = location.id,
-                name = location.name,
-                type = type.name,
-                languageCode = locale.languageCode
-            )
-        }
+    protected fun updateOrInsertLocation(
+        location: Location,
+        typeName: String,
+        languageCode: String
+    ) {
+        val (locationId, locationName) = location
+
+        // the method violates the expected order of the arguments
+        queries.updateOrInsertLocation(locationName, locationId, typeName, languageCode)
     }
 
-    override fun get(parameters: ParamsBundle): List<Location> {
-        val needle = parameters.get(Key.NEEDLE) as String
-        val limit = parameters.get(Key.LIMIT) as Long
-        return queries.selectLocationsByName(
-            needle = needle,
-            limit = limit
-        ) { id, name ->
-            Location(
-                id = id,
-                name = name
-            )
-        }.executeAsList()
-    }
-}
+    protected fun selectLocationsByName(needle: String, limit: Long): List<Location> =
+        queries.selectLocationsByName(
+            needle,
+            limit,
+            mapper = { id, name -> Location(id, name) }
+        ).executeAsList()
 
-/**
- * Declares routes storage implementation.
- */
-class RouteDb(sqlDriver: SqlDriver) : LocalDbStorage<Route>(sqlDriver) {
-    override fun put(data: List<Route>, parameters: ParamsBundle) {
-        val fromLocation = parameters.get(Key.FROM) as Location
-        val toLocation = parameters.get(Key.TO) as Location
-        val locale = parameters.get(Key.LOCALE) as Locale
-        data.forEach { route: Route ->
-            queries.transaction {
-                queries.upsertRoute(
-                    type = route.routeType.name,
-                    price = route.euroPrice,
-                    duration = route.durationMinutes,
-                    fromLocationName = fromLocation.name,
-                    toLocationName = toLocation.name,
-                    languageCode = locale.languageCode
+    protected fun updateOrInsertRoute(
+        route: Route,
+        fromLocationName: String,
+        toLocationName: String,
+        languageCode: String
+    ) {
+        val (type, price, duration, paths) = route
+        val typeName = type.name
+
+        queries.transaction {
+            val routeId =
+                // the method violates the expected order of the arguments
+                updateOrInsertRouteAndGetId(
+                    price,
+                    duration,
+                    typeName,
+                    fromLocationName,
+                    toLocationName,
+                    languageCode
                 )
-                val routeId = queries.selectRouteId(
-                    type = route.routeType.name,
-                    fromLocationName = fromLocation.name,
-                    toLocationName = toLocation.name,
-                    languageCode = locale.languageCode
-                ).executeAsOne()
-                queries.deletePaths(routeId)
-                route.directPaths.forEach { path: Path ->
-                    queries.insertPath(
-                        transportationType = path.transportationType.name,
-                        price = path.euroPrice,
-                        duration = path.durationMinutes,
-                        fromLocationName = path.from,
-                        toLocationName = path.to,
-                        routeId = routeId
-                    )
-                }
+
+            deletePathsByRouteId(routeId)
+
+            paths.forEach { path: Path ->
+                insertPath(path, routeId)
             }
         }
     }
 
-    override fun get(parameters: ParamsBundle): List<Route> {
-        val fromLocation = parameters.get(Key.FROM) as Location
-        val toLocation = parameters.get(Key.TO) as Location
-        val locale = parameters.get(Key.LOCALE) as Locale
-        return queries.selectRoutes(
-            fromLocationName = fromLocation.name,
-            toLocationName = toLocation.name,
-            languageCode = locale.languageCode,
+    protected fun selectRoutesByLocations(
+        fromLocationName: String,
+        toLocationName: String,
+        languageCode: String
+    ): List<Route> =
+        queries.selectRoutesByLocations(
+            fromLocationName,
+            toLocationName,
+            languageCode,
             mapper = { id, type, price, duration ->
-                val paths = queries.selectPaths(id) { transportationType,
-                                                      pathPrice,
-                                                      pathDuration,
-                                                      fromLocationName,
-                                                      toLocationName ->
-                    Path(
-                        transportationType = TransportationType.valueOf(transportationType),
-                        euroPrice = pathPrice,
-                        durationMinutes = pathDuration,
-                        from = fromLocationName,
-                        to = toLocationName
-                    )
-                }.executeAsList()
-                Route(
-                    routeType = Type.valueOf(type),
-                    euroPrice = price,
-                    durationMinutes = duration,
-                    directPaths = paths
+                Route(Type.valueOf(type), price, duration, selectPathsByRouteId(id))
+            }
+        ).executeAsList()
+
+    private fun updateOrInsertRouteAndGetId(
+        price: Float,
+        duration: Int,
+        typeName: String,
+        fromLocationName: String,
+        toLocationName: String,
+        languageCode: String
+    ): Long {
+        queries.updateOrInsertRoute(
+            price,
+            duration,
+            typeName,
+            fromLocationName,
+            toLocationName,
+            languageCode
+        )
+
+        return queries.selectRouteId(
+            typeName,
+            fromLocationName,
+            toLocationName,
+            languageCode
+        ).executeAsOne()
+    }
+
+    private fun selectRouteId(
+        typeName: String,
+        fromLocationName: String,
+        toLocationName: String,
+        languageCode: String
+    ): Long =
+        queries.selectRouteId(
+            typeName,
+            fromLocationName,
+            toLocationName,
+            languageCode
+        ).executeAsOne()
+
+    private fun deletePathsByRouteId(routeId: Long) {
+        queries.deletePathsByRouteId(routeId)
+    }
+
+    private fun insertPath(path: Path, routeId: Long) {
+        val (transportationType, price, duration, fromLocationName, toLocationName) = path
+        val transportationTypeName = transportationType.name
+
+        queries.insertPath(
+            transportationTypeName,
+            price,
+            duration,
+            fromLocationName,
+            toLocationName,
+            routeId
+        )
+    }
+
+    private fun selectPathsByRouteId(routeId: Long): List<Path> =
+        queries.selectPathsByRouteId(
+            routeId,
+            mapper = { transportationType,
+                       price,
+                       duration,
+                       fromLocationName,
+                       toLocationName ->
+                Path(
+                    TransportationType.valueOf(transportationType),
+                    price,
+                    duration,
+                    fromLocationName,
+                    toLocationName
                 )
             }
         ).executeAsList()
-    }
 }
