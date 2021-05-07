@@ -36,9 +36,9 @@ Use Android Studio v4.1.3 and build on Gradle v6.5. The project created on Kotli
 
 ### Versioning
 
-**dev** - dx.x.x
-**release** - rx.x.x
-**main** - x.x.x
+* dev - **d**x.x.x
+* release - **r**x.x.x
+* main - x.x.x
 
 ## Developing
 
@@ -46,7 +46,7 @@ Use Android Studio v4.1.3 and build on Gradle v6.5. The project created on Kotli
 2. Develop...
 3. Merge remote upstream branch into your branch.
 4. Push your branch to remote.
-5. Create a pull request: https://github.com/talmantel/CheapTripAndroid/pull/new/**your_branch_name** into upstream branch.
+5. Create a pull request: `https://github.com/talmantel/CheapTripAndroid/pull/new/your_branch_name` into upstream branch.
 
 ## Issues
 
