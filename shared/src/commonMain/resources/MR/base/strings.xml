@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="transportation_type_bus">Bus</string>
+    <string name="transportation_type_train">Train</string>
+    <string name="transportation_type_flight">Flight</string>
+    <string name="transportation_type_ride_share">Ride Share</string>
+    <string name="route_type_ground">Ground</string>
+    <string name="route_type_mixed">Mixed</string>
+    <string name="route_type_flying">Flying</string>
+    <string name="route_type_fixed_without_ride_share">Ground (no ride share)</string>
+    <string name="route_type_without_ride_share">No ride share</string>
+    <string name="route_type_direct">Direct</string>
+</resources>
