@@ -1,0 +1,11 @@
+CREATE TABLE travel_data (
+  id INTEGER NOT NULL PRIMARY KEY,
+  from INTEGER NOT NULL,
+  to INTEGER NOT NULL,
+  transportation_type INTEGER DEFAULT NULL,
+  time_in_minutes INTEGER DEFAULT NULL,
+  euro_price REAL NOT NULL
+);
+
+CREATE INDEX travel_data_ffk_idx ON travel_data(from);
+CREATE INDEX travel_data_tfk_idx ON travel_data(to);

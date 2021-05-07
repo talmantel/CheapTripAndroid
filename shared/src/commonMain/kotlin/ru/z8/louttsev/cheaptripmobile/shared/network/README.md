@@ -10,5 +10,4 @@ Contains remote data source implementation.
 
 Type                  | Name                            | Description
 ----------------------|---------------------------------|-----------------------------------------------
-class                 | **FullDbDataSource**            | Fake implementation based on a copy of the server DB.
 class                 | **NetworkDataSource**           | *Not yet implemented*

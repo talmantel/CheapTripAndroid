@@ -81,6 +81,9 @@ sqldelight {
     database("LocalDb") {
         packageName = "ru.z8.louttsev.cheaptripmobile.persistence"
     }
+    database("FullDb") {
+        packageName = "ru.z8.louttsev.cheaptripmobile.persistence"
+    }
 }
 
 val packForXcode by tasks.creating(Sync::class) {
