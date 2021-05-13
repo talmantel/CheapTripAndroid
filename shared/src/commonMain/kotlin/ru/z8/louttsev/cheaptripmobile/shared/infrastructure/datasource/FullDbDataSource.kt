@@ -2,14 +2,13 @@
  * CheapTrip Mobile
  * This is mobile client for LowCostsTrip server.
  */
-package ru.z8.louttsev.cheaptripmobile.shared.persistence
+package ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource
 
 import com.squareup.sqldelight.db.SqlDriver
-import ru.z8.louttsev.cheaptripmobile.persistence.FullDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 
 /**
- * Declares fake remote data source implementation based on a copy of the server DB.
+ * Declares data source implementation based on a copy of the server DB.
  *
  * Will be deprecated later, after network data source implementation.
  *

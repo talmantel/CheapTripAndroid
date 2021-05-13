@@ -10,7 +10,7 @@ import com.squareup.sqldelight.db.SqlDriver
  * A platform-specific implementation of the SQLite driver factory.
  */
 actual class DatabaseDriverFactory {
-    actual fun createDriver(): SqlDriver {
+    actual fun createDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
         TODO("Not yet implemented")
     }
 }

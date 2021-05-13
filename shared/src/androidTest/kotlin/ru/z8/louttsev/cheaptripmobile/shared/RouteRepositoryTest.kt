@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.test.runner.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import org.junit.runner.RunWith
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
@@ -11,8 +12,8 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type
-import ru.z8.louttsev.cheaptripmobile.shared.persistence.LocalDbStorage
-import ru.z8.louttsev.cheaptripmobile.shared.persistence.RouteDb
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDbStorage
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.RouteDb
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -82,7 +83,7 @@ class RouteRepositoryTest {
 
     init {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val driver = DatabaseDriverFactory(context).createDriver()
+        val driver = DatabaseDriverFactory(context).createDriver(LocalDb.Schema, "local.db")
         dataStorage = RouteDb(driver)
     }
 

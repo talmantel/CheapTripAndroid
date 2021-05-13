@@ -79,10 +79,12 @@ multiplatformResources {
 
 sqldelight {
     database("LocalDb") {
-        packageName = "ru.z8.louttsev.cheaptripmobile.persistence"
+        packageName = "ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence"
+        sourceFolders = listOf("sqldelightLocalDb")
     }
     database("FullDb") {
-        packageName = "ru.z8.louttsev.cheaptripmobile.persistence"
+        packageName = "ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource"
+        sourceFolders = listOf("sqldelightFullDb")
     }
 }
 

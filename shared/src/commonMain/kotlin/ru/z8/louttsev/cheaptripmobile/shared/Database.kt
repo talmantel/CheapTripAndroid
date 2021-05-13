@@ -10,5 +10,5 @@ import com.squareup.sqldelight.db.SqlDriver
  * A platform-specific declaration of the SQLite driver factory.
  */
 expect class DatabaseDriverFactory {
-    fun createDriver(): SqlDriver
+    fun createDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver
 }

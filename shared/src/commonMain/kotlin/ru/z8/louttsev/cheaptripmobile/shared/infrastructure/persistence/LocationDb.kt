@@ -2,7 +2,7 @@
  * CheapTrip Mobile
  * This is mobile client for LowCostsTrip server.
  */
-package ru.z8.louttsev.cheaptripmobile.shared.persistence
+package ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence
 
 import com.squareup.sqldelight.db.SqlDriver
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
