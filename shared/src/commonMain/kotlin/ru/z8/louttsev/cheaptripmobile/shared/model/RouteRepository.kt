@@ -30,7 +30,7 @@ class RouteRepository(
      *
      * @param from Origin location
      * @param to Destination location
-     * @param locale Results language
+     * @param locale Desired results language
      * @return List of matching results (m.b. empty)
      */
     fun getRoutes(

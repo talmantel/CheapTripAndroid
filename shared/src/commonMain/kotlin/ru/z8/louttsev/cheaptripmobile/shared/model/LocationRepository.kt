@@ -32,7 +32,7 @@ class LocationRepository(
      * @param needle Search pattern
      * @param type Narrows the search by route start/finish point
      * @param limit Desired number of search results
-     * @param locale Search and results language
+     * @param locale Desired results language
      * @return List of matching results (m.b. empty)
      */
     fun searchLocationsByName(

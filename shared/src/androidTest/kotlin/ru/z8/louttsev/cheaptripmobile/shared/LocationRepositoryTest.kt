@@ -4,6 +4,10 @@ import android.content.Context
 import android.support.test.runner.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDb
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDbDataSource
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.LocationDataSourceFullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
@@ -19,33 +23,25 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@Config(minSdk = 24)
 @RunWith(AndroidJUnit4::class)
 class LocationRepositoryTest {
-    private val dataSourceFake = object : DataSource<Location> {
-        var isAvailable: Boolean = true
-        val locationStorage = emptyMap<Triple<Int, Type, Locale>, Location>()
-            .toMutableMap()
-            .also {
-                it[Triple(1, Type.ALL, Locale.EN)] = Location(1, "Moscow")
-                it[Triple(1, Type.FROM, Locale.EN)] = Location(1, "Moscow")
-                it[Triple(1, Type.TO, Locale.EN)] = Location(1, "Moscow")
-                it[Triple(1, Type.ALL, Locale.RU)] = Location(1, "Москва")
-            }
+    private val dataSourceWrapper = object : DataSource<Location> {
+        private val dataSource: FullDbDataSource<Location>
+
+        init {
+            val context = ApplicationProvider.getApplicationContext<Context>()
+            val driver = DatabaseDriverFactory(context).createDriver(FullDb.Schema, "full.db")
+            dataSource = LocationDataSourceFullDb(driver)
+        }
+
+        var isAvailable = true
 
         override fun get(parameters: ParamsBundle): List<Location>? {
-            if (!isAvailable) {
-                return null
-            }
-            val needle = parameters.get(Key.NEEDLE) as String
-            val type = parameters.get(Key.TYPE) as Type
-            val locale = parameters.get(Key.LOCALE) as Locale
-            if (needle.isEmpty() || needle.isBlank()) {
-                return emptyList()
+            if (isAvailable) {
+                return dataSource.get(parameters)
             } else {
-                return locationStorage
-                    .filterValues { it.name.contains(needle) }
-                    .filterKeys { it.second == type && it.third == locale }
-                    .values.toList()
+                return null
             }
         }
     }
@@ -59,19 +55,33 @@ class LocationRepositoryTest {
     }
 
     private val repositoryUnderTest = LocationRepository(
-        dataSourceFake,
+        dataSourceWrapper,
         dataStorage,
         RepositoryStrategy.BACKUP
     )
 
     @Test
     fun searchLocationsByName() {
-        assertTrue(dataSourceFake.isAvailable)
+        val expectedResult = listOf(
+            Location(780, "Montreal"),
+            Location(254, "Monte Carlo"),
+            Location(261, "Montpellier"),
+            Location(387, "Moscow"),
+            Location(766, "Moreno Valley"),
+            Location(759, "Modesto"),
+            Location(121, "Bournemouth"),
+            Location(262, "Malmo"),
+            Location(281, "Plymouth"),
+            Location(285, "Palermo")
+        )
+
+        assertTrue(dataSourceWrapper.isAvailable)
         val result: List<Location> =
-            repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
-        dataSourceFake.isAvailable = false
+            repositoryUnderTest.searchLocationsByName(needle = "Mo", locale = Locale.EN)
+        assertEquals(expectedResult, result)
+        dataSourceWrapper.isAvailable = false
         val cachedResult: List<Location> =
-            repositoryUnderTest.searchLocationsByName(needle = "Mos", locale = Locale.EN)
-        assertEquals(result, cachedResult)
+            repositoryUnderTest.searchLocationsByName(needle = "Mo", locale = Locale.EN)
+        assertEquals(expectedResult, cachedResult)
     }
 }
