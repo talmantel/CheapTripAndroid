@@ -1,4 +1,4 @@
-CREATE TABLE location (
+CREATE TABLE IF NOT EXISTS location (
     id INTEGER AS Int NOT NULL,
     name TEXT NOT NULL,
     type_name TEXT NOT NULL,
@@ -31,7 +31,7 @@ WHERE
 LIMIT
     :limit;
 
-CREATE TABLE route (
+CREATE TABLE IF NOT EXISTS route (
     id INTEGER NOT NULL PRIMARY KEY,
     type_name TEXT NOT NULL,
     price REAL AS Float NOT NULL,
@@ -41,9 +41,12 @@ CREATE TABLE route (
     language_code TEXT NOT NULL
 );
 
-CREATE INDEX secondary ON route(type_name, from_location_name, to_location_name, language_code);
+CREATE INDEX IF NOT EXISTS
+    secondary
+ON
+    route(type_name, from_location_name, to_location_name, language_code);
 
-CREATE TABLE path (
+CREATE TABLE IF NOT EXISTS path (
     transportation_type_name TEXT NOT NULL,
     price REAL AS Float NOT NULL,
     duration INTEGER AS Int NOT NULL,

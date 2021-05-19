@@ -1,4 +1,4 @@
-﻿CREATE TABLE locations (
+﻿CREATE TABLE IF NOT EXISTS locations (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
   country_id INTEGER AS Int NOT NULL,
@@ -7,7 +7,10 @@
   name_ru TEXT NOT NULL
 );
 
-CREATE INDEX locations_country_id_index ON locations(country_id);
+CREATE INDEX IF NOT EXISTS
+    locations_country_id_index
+ON
+    locations(country_id);
 
 selectLocationsByName:
 SELECT
@@ -32,7 +35,7 @@ ORDER BY
 LIMIT
     :limit;
 
-CREATE TABLE travel_data (
+CREATE TABLE IF NOT EXISTS travel_data (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -43,10 +46,17 @@ CREATE TABLE travel_data (
   FOREIGN KEY (`to`) REFERENCES locations(id)
 );
 
-CREATE INDEX travel_data_ffk_idx ON travel_data(`from`);
-CREATE INDEX travel_data_tfk_idx ON travel_data(`to`);
+CREATE INDEX IF NOT EXISTS
+    travel_data_ffk_idx
+ON
+    travel_data(`from`);
 
-CREATE TABLE routes (
+CREATE INDEX IF NOT EXISTS
+    travel_data_tfk_idx
+ON
+    travel_data(`to`);
+
+CREATE TABLE IF NOT EXISTS routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -56,11 +66,30 @@ CREATE TABLE routes (
   FOREIGN KEY (`to`) REFERENCES locations(id)
 );
 
-CREATE UNIQUE INDEX routes_route_from_to_index ON routes(`from`, `to`);
-CREATE INDEX routes_travel_data_ffk_idx ON routes(`from`);
-CREATE INDEX routes_travel_data_tfk_idx ON routes(`to`);
-CREATE INDEX routes_travel_data_rffk_idx ON routes(`from`);
-CREATE INDEX routes_travel_data_rtfk_idx ON routes(`to`);
+CREATE UNIQUE INDEX IF NOT EXISTS
+    routes_route_from_to_index
+ON
+    routes(`from`, `to`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_travel_data_ffk_idx
+ON
+    routes(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_travel_data_tfk_idx
+ON
+    routes(`to`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_travel_data_rffk_idx
+ON
+    routes(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_travel_data_rtfk_idx
+ON
+    routes(`to`);
 
 selectTo:
 SELECT
@@ -74,7 +103,7 @@ SELECT
 FROM
     routes;
 
-CREATE TABLE flying_routes (
+CREATE TABLE IF NOT EXISTS flying_routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -84,10 +113,17 @@ CREATE TABLE flying_routes (
   FOREIGN KEY (`to`) REFERENCES locations(id)
 );
 
-CREATE UNIQUE INDEX flying_routes_route_from_to_index ON flying_routes(`from`, `to`);
-CREATE INDEX flying_routes_travel_data_flrtfk ON flying_routes(`to`);
+CREATE UNIQUE INDEX IF NOT EXISTS
+    flying_routes_route_from_to_index
+ON
+    flying_routes(`from`, `to`);
 
-CREATE TABLE fixed_routes (
+CREATE INDEX IF NOT EXISTS
+    flying_routes_travel_data_flrtfk
+ON
+    flying_routes(`to`);
+
+CREATE TABLE IF NOT EXISTS fixed_routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -97,13 +133,32 @@ CREATE TABLE fixed_routes (
   FOREIGN KEY (`to`) REFERENCES locations(id)
 );
 
-CREATE UNIQUE INDEX fixed_routes_route_from_to_index ON fixed_routes(`from`, `to`);
-CREATE INDEX fixed_routes_travel_data_frffk_idx ON fixed_routes(`from`);
-CREATE INDEX fixed_routes_travel_data_frtfk_idx ON fixed_routes(`to`);
-CREATE INDEX fixed_routes_travel_data_flrffk_idx ON fixed_routes(`from`);
-CREATE INDEX fixed_routes_travel_data_flrtfk_idx ON fixed_routes(`to`);
+CREATE UNIQUE INDEX IF NOT EXISTS
+    fixed_routes_route_from_to_index
+ON
+    fixed_routes(`from`, `to`);
 
-CREATE TABLE routes_without_ride_share (
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_travel_data_frffk_idx
+ON
+    fixed_routes(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_travel_data_frtfk_idx
+ON
+    fixed_routes(`to`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_travel_data_flrffk_idx
+ON
+    fixed_routes(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_travel_data_flrtfk_idx
+ON
+    fixed_routes(`to`);
+
+CREATE TABLE IF NOT EXISTS routes_without_ride_share (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -111,13 +166,31 @@ CREATE TABLE routes_without_ride_share (
   travel_data TEXT COLLATE BINARY NOT NULL
 );
 
-CREATE UNIQUE INDEX routes_without_ride_share_route_from_to_index ON routes_without_ride_share(`from`, `to`);
-CREATE INDEX routes_without_ride_share_travel_data_ffk_idx ON routes_without_ride_share(`from`);
-CREATE INDEX routes_without_ride_share_travel_data_rffk_idx ON routes_without_ride_share(`from`);
-CREATE INDEX routes_without_ride_share_travel_data_rtfk_idx ON routes_without_ride_share(`to`);
-CREATE INDEX routes_without_ride_share_travel_data_tfk_idx ON routes_without_ride_share(`to`);
+CREATE UNIQUE INDEX IF NOT EXISTS
+    routes_without_ride_share_route_from_to_index
+ON
+    routes_without_ride_share(`from`, `to`);
 
-CREATE TABLE fixed_routes_without_ride_share (
+CREATE INDEX IF NOT EXISTS
+    routes_without_ride_share_travel_data_ffk_idx
+ON
+    routes_without_ride_share(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_without_ride_share_travel_data_rffk_idx
+ON
+    routes_without_ride_share(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    routes_without_ride_share_travel_data_rtfk_idx
+ON
+    routes_without_ride_share(`to`);
+CREATE INDEX IF NOT EXISTS
+    routes_without_ride_share_travel_data_tfk_idx
+ON
+    routes_without_ride_share(`to`);
+
+CREATE TABLE IF NOT EXISTS fixed_routes_without_ride_share (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
@@ -125,18 +198,37 @@ CREATE TABLE fixed_routes_without_ride_share (
   travel_data TEXT COLLATE BINARY NOT NULL
 );
 
-CREATE UNIQUE INDEX fixed_routes_without_ride_share_route_from_to_index ON fixed_routes_without_ride_share(`from`, `to`);
-CREATE INDEX fixed_routes_without_ride_share_travel_data_flrffk_idx ON fixed_routes_without_ride_share(`from`);
-CREATE INDEX fixed_routes_without_ride_share_travel_data_flrtfk_idx ON fixed_routes_without_ride_share(`to`);
-CREATE INDEX fixed_routes_without_ride_share_travel_data_frffk_idx ON fixed_routes_without_ride_share(`from`);
-CREATE INDEX fixed_routes_without_ride_share_travel_data_frtfk_idx ON fixed_routes_without_ride_share(`to`);
+CREATE UNIQUE INDEX IF NOT EXISTS
+    fixed_routes_without_ride_share_route_from_to_index
+ON
+    fixed_routes_without_ride_share(`from`, `to`);
 
-CREATE TABLE countries (
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_without_ride_share_travel_data_flrffk_idx
+ON
+    fixed_routes_without_ride_share(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_without_ride_share_travel_data_flrtfk_idx
+ON
+    fixed_routes_without_ride_share(`to`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_without_ride_share_travel_data_frffk_idx
+ON
+    fixed_routes_without_ride_share(`from`);
+
+CREATE INDEX IF NOT EXISTS
+    fixed_routes_without_ride_share_travel_data_frtfk_idx
+ON
+    fixed_routes_without_ride_share(`to`);
+
+CREATE TABLE IF NOT EXISTS countries (
   country_name TEXT DEFAULT NULL,
   country_id INTEGER AS Int NOT NULL PRIMARY KEY
 );
 
-CREATE TABLE currencies (
+CREATE TABLE IF NOT EXISTS currencies (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
   code TEXT NOT NULL,

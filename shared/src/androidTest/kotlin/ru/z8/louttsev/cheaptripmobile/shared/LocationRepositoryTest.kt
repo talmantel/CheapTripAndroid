@@ -9,21 +9,19 @@ import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDbDataSource
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.LocationDataSourceFullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDbStorage
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocationDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
-import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDbStorage
-import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocationDb
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@Config(minSdk = 24)
+@Config(sdk = [24])
 @RunWith(AndroidJUnit4::class)
 class LocationRepositoryTest {
     private val dataSourceWrapper = object : DataSource<Location> {
@@ -31,7 +29,7 @@ class LocationRepositoryTest {
 
         init {
             val context = ApplicationProvider.getApplicationContext<Context>()
-            val driver = DatabaseDriverFactory(context).createDriver(FullDb.Schema, "full.db")
+            val driver = DatabaseDriverFactory(context).getDriver(FullDb.Schema, "fullDb.sqlite3")
             dataSource = LocationDataSourceFullDb(driver)
         }
 
@@ -50,7 +48,7 @@ class LocationRepositoryTest {
 
     init {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val driver = DatabaseDriverFactory(context).createDriver(LocalDb.Schema, "local.db")
+        val driver = DatabaseDriverFactory(context).createDriver(LocalDb.Schema, "localDb.sqlite3")
         dataStorage = LocationDb(driver)
     }
 
@@ -63,16 +61,16 @@ class LocationRepositoryTest {
     @Test
     fun searchLocationsByName() {
         val expectedResult = listOf(
-            Location(780, "Montreal"),
             Location(254, "Monte Carlo"),
             Location(261, "Montpellier"),
             Location(387, "Moscow"),
-            Location(766, "Moreno Valley"),
             Location(759, "Modesto"),
+            Location(766, "Moreno Valley"),
+            Location(780, "Montreal"),
             Location(121, "Bournemouth"),
+            Location(154, "Clermont-Ferrand"),
             Location(262, "Malmo"),
-            Location(281, "Plymouth"),
-            Location(285, "Palermo")
+            Location(281, "Plymouth")
         )
 
         assertTrue(dataSourceWrapper.isAvailable)

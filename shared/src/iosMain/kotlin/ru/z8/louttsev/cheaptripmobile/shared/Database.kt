@@ -13,4 +13,9 @@ actual class DatabaseDriverFactory {
     actual fun createDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
         TODO("Not yet implemented")
     }
+
+    actual fun getDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
+        TODO("Not yet implemented")
+    }
+
 }

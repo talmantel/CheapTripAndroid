@@ -49,20 +49,16 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
             }
         ).executeAsList()
 
-        val filterByType: List<Location>.(Type) -> List<Location> = { locationType: Type ->
-            when (locationType) {
-                Type.ALL -> {
-                    this // no filtration required
-                }
-                Type.FROM -> {
-                    this.filter { (id) -> queries.selectFrom().executeAsList().contains(id) }
-                }
-                Type.TO -> {
-                    this.filter { (id) -> queries.selectTo().executeAsList().contains(id) }
-                }
-            }
-        }
-
         return suitableLocations.filterByType(type)
+    }
+
+    private fun List<Location>.filterByType(type: Type): List<Location> = when (type) {
+        Type.ALL -> this // no filtration required
+        Type.FROM -> {
+            this.filter { (id) -> queries.selectFrom().executeAsList().contains(id) }
+        }
+        Type.TO -> {
+            this.filter { (id) -> queries.selectTo().executeAsList().contains(id) }
+        }
     }
 }

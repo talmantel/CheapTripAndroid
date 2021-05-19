@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.test.runner.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
@@ -18,6 +19,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@Config(sdk = [24])
 @RunWith(AndroidJUnit4::class)
 class RouteRepositoryTest {
     private val dataSourceFake = object : DataSource<Route> {
@@ -25,7 +27,12 @@ class RouteRepositoryTest {
         val routeStorage = emptyMap<Quadruple<Type, Location, Location, Locale>, Route>()
             .toMutableMap()
             .also {
-                it[Quadruple(Type.DIRECT, Location(1, "Moscow"), Location(2, "Petersburg"), Locale.EN)] =
+                it[Quadruple(
+                    Type.DIRECT,
+                    Location(1, "Moscow"),
+                    Location(2, "Petersburg"),
+                    Locale.EN
+                )] =
                     Route(
                         Type.DIRECT,
                         35.3F,
@@ -40,7 +47,12 @@ class RouteRepositoryTest {
                             )
                         )
                     )
-                it[Quadruple(Type.GROUND, Location(1, "Moscow"), Location(2, "Petersburg"), Locale.EN)] =
+                it[Quadruple(
+                    Type.GROUND,
+                    Location(1, "Moscow"),
+                    Location(2, "Petersburg"),
+                    Locale.EN
+                )] =
                     Route(
                         Type.GROUND,
                         48.5F,
@@ -83,7 +95,7 @@ class RouteRepositoryTest {
 
     init {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val driver = DatabaseDriverFactory(context).createDriver(LocalDb.Schema, "local.db")
+        val driver = DatabaseDriverFactory(context).createDriver(LocalDb.Schema, "localDb.sqlite3")
         dataStorage = RouteDb(driver)
     }
 
