@@ -11,9 +11,9 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
  */
 enum class RepositoryStrategy {
     /**
-     * Strategy implementation that receives data from main (read-only) source if it available,
+     * Strategy implementation that receives data from main (read-only) source if it is available,
      * and saves result to reserve (full access) storage. When main source isn't available,
-     * data receive from reserve source.
+     * data will be received from reserve source.
      */
     BACKUP {
         override fun <T> combineLoaderFrom(
@@ -24,6 +24,29 @@ enum class RepositoryStrategy {
             result?.also {
                 dataStorage.put(result, params)
             } ?: dataStorage.get(params)
+        }
+    },
+
+    /**
+     * Strategy implementation that receives data from reserve (cache) source first. If result
+     * is empty, data will be received from main (read-only) source and cached to reserve (full
+     * access) storage.
+     */
+    CACHING {
+        override fun <T> combineLoaderFrom(
+            dataSource: DataSource<T>,
+            dataStorage: DataStorage<T>
+        ): (ParamsBundle) -> List<T> = { params: ParamsBundle ->
+            val cachedResult = dataStorage.get(params)
+
+            if (cachedResult.isEmpty()) {
+                val result = dataSource.get(params)
+                result?.also {
+                    dataStorage.put(result, params)
+                } ?: emptyList()
+            } else {
+                cachedResult
+            }
         }
     };
 

@@ -76,6 +76,13 @@ class RepositoryStrategyTest {
                     val cachedResult = loader(params)
                     assertEquals(result, cachedResult)
                 }
+                CACHING -> {
+                    val params = ParamsBundle().apply { put(Key.NEEDLE, "Mos") }
+                    val result = loader(params)
+                    assertEquals(result, dataStorageFake.storage.values.toList())
+                    val cachedResult = loader(params)
+                    assertEquals(result, cachedResult)
+                }
                 else -> fail("Uncovered case: ${strategy.name}")
             }
         }
