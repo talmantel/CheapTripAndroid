@@ -102,7 +102,7 @@ class RouteRepositoryTest {
     private val repositoryUnderTest = RouteRepository(
         dataSourceFake,
         dataStorage,
-        RepositoryStrategy.BACKUP
+        RepositoryStrategy.CACHING
     )
 
     @Test

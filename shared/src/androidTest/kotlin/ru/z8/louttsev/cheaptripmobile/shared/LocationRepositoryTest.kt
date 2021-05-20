@@ -55,7 +55,7 @@ class LocationRepositoryTest {
     private val repositoryUnderTest = LocationRepository(
         dataSourceWrapper,
         dataStorage,
-        RepositoryStrategy.BACKUP
+        RepositoryStrategy.CACHING
     )
 
     @Test
