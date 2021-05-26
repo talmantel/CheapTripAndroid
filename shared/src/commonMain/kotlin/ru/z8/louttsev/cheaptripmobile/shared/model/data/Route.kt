@@ -31,14 +31,14 @@ data class Route(
      */
     enum class Type(val value: String, private val stringResourceId: StringResource) {
         GROUND("ground_routes", MR.strings.route_type_ground),
-        MIXED("mixed_routes", MR.strings.route_type_ground),
-        FLYING("flying_routes", MR.strings.route_type_ground),
+        MIXED("mixed_routes", MR.strings.route_type_mixed),
+        FLYING("flying_routes", MR.strings.route_type_flying),
         FIXED_WITHOUT_RIDE_SHARE(
             "fixed_routes_without_ride_share",
-            MR.strings.route_type_ground
+            MR.strings.route_type_fixed_without_ride_share
         ),
-        WITHOUT_RIDE_SHARE("routes_without_ride_share", MR.strings.route_type_ground),
-        DIRECT("direct_routes", MR.strings.route_type_ground);
+        WITHOUT_RIDE_SHARE("routes_without_ride_share", MR.strings.route_type_without_ride_share),
+        DIRECT("direct_routes", MR.strings.route_type_direct);
 
         override fun toString(): String {
             return StringDesc.Resource(stringResourceId).convertToString()

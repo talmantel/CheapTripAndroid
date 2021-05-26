@@ -35,6 +35,14 @@ ORDER BY
 LIMIT
     :limit;
 
+selectLocationNamesById:
+SELECT
+    name, name_ru
+FROM
+    locations
+WHERE
+    id = :id;
+
 CREATE TABLE IF NOT EXISTS travel_data (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
@@ -55,6 +63,26 @@ CREATE INDEX IF NOT EXISTS
     travel_data_tfk_idx
 ON
     travel_data(`to`);
+
+selectDirectPaths:
+SELECT
+    *
+FROM
+    travel_data
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
+
+selectPathsByIds:
+SELECT
+    *
+FROM
+    travel_data
+WHERE
+    id IN :pathIds
+ORDER BY
+    id;
 
 CREATE TABLE IF NOT EXISTS routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
@@ -91,17 +119,27 @@ CREATE INDEX IF NOT EXISTS
 ON
     routes(`to`);
 
-selectTo:
+selectFromIdsOfRoutes:
+SELECT
+    `from`
+FROM
+    routes;
+
+selectToIdsOfRoutes:
 SELECT
     `to`
 FROM
     routes;
 
-selectFrom:
+selectMixedRoutes:
 SELECT
-    `from`
+    *
 FROM
-    routes;
+    routes
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
 
 CREATE TABLE IF NOT EXISTS flying_routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
@@ -122,6 +160,16 @@ CREATE INDEX IF NOT EXISTS
     flying_routes_travel_data_flrtfk
 ON
     flying_routes(`to`);
+
+selectFlyingRoutes:
+SELECT
+    *
+FROM
+    flying_routes
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
 
 CREATE TABLE IF NOT EXISTS fixed_routes (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
@@ -158,6 +206,16 @@ CREATE INDEX IF NOT EXISTS
 ON
     fixed_routes(`to`);
 
+selectFixedRoutes:
+SELECT
+    *
+FROM
+    fixed_routes
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
+
 CREATE TABLE IF NOT EXISTS routes_without_ride_share (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
   `from` INTEGER AS Int NOT NULL,
@@ -189,6 +247,16 @@ CREATE INDEX IF NOT EXISTS
     routes_without_ride_share_travel_data_tfk_idx
 ON
     routes_without_ride_share(`to`);
+
+selectRoutesWithoutRideShare:
+SELECT
+    *
+FROM
+    routes_without_ride_share
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
 
 CREATE TABLE IF NOT EXISTS fixed_routes_without_ride_share (
   id INTEGER AS Int NOT NULL PRIMARY KEY,
@@ -222,6 +290,29 @@ CREATE INDEX IF NOT EXISTS
     fixed_routes_without_ride_share_travel_data_frtfk_idx
 ON
     fixed_routes_without_ride_share(`to`);
+
+selectFixedRoutesWithoutRideShare:
+SELECT
+    *
+FROM
+    fixed_routes_without_ride_share
+WHERE
+    `from` = :from
+  AND
+    `to` = :to;
+
+CREATE TABLE IF NOT EXISTS transportation_types (
+  id INTEGER AS Int NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+selectTransportationTypeNameById:
+SELECT
+    name
+FROM
+    transportation_types
+WHERE
+    id = :id;
 
 CREATE TABLE IF NOT EXISTS countries (
   country_name TEXT DEFAULT NULL,

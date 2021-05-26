@@ -21,10 +21,10 @@ enum class Locale(val languageCode: String) {
          * Gives the locale by its string representation.
          *
          * @param languageCode Two-letter code accordingly ISO 639-1
-         * @return supported Locale or EN as default
+         * @return Supported Locale or EN as default
          */
         fun fromLanguageCode(languageCode: String): Locale {
-            return Locale.values().find { it.languageCode == languageCode } ?: EN
+            return values().find { it.languageCode == languageCode } ?: EN
         }
     }
 }

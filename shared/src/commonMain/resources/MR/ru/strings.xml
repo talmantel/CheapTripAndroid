@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="transportation_type_flight">Самолет</string>
     <string name="transportation_type_bus">Автобус</string>
     <string name="transportation_type_train">Поезд</string>
-    <string name="transportation_type_flight">Самолет</string>
+    <string name="transportation_type_car_drive">Автомобиль</string>
+    <string name="transportation_type_taxi">Такси</string>
+    <string name="transportation_type_walk">Пешком</string>
+    <string name="transportation_type_town_car">Лимузин</string>
     <string name="transportation_type_ride_share">Попутка</string>
+    <string name="transportation_type_shuttle">Маршрутка</string>
+    <string name="transportation_type_ferry">Паром</string>
+    <string name="transportation_type_subway">Метро</string>
+    <string name="transportation_type_undefined">Не известный</string>
     <string name="route_type_ground">Наземный</string>
     <string name="route_type_mixed">Смешанный</string>
     <string name="route_type_flying">Воздушный</string>
