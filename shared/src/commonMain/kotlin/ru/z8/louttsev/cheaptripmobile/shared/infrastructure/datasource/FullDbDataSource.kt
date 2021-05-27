@@ -4,11 +4,10 @@
  */
 package ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource
 
-import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlDriver
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale.RU
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type.*
 
 /**
@@ -157,7 +156,7 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
             Route(
                 routeType = type,
                 euroPrice = price,
-                durationMinutes = paths.sumBy { it.durationMinutes },
+                durationMinutes = paths.sumOf { it.durationMinutes },
                 directPaths = paths
             )
         }
