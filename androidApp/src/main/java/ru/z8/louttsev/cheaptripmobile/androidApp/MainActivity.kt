@@ -29,14 +29,14 @@ class MainActivity : AppCompatActivity() {
         with(binding.locationFromTextView) {
             threshold = 0
             setAdapter(
-                AutoCompleteLocationsListAdapter(this@MainActivity, model.fromLocations)
+                AutoCompleteLocationsListAdapter(this@MainActivity, model.oroginLocations)
             )
             addTextChangedListener { changedEditableText: Editable? ->
-                model.onFromLocationInputFieldTextChanged(changedEditableText.toString())
+                model.onOriginInputFieldTextChanged(changedEditableText.toString())
             }
             setOnItemClickListener { parent, _, position, _ ->
                 val selectedLocation = parent.getItemAtPosition(position) as Location
-                model.onFromLocationSelected(selectedLocation)
+                model.onOriginSelected(selectedLocation)
                 this.performCompletion()
             }
             // TODO Clear model and text (?) in item not selected
@@ -46,14 +46,14 @@ class MainActivity : AppCompatActivity() {
         with(binding.locationToTextView) {
             threshold = 0
             setAdapter(
-                AutoCompleteLocationsListAdapter(this@MainActivity, model.toLocations)
+                AutoCompleteLocationsListAdapter(this@MainActivity, model.destinationLocations)
             )
             addTextChangedListener { changedEditableText: Editable? ->
-                model.onToLocationInputFieldTextChanged(changedEditableText.toString())
+                model.onDestinationInputFieldTextChanged(changedEditableText.toString())
             }
             setOnItemClickListener { parent, _, position, _ ->
                 val selectedLocation = parent.getItemAtPosition(position) as Location
-                model.onToLocationSelected(selectedLocation)
+                model.onDestinationSelected(selectedLocation)
                 this.performCompletion()
             }
         }

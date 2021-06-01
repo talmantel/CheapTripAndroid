@@ -1,3 +1,7 @@
+/**
+ * CheapTrip Mobile
+ * This is mobile client for LowCostsTrip server.
+ */
 package ru.z8.louttsev.cheaptripmobile.shared.viewmodel
 
 import dev.icerock.moko.mvvm.livedata.LiveData
@@ -8,40 +12,79 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 
+/**
+ * Declares UX logic for managing the data and handling the UI actions.
+ *
+ * @property locationRepository Read-only storage of available locations
+ * @property oroginLocations Available origin locations
+ * @property destinationLocations Available destination locations
+ */
 class MainViewModel(
     private val locationRepository: LocationRepository,
 ) : ViewModel() {
-    private val _fromLocations = MutableLiveData(
-        locationRepository.searchLocationsByName("", Type.ALL)
-    )
-    val fromLocations: LiveData<List<Location>>
-        get() = _fromLocations
-    private var selectedFromLocation: Location? = null
+    private val _originLocations = MutableLiveData<List<Location>>(emptyList())
 
-    private val _toLocations = MutableLiveData(
-        locationRepository.searchLocationsByName("", Type.ALL)
-    )
-    val toLocations: LiveData<List<Location>>
-        get() = _toLocations
-    private var selectedToLocation: Location? = null
-
-    fun onFromLocationInputFieldTextChanged(needle: String) {
+    init {
         viewModelScope.launch {
-            _fromLocations.value = locationRepository.searchLocationsByName(needle, Type.ALL)
+            _originLocations.value = locationRepository.searchLocationsByName("", Type.FROM)
         }
     }
 
-    fun onFromLocationSelected(location: Location?) {
-        selectedFromLocation = location
-    }
+    val oroginLocations: LiveData<List<Location>>
+        get() = _originLocations
 
-    fun onToLocationInputFieldTextChanged(needle: String) {
+    private var selectedOrigin: Location? = null
+
+    private val _destinationLocations = MutableLiveData<List<Location>>(emptyList())
+
+    init {
         viewModelScope.launch {
-            _toLocations.value = locationRepository.searchLocationsByName(needle, Type.ALL)
+            _destinationLocations.value = locationRepository.searchLocationsByName("", Type.TO)
         }
     }
 
-    fun onToLocationSelected(location: Location?) {
-        selectedToLocation = location
+    val destinationLocations: LiveData<List<Location>>
+        get() = _destinationLocations
+
+    private var selectedDestination: Location? = null
+
+    /**
+     * Updates origin locations list accordingly search pattern.
+     *
+     * @param needle Typed part of autocomplete input field
+     */
+    fun onOriginInputFieldTextChanged(needle: String) {
+        viewModelScope.launch {
+            _originLocations.value = locationRepository.searchLocationsByName(needle, Type.FROM)
+        }
+    }
+
+    /**
+     * Sets selected origin location.
+     *
+     * @param location Selected item into autocomplete input field
+     */
+    fun onOriginSelected(location: Location?) {
+        selectedOrigin = location
+    }
+
+    /**
+     * Updates destination locations list accordingly search pattern.
+     *
+     * @param needle Typed part of autocomplete input field
+     */
+    fun onDestinationInputFieldTextChanged(needle: String) {
+        viewModelScope.launch {
+            _destinationLocations.value = locationRepository.searchLocationsByName(needle, Type.TO)
+        }
+    }
+
+    /**
+     * Sets selected destination location.
+     *
+     * @param location Selected item into autocomplete input field
+     */
+    fun onDestinationSelected(location: Location?) {
+        selectedDestination = location
     }
 }

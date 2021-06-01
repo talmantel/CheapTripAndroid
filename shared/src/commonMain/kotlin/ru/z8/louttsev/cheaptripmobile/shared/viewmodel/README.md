@@ -4,10 +4,10 @@ ViewModel layer of the MVVM architecture.
 
 ## Description
 
-Contains .
+Contains UX logic and retained application state means.
 
 ## Summary
 
 Type                  | Name                            | Description
 ----------------------|---------------------------------|-----------------------------------------------
-class                 | **MainViewModel**               | 
+class                 | **MainViewModel**               | UX logic for managing the data and handling the UI actions.
