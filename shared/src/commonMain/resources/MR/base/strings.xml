@@ -18,4 +18,8 @@
     <string name="route_type_fixed_without_ride_share">Ground (no ride share)</string>
     <string name="route_type_without_ride_share">No ride share</string>
     <string name="route_type_direct">Direct</string>
+    <string name="from_location_input_field_hint">From</string>
+    <string name="to_location_input_field_hint">To</string>
+    <string name="clear_button_text">Clear form</string>
+    <string name="go_button_text">Let's go</string>
 </resources>

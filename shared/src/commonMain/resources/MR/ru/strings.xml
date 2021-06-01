@@ -18,4 +18,8 @@
     <string name="route_type_fixed_without_ride_share">Наземный (без попуток)</string>
     <string name="route_type_without_ride_share">Без попуток</string>
     <string name="route_type_direct">Прямой</string>
+    <string name="from_location_input_field_hint">Откуда</string>
+    <string name="to_location_input_field_hint">Куда</string>
+    <string name="clear_button_text">Очистить</string>
+    <string name="go_button_text">Поехали!</string>
 </resources>

@@ -14,6 +14,10 @@ data class Location(
     val id: Int,
     val name: String
 ) {
+    override fun toString(): String {
+        return name
+    }
+
     /**
      * Declares location type in relation to route.
      */

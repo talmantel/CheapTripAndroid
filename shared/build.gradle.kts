@@ -36,6 +36,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
                 implementation("com.google.android.material:material:1.3.0")
+                implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
                 api("dev.icerock.moko:mvvm-livedata-material:0.10.1")
                 api("dev.icerock.moko:mvvm-databinding:0.10.1")
@@ -79,6 +80,10 @@ android {
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(30)
+    }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
     }
     testOptions {
         unitTests {
