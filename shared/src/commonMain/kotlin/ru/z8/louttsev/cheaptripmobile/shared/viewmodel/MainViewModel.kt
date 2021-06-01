@@ -69,6 +69,13 @@ class MainViewModel(
     }
 
     /**
+     * Resets the previously selected origin.
+     */
+    fun onOriginReset() {
+        selectedOrigin = null
+    }
+
+    /**
      * Updates destination locations list accordingly search pattern.
      *
      * @param needle Typed part of autocomplete input field
@@ -86,5 +93,12 @@ class MainViewModel(
      */
     fun onDestinationSelected(location: Location?) {
         selectedDestination = location
+    }
+
+    /**
+     * Resets the previously selected destination.
+     */
+    fun onDestinationReset() {
+        selectedDestination = null
     }
 }

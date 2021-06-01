@@ -26,35 +26,54 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        with(binding.locationFromTextView) {
-            threshold = 0
-            setAdapter(
-                AutoCompleteLocationsListAdapter(this@MainActivity, model.oroginLocations)
-            )
-            addTextChangedListener { changedEditableText: Editable? ->
-                model.onOriginInputFieldTextChanged(changedEditableText.toString())
+        with(binding) {
+            with(originTextView) {
+                threshold = 0
+                setAdapter(
+                    AutoCompleteLocationsListAdapter(this@MainActivity, model.oroginLocations)
+                )
+                addTextChangedListener { changedEditableText: Editable? ->
+                    model.onOriginInputFieldTextChanged(changedEditableText.toString())
+                }
+                setOnItemClickListener { parent, _, position, _ ->
+                    val selectedLocation = parent.getItemAtPosition(position) as Location
+                    model.onOriginSelected(selectedLocation)
+                    this.performCompletion()
+                }
+                // TODO Clear model and text (?) in item not selected
+                // TODO Extract expression function AutocompleteTextView.setup(...)
             }
-            setOnItemClickListener { parent, _, position, _ ->
-                val selectedLocation = parent.getItemAtPosition(position) as Location
-                model.onOriginSelected(selectedLocation)
-                this.performCompletion()
-            }
-            // TODO Clear model and text (?) in item not selected
-            // TODO Extract expression function AutocompleteTextView.setup(...)
-        }
 
-        with(binding.locationToTextView) {
-            threshold = 0
-            setAdapter(
-                AutoCompleteLocationsListAdapter(this@MainActivity, model.destinationLocations)
-            )
-            addTextChangedListener { changedEditableText: Editable? ->
-                model.onDestinationInputFieldTextChanged(changedEditableText.toString())
+            originClearIcon.setOnClickListener {
+                model.onOriginReset()
+                binding.originTextView.setText("")
             }
-            setOnItemClickListener { parent, _, position, _ ->
-                val selectedLocation = parent.getItemAtPosition(position) as Location
-                model.onDestinationSelected(selectedLocation)
-                this.performCompletion()
+
+            with(destinationTextView) {
+                threshold = 0
+                setAdapter(
+                    AutoCompleteLocationsListAdapter(this@MainActivity, model.destinationLocations)
+                )
+                addTextChangedListener { changedEditableText: Editable? ->
+                    model.onDestinationInputFieldTextChanged(changedEditableText.toString())
+                }
+                setOnItemClickListener { parent, _, position, _ ->
+                    val selectedLocation = parent.getItemAtPosition(position) as Location
+                    model.onDestinationSelected(selectedLocation)
+                    this.performCompletion()
+                }
+            }
+
+            destinationClearIcon.setOnClickListener {
+                model.onDestinationReset()
+                binding.destinationTextView.setText("")
+            }
+
+            clearButton.setOnClickListener {
+                model.onOriginReset()
+                binding.originTextView.setText("")
+                model.onDestinationReset()
+                binding.destinationTextView.setText("")
             }
         }
     }
