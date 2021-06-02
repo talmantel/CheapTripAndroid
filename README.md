@@ -24,6 +24,16 @@ https://www.infoq.com/articles/kotlin-multiplatform-ios-developers/
 
 https://otus.ru/nest/post/1562/
 
+> Application v1.0.0 (KMM version with copy of DB) requires a pre-populated database.
+Due to exceeding the size of the DB file over the GitHub limit, it is hosted separately. 
+>
+> Before build download this file:
+>
+> https://github.com/talmantel/CheapTripAndroid/releases/download/v1.0.0/fullDb.sqlite3
+>
+> and put it under the same name into the directory **shared/src/commonMain/resources/MR/files/**
+of the project.
+
 ## Project structure
 
 * **shared** - Cross-platform codebase for the business logic.
