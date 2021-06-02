@@ -9,7 +9,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
 import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.*
 
 /**
@@ -21,10 +21,13 @@ class LocationDataSourceFullDb(sqlDriver: SqlDriver) : FullDbDataSource<Location
     override fun get(parameters: ParamsBundle): List<Location> {
         val needle = parameters.get(Key.NEEDLE) as String
         val type = parameters.get(Key.TYPE) as Type
-        val limit = parameters.get(Key.LIMIT) as Long
+        val limit = parameters.get(Key.LIMIT) as Int
         val locale = parameters.get(Key.LOCALE) as Locale
 
-        return selectLocationsByNameIncluding(needle, limit, locale).filterByType(type)
+        return selectLocationsByNameIncluding(
+            needle,
+            locale
+        ).filterByType(type).sortedByIncluding(needle).take(limit)
     }
 
     private fun List<Location>.filterByType(type: Type): List<Location> =
@@ -39,4 +42,12 @@ class LocationDataSourceFullDb(sqlDriver: SqlDriver) : FullDbDataSource<Location
                 this.filter { (id) -> toLocationIds.contains(id) }
             }
         }
+
+    private fun List<Location>.sortedByIncluding(needle: String): List<Location> {
+        val (startWithNeedle, containNeedle) = this.partition {
+            it.name.startsWith(needle, ignoreCase = true)
+        }
+
+        return listOf(startWithNeedle, containNeedle).flatten()
+    }
 }

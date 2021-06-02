@@ -28,12 +28,10 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
      */
     protected fun selectLocationsByNameIncluding(
         needle: String,
-        limit: Long,
         locale: Locale
     ): List<Location> =
         queries.selectLocationsByName(
             needle,
-            limit,
             mapper = locationMapper(locale)
         ).executeAsList()
 

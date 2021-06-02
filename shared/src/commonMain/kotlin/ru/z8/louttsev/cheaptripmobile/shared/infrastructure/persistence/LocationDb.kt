@@ -27,8 +27,8 @@ class LocationDb(sqlDriver: SqlDriver) : LocalDbStorage<Location>(sqlDriver) {
 
     override fun get(parameters: ParamsBundle): List<Location> {
         val needle = parameters.get(Key.NEEDLE) as String
-        val limit = parameters.get(Key.LIMIT) as Long
+        val limit = parameters.get(Key.LIMIT) as Int
 
-        return selectLocationsByName(needle, limit)
+        return selectLocationsByName(needle, limit.toLong())
     }
 }

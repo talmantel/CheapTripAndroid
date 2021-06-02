@@ -20,20 +20,7 @@ FROM
 WHERE
     name LIKE ('%' || :needle || '%')
   OR
-    name_ru LIKE ('%' || :needle || '%')
-ORDER BY
-  CASE
-    WHEN
-        name LIKE (:needle || '%')
-      OR
-        name_ru LIKE (:needle || '%')
-    THEN
-        0
-    ELSE
-        1
-  END
-LIMIT
-    :limit;
+    name_ru LIKE ('%' || :needle || '%');
 
 selectLocationNamesById:
 SELECT
