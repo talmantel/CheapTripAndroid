@@ -48,6 +48,14 @@ enum class RepositoryStrategy {
                 cachedResult
             }
         }
+    },
+    NOTHING { // TODO remove this and change to CACHING into App
+        override fun <T> combineLoaderFrom(
+            dataSource: DataSource<T>,
+            dataStorage: DataStorage<T>
+        ): (ParamsBundle) -> List<T> = { params: ParamsBundle ->
+            dataSource.get(params)!!
+        }
     };
 
     /**

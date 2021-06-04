@@ -23,7 +23,7 @@ class App : Application() {
             reserveSource = LocationDb(
                 DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
             ),
-            strategy = RepositoryStrategy.CACHING
+            strategy = RepositoryStrategy.NOTHING
         )
     }
 

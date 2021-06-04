@@ -107,13 +107,13 @@ ON
     routes(`to`);
 
 selectFromIdsOfRoutes:
-SELECT
+SELECT DISTINCT
     `from`
 FROM
     routes;
 
 selectToIdsOfRoutes:
-SELECT
+SELECT DISTINCT
     `to`
 FROM
     routes;

@@ -22,4 +22,5 @@
     <string name="to_location_input_field_hint">Куда</string>
     <string name="clear_button_text">Очистить</string>
     <string name="go_button_text">Поехали!</string>
+    <string name="no_data_error_message">Простите. У нас пока нет информации по этому маршруту. Мы работаем над ее получением.</string>
 </resources>

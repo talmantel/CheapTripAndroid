@@ -2,6 +2,9 @@ package ru.z8.louttsev.cheaptripmobile.androidApp
 
 import android.os.Bundle
 import android.text.Editable
+import android.widget.AdapterView
+import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -9,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ActivityMainBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
+import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.AutoCompleteHandler
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,59 +25,39 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater).apply {
             lifecycleOwner = this@MainActivity
-            viewModel = model // TODO can suppress this?
+            viewModel = model // ignore probably IDE error message "Cannot access class..."
         }
 
         setContentView(binding.root)
 
         with(binding) {
-            with(originTextView) {
-                threshold = 0
-                setAdapter(
-                    AutoCompleteLocationsListAdapter(this@MainActivity, model.oroginLocations)
-                )
-                addTextChangedListener { changedEditableText: Editable? ->
-                    model.onOriginInputFieldTextChanged(changedEditableText.toString())
-                }
-                setOnItemClickListener { parent, _, position, _ ->
-                    val selectedLocation = parent.getItemAtPosition(position) as Location
-                    model.onOriginSelected(selectedLocation)
-                    this.performCompletion()
-                }
-                // TODO Clear model and text (?) in item not selected
-                // TODO Extract expression function AutocompleteTextView.setup(...)
-            }
+            originTextView.setup(model.origins)
 
             originClearIcon.setOnClickListener {
-                model.onOriginReset()
-                binding.originTextView.setText("")
+                model.origins.onItemReset()
+                originTextView.clearText()
             }
 
-            with(destinationTextView) {
-                threshold = 0
-                setAdapter(
-                    AutoCompleteLocationsListAdapter(this@MainActivity, model.destinationLocations)
-                )
-                addTextChangedListener { changedEditableText: Editable? ->
-                    model.onDestinationInputFieldTextChanged(changedEditableText.toString())
-                }
-                setOnItemClickListener { parent, _, position, _ ->
-                    val selectedLocation = parent.getItemAtPosition(position) as Location
-                    model.onDestinationSelected(selectedLocation)
-                    this.performCompletion()
-                }
-            }
+            destinationTextView.setup(model.destinations)
 
             destinationClearIcon.setOnClickListener {
-                model.onDestinationReset()
-                binding.destinationTextView.setText("")
+                model.destinations.onItemReset()
+                destinationTextView.clearText()
             }
 
             clearButton.setOnClickListener {
-                model.onOriginReset()
-                binding.originTextView.setText("")
-                model.onDestinationReset()
-                binding.destinationTextView.setText("")
+                model.origins.onItemReset()
+                originTextView.clearText()
+                model.destinations.onItemReset()
+                destinationTextView.clearText()
+            }
+
+            goButton.setOnClickListener {
+                Toast.makeText(
+                    this@MainActivity,
+                    model.getRoute(),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -84,6 +68,60 @@ class MainActivity : AppCompatActivity() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return create.invoke() as T
+        }
+    }
+
+    private fun AutoCompleteTextView.setup(handler: AutoCompleteHandler<Location>) {
+        threshold = 1
+
+        setAdapter(
+            AutoCompleteLocationsListAdapter(this@MainActivity, handler.data)
+        )
+
+        addTextChangedListener { changedEditableText: Editable? ->
+            handler.onItemReset()
+            handler.isBeingUpdated = true
+            handler.onTextChanged(
+                changedEditableText.toString(),
+                emptyResultHandler = {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.no_data_error_message),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    selectSuitableLocation(handler)
+                }
+            )
+        }
+
+        setOnItemClickListener { parent: AdapterView<*>, _, position: Int, _ ->
+            val selectedLocation = parent.getItemAtPosition(position) as Location
+
+            handler.onItemSelected(selectedLocation)
+            performCompletion()
+        }
+
+        setOnDismissListener {
+            if (!handler.isItemSelected()) {
+                if (!handler.isBeingUpdated || text.toString().length == 1) {
+                    selectSuitableLocation(handler)
+                }
+            }
+            handler.isBeingUpdated = false
+        }
+    }
+
+    private fun AutoCompleteTextView.clearText() {
+        text.clear()
+    }
+
+    private fun AutoCompleteTextView.selectSuitableLocation(handler: AutoCompleteHandler<Location>) {
+        if (handler.data.value.isNotEmpty()) {
+            val suitableLocation = handler.data.value[0]
+
+            setText(suitableLocation.name)
+            handler.onItemSelected(suitableLocation)
+            performCompletion()
         }
     }
 }

@@ -22,4 +22,5 @@
     <string name="to_location_input_field_hint">To</string>
     <string name="clear_button_text">Clear form</string>
     <string name="go_button_text">Let\'s go</string>
+    <string name="no_data_error_message">Sorry, the data we have accumulated is not enough to build a route between the indicated cities. Try changing your request.</string>
 </resources>
