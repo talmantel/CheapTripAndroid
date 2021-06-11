@@ -1,4 +1,4 @@
-# Directory sqldelightLocalDb/ru/z8/louttsev/cheaptripmobile/shared/infrastructure/datasource
+# Directory sqldelightFullDb/ru/z8/louttsev/cheaptripmobile/shared/infrastructure/datasource
 
 SQL statements for the SQLDelight generator.
 

@@ -63,12 +63,13 @@ class RouteRepositoryTest {
     @Test
     fun getRoutes() {
         val fromLocation = Location(387, "Moscow")
-        val toLocation = Location(9, "Tashkent")
+        val toLocation = Location(388, "Saint Petersburg")
 
         val expectedResult = listOf(
-            Route(GROUND, 36.61F, 4020, listOf(Path(TRAIN, 36.61F, 4020, "Moscow", "Tashkent"))),
-            Route(FLYING, 151.256F, 916, listOf(Path(FLIGHT, 53.2F, 246, "Moscow", "Ashgabat"), Path(FLIGHT, 98.056F, 670, "Ashgabat", "Tashkent"))),
-            Route(DIRECT, 188.23F, 398, listOf(Path(FLIGHT, 188.23F, 398, "Moscow", "Tashkent")))
+            Route(GROUND, 15.32F, 687, listOf(Path(RIDE_SHARE, 15.32F, 687, "Moscow", "Saint Petersburg"))),
+            Route(FIXED_WITHOUT_RIDE_SHARE, 16.83F, 765, listOf(Path(BUS, 16.83F, 765, "Moscow", "Saint Petersburg"))),
+            Route(DIRECT, 17.64F, 483, listOf(Path(TRAIN, 17.64F, 483, "Moscow", "Saint Petersburg"))),
+            Route(FLYING, 58.46F, 907, listOf(Path(FLIGHT, 30.15F, 548, "Moscow", "Petrozavodsk"), Path(FLIGHT, 28.31F, 359, "Petrozavodsk", "Saint Petersburg")))
         )
 
         assertTrue(dataSourceWrapper.isAvailable)

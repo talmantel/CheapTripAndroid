@@ -1,15 +1,18 @@
 package ru.z8.louttsev.cheaptripmobile.androidApp
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
-import android.widget.AdapterView
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ActivityMainBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.AutoCompleteHandler
@@ -17,10 +20,12 @@ import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+
         super.onCreate(savedInstanceState)
 
         val model by viewModels<MainViewModel> {
-            createWithFactory { MainViewModel(App.sLocationRepository) }
+            createWithFactory { MainViewModel(App.sLocationRepository, App.sRouteRepository) }
         }
 
         val binding = ActivityMainBinding.inflate(layoutInflater).apply {
@@ -52,12 +57,23 @@ class MainActivity : AppCompatActivity() {
                 destinationTextView.clearText()
             }
 
-            goButton.setOnClickListener {
-                Toast.makeText(
-                    this@MainActivity,
-                    model.getRoute(),
-                    Toast.LENGTH_LONG
-                ).show()
+            goButton.setup(
+                isReady = model.routes.isReadyToBuild,
+                listener = { model.routes.build(emptyResultHandler = { showNoResultsMessage() }) }
+            )
+
+            with(routeList) {
+                layoutManager = LinearLayoutManager(this@MainActivity)
+                adapter = RouteListAdapter(model.routes.data)
+                addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        itemPosition: Int,
+                        parent: RecyclerView
+                    ) {
+                        outRect.bottom = resources.getDimension(R.dimen.route_item_margin).toInt()
+                    }
+                })
             }
         }
     }
@@ -75,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         threshold = 1
 
         setAdapter(
-            AutoCompleteLocationsListAdapter(this@MainActivity, handler.data)
+            AutoCompleteLocationsListAdapter(handler.data)
         )
 
         addTextChangedListener { changedEditableText: Editable? ->
@@ -84,11 +100,7 @@ class MainActivity : AppCompatActivity() {
             handler.onTextChanged(
                 changedEditableText.toString(),
                 emptyResultHandler = {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.no_data_error_message),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    showNoResultsMessage()
                     selectSuitableLocation(handler)
                 }
             )
@@ -111,17 +123,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showNoResultsMessage() {
+        Toast.makeText(
+            this@MainActivity,
+            getString(R.string.no_data_error_message),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     private fun AutoCompleteTextView.clearText() {
         text.clear()
     }
 
     private fun AutoCompleteTextView.selectSuitableLocation(handler: AutoCompleteHandler<Location>) {
         if (handler.data.value.isNotEmpty()) {
-            val suitableLocation = handler.data.value[0]
+            val suitableLocation = handler.data.value.first()
 
             setText(suitableLocation.name)
             handler.onItemSelected(suitableLocation)
             performCompletion()
+        }
+    }
+
+    private fun Button.setup(isReady: LiveData<Boolean>, listener: (View) -> Unit) {
+        isReady.addObserver {
+            if (it) {
+                setOnClickListener(listener)
+                setBackgroundColor(getColor(R.color.colorAccent))
+            } else {
+                setOnClickListener(null)
+                setBackgroundColor(getColor(R.color.colorInactiveViewBackground))
+            }
         }
     }
 }

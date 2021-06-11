@@ -11,7 +11,6 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 
 class AutoCompleteLocationsListAdapter(
-    private val mContext: Context,
     liveData: LiveData<List<Location>>
 ) : BaseAdapter(), Filterable {
     private var mLocations: List<Location>
@@ -30,9 +29,8 @@ class AutoCompleteLocationsListAdapter(
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getView(position: Int, cacheView: View?, parent: ViewGroup?): View =
-        // TODO change to inflate
-        TextView(mContext).apply {
+    override fun getView(position: Int, cacheView: View?, parent: ViewGroup): View =
+        TextView(parent.context).apply {
             text = mLocations[position].name
         }
 

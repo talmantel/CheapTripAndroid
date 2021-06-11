@@ -49,7 +49,10 @@ enum class RepositoryStrategy {
             }
         }
     },
-    NOTHING { // TODO remove this and change to CACHING into App
+    DIRECT_READ {
+        /**
+         * Strategy implementation that receives data from main (read-only) source only.
+         */
         override fun <T> combineLoaderFrom(
             dataSource: DataSource<T>,
             dataStorage: DataStorage<T>

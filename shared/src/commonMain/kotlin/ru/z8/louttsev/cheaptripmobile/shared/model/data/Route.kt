@@ -44,4 +44,15 @@ data class Route(
             return StringDesc.Resource(stringResourceId).convertToString()
         }
     }
+
+    private val pointsDelimiter = "\u2009\u2794\u2009"
+
+    fun getRoutePlan() =
+        directPaths.joinToString(
+            pointsDelimiter,
+            transform = Path::from
+        ) + pointsDelimiter + directPaths.last().to
+
+    fun getRouteDuration() =
+        DurationConverter.minutesToTimeComponents(durationMinutes)
 }

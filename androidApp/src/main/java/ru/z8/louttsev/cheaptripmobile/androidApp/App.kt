@@ -5,10 +5,13 @@ import ru.z8.louttsev.cheaptripmobile.shared.DatabaseDriverFactory
 import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.LocationDataSourceFullDb
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.RouteDataSourceFullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocationDb
+import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.RouteDb
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
-import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
+import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy.*
+import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 
 class App : Application() {
     override fun onCreate() {
@@ -16,18 +19,24 @@ class App : Application() {
 
         convertToString = { toString(this@App) }
 
+        val fullDbDriver = DatabaseDriverFactory(this).getDriver(FullDb.Schema, "fullDb.sqlite3")
+        val localDbDriver = DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
+
         sLocationRepository = LocationRepository(
-            mainSource = LocationDataSourceFullDb(
-                DatabaseDriverFactory(this).getDriver(FullDb.Schema, "fullDb.sqlite3")
-            ),
-            reserveSource = LocationDb(
-                DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
-            ),
-            strategy = RepositoryStrategy.NOTHING
+            mainSource = LocationDataSourceFullDb(fullDbDriver),
+            reserveSource = LocationDb(localDbDriver),
+            strategy = DIRECT_READ
+        )
+
+        sRouteRepository = RouteRepository(
+            mainSource = RouteDataSourceFullDb(fullDbDriver),
+            reserveSource = RouteDb(localDbDriver),
+            strategy = CACHING
         )
     }
 
     companion object {
         lateinit var sLocationRepository: LocationRepository
+        lateinit var  sRouteRepository: RouteRepository
     }
 }

@@ -9,21 +9,28 @@ import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
+import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
 /**
  * Declares UX logic for managing the data and handling the UI actions.
  *
  * @property locationRepository Read-only storage of available locations
+ * @property routeRepository Read-only storage of available routes
  * @property origins Available origin locations
  * @property destinations Available destination locations
+ * @property routes Found routes
  */
 class MainViewModel(
     private val locationRepository: LocationRepository,
+    private val routeRepository: RouteRepository
 ) : ViewModel() {
     private var selectedOrigin: Location? = null
     private var selectedDestination: Location? = null
+
+    private val routeBuildReadiness = MutableLiveData(isBothPointsSelected())
 
     val origins = object : AutoCompleteHandler<Location> {
         private val locations = MutableLiveData<List<Location>>(emptyList())
@@ -45,10 +52,12 @@ class MainViewModel(
 
         override fun onItemSelected(item: Location) {
             selectedOrigin = item
+            updateReadiness()
         }
 
         override fun onItemReset() {
             selectedOrigin = null
+            updateReadiness()
         }
 
         override fun isItemSelected(): Boolean = selectedOrigin != null
@@ -74,19 +83,45 @@ class MainViewModel(
 
         override fun onItemSelected(item: Location) {
             selectedDestination = item
+            updateReadiness()
         }
 
         override fun onItemReset() {
             selectedDestination = null
+            updateReadiness()
         }
 
         override fun isItemSelected(): Boolean = selectedDestination != null
     }
 
-    fun getRoute(): String {
-        val origin = selectedOrigin?.name ?: "null"
-        val destination = selectedDestination?.name ?: "null"
+    val routes = object : GoButtonHandler {
+        private val routes = MutableLiveData<List<Route>>(emptyList())
+        override val data: LiveData<List<Route>>
+            get() = routes
 
-        return "$origin -> $destination"
+        override val isReadyToBuild: LiveData<Boolean>
+            get() = routeBuildReadiness
+
+        override fun build(emptyResultHandler: () -> Unit) {
+            if (isBothPointsSelected()) {
+                viewModelScope.launch {
+                    // null-safety was checked
+                    val result = routeRepository.getRoutes(selectedOrigin!!, selectedDestination!!)
+
+                    if (result.isEmpty()) {
+                        emptyResultHandler()
+                    } else {
+                        routes.value = result
+                    }
+                }
+            }
+        }
     }
+
+    private fun updateReadiness() {
+        routeBuildReadiness.value = isBothPointsSelected()
+    }
+
+    private fun isBothPointsSelected() =
+        selectedOrigin != null && selectedDestination != null
 }

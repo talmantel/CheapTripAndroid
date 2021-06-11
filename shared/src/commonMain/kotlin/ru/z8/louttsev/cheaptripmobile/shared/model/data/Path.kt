@@ -19,4 +19,11 @@ data class Path(
     val durationMinutes: Int,
     val from: String,
     val to: String
-)
+) {
+    private val pointsDelimiter = "\u2009\u2794\u2009"
+
+    fun getPathPlan() = from + pointsDelimiter + to
+
+    fun getPathDuration() =
+        DurationConverter.minutesToTimeComponents(durationMinutes)
+}

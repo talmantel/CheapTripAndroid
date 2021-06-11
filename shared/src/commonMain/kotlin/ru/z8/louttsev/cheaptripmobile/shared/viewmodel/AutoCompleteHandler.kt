@@ -10,6 +10,7 @@ import dev.icerock.moko.mvvm.livedata.LiveData
  * Determines UI actions handle logic and data for autocomplete input field.
  *
  * @property data Items list
+ * @property isBeingUpdated Model update indicator
  */
 interface AutoCompleteHandler<T> {
     val data: LiveData<List<T>>
