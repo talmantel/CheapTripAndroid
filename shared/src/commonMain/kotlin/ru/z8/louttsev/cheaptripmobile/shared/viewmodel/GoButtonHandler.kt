@@ -17,5 +17,10 @@ interface GoButtonHandler {
     val data: LiveData<List<Route>>
     val isReadyToBuild: LiveData<Boolean>
 
+    /**
+     * Finds possible routes between the specified points of origin and destination.
+     *
+     * @param emptyResultHandler UI function called if no possible routes found
+     */
     fun build(emptyResultHandler: () -> Unit)
 }

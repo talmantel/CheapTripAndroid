@@ -1,4 +1,8 @@
-package ru.z8.louttsev.cheaptripmobile.androidApp
+/**
+ * CheapTrip Mobile
+ * This is mobile client for LowCostsTrip server.
+ */
+package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +14,15 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.icerock.moko.mvvm.livedata.LiveData
+import ru.z8.louttsev.cheaptripmobile.androidApp.R
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemRouteBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
-
+/**
+ * Declares adapter for route list as result of searching.
+ *
+ * @param liveData Observable source of routes data
+ */
 class RouteListAdapter(
     liveData: LiveData<List<Route>>
 ) : RecyclerView.Adapter<RouteListAdapter.ViewHolder>() {

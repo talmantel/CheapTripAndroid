@@ -13,6 +13,9 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy.*
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 
+/**
+ * Declares DI container.
+ */
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
@@ -35,6 +38,12 @@ class App : Application() {
         )
     }
 
+    /**
+     * Access point to initiated repositories.
+     *
+     * @property sLocationRepository Read-only storage of available locations.
+     * @property sRouteRepository Read-only storage of available routes.
+     */
     companion object {
         lateinit var sLocationRepository: LocationRepository
         lateinit var  sRouteRepository: RouteRepository

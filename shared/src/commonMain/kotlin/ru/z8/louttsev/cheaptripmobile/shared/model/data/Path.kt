@@ -22,8 +22,14 @@ data class Path(
 ) {
     private val pointsDelimiter = "\u2009\u2794\u2009"
 
+    /**
+     * String representation of path plan, eg. 'Muscat → Abu Dhabi'
+     */
     fun getPathPlan() = from + pointsDelimiter + to
 
+    /**
+     * String representation of path duration, eg. '8 h 27 m'
+     */
     fun getPathDuration() =
         DurationConverter.minutesToTimeComponents(durationMinutes)
 }

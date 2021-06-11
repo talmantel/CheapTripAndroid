@@ -1,4 +1,8 @@
-package ru.z8.louttsev.cheaptripmobile.androidApp
+/**
+ * CheapTrip Mobile
+ * This is mobile client for LowCostsTrip server.
+ */
+package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemPathBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
 
+/**
+ * Declares adapter for path list as part of route view.
+ *
+ * @param mPaths Source of paths data
+ */
 class PathListAdapder(
     private val mPaths: List<Path>
 ) : RecyclerView.Adapter<PathListAdapder.ViewHolder>() {

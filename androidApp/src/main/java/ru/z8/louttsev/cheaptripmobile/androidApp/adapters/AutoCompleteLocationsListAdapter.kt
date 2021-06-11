@@ -1,6 +1,9 @@
-package ru.z8.louttsev.cheaptripmobile.androidApp
+/**
+ * CheapTrip Mobile
+ * This is mobile client for LowCostsTrip server.
+ */
+package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -10,6 +13,11 @@ import android.widget.TextView
 import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 
+/**
+ * Declares adapter for location list as base for autocomplete input fields.
+ *
+ * @param liveData Observable source of locations data
+ */
 class AutoCompleteLocationsListAdapter(
     liveData: LiveData<List<Location>>
 ) : BaseAdapter(), Filterable {

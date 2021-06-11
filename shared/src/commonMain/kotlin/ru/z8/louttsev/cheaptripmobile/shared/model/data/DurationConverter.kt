@@ -14,6 +14,11 @@ import ru.z8.louttsev.cheaptripmobile.shared.convertToString
  */
 class DurationConverter {
     companion object {
+        /**
+         * Converts duration in minutes to string representation based on days, hours and minutes.
+         *
+         * @param value Time period in minutes
+         */
         fun minutesToTimeComponents(value: Int): String {
             fun divmod(dividend: Int, divider: Int): Pair<Int, Int> =
                 dividend / divider to dividend % divider

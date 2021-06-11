@@ -47,12 +47,18 @@ data class Route(
 
     private val pointsDelimiter = "\u2009\u2794\u2009"
 
+    /**
+     * String representation of route plan, eg. 'Muscat → Toronto → Abu Dhabi'
+     */
     fun getRoutePlan() =
         directPaths.joinToString(
             pointsDelimiter,
             transform = Path::from
         ) + pointsDelimiter + directPaths.last().to
 
+    /**
+     * String representation of total route duration, eg. '2 d 11 h 27 m'
+     */
     fun getRouteDuration() =
         DurationConverter.minutesToTimeComponents(durationMinutes)
 }
