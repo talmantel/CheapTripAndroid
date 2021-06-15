@@ -17,8 +17,8 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 /**
  * Declares UX logic for managing the data and handling the UI actions.
  *
- * @property locationRepository Read-only storage of available locations
- * @property routeRepository Read-only storage of available routes
+ * @param locationRepository Read-only storage of available locations
+ * @param routeRepository Read-only storage of available routes
  * @property origins Available origin locations
  * @property destinations Available destination locations
  * @property routes Found routes

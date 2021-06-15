@@ -21,7 +21,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.AutoCompleteHandler
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
 
 /**
- * Declares main UI contrallers.
+ * Declares main UI controller.
  */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

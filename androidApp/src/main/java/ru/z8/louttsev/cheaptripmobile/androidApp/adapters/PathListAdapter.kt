@@ -4,6 +4,8 @@
  */
 package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -11,15 +13,16 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemPathBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
+import ru.z8.louttsev.cheaptripmobile.shared.payload.PayloadActionHandler
 
 /**
  * Declares adapter for path list as part of route view.
  *
  * @param mPaths Source of paths data
  */
-class PathListAdapder(
+class PathListAdapter(
     private val mPaths: List<Path>
-) : RecyclerView.Adapter<PathListAdapder.ViewHolder>() {
+) : RecyclerView.Adapter<PathListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemPathBinding.inflate(LayoutInflater.from(parent.context))
 
@@ -36,6 +39,14 @@ class PathListAdapder(
         with(holder.binding) {
             model = currentPath // ignore probably IDE error message "Cannot access class..."
             executePendingBindings()
+            actionButton.setOnClickListener {
+                val affiliateUrl = PayloadActionHandler.getAffiliateUrl(currentPath)
+
+                if (affiliateUrl.isNotEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(affiliateUrl))
+                    root.context.startActivity(intent)
+                }
+            }
         }
     }
 

@@ -56,7 +56,7 @@ class RouteListAdapter(
 
             model = currentRoute // ignore probably IDE error message "Cannot access class..."
 
-            pathList.adapter = PathListAdapder(currentRoute.directPaths)
+            pathList.adapter = PathListAdapter(currentRoute.directPaths)
             executePendingBindings()
 
             root.setOnClickListener { openIndicator.isChecked = !openIndicator.isChecked }
