@@ -22,7 +22,6 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
      * Selects locations that have search string in their name.
      *
      * @param needle Search string
-     * @param limit Desired number of locations in the response
      * @param locale Desired results language
      * @return List of matching locations no larger than the specified size
      */

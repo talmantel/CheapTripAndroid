@@ -12,6 +12,7 @@
             type="ru.z8.louttsev.cheaptripmobile.shared.model.data.Route" />
     </data>
 
+    <!--suppress CheckTagEmptyBody -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/route_main_view"
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/route_plan"

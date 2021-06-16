@@ -8,15 +8,16 @@ import org.robolectric.annotation.Config
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDbDataSource
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.RouteDataSourceFullDb
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDb
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
-import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle.Key
-import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
-import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
-import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.LocalDbStorage
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.persistence.RouteDb
+import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
+import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource.ParamsBundle
+import ru.z8.louttsev.cheaptripmobile.shared.model.RepositoryStrategy
+import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type.*
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.TransportationType.*
 import kotlin.test.Test
@@ -66,10 +67,33 @@ class RouteRepositoryTest {
         val toLocation = Location(388, "Saint Petersburg")
 
         val expectedResult = listOf(
-            Route(GROUND, 15.32F, 687, listOf(Path(RIDE_SHARE, 15.32F, 687, "Moscow", "Saint Petersburg"))),
-            Route(FIXED_WITHOUT_RIDE_SHARE, 16.83F, 765, listOf(Path(BUS, 16.83F, 765, "Moscow", "Saint Petersburg"))),
-            Route(DIRECT, 17.64F, 483, listOf(Path(TRAIN, 17.64F, 483, "Moscow", "Saint Petersburg"))),
-            Route(FLYING, 58.46F, 907, listOf(Path(FLIGHT, 30.15F, 548, "Moscow", "Petrozavodsk"), Path(FLIGHT, 28.31F, 359, "Petrozavodsk", "Saint Petersburg")))
+            Route(
+                GROUND,
+                15.32F,
+                687,
+                listOf(Path(RIDE_SHARE, 15.32F, 687, "Moscow", "Saint Petersburg"))
+            ),
+            Route(
+                FIXED_WITHOUT_RIDE_SHARE,
+                16.83F,
+                765,
+                listOf(Path(BUS, 16.83F, 765, "Moscow", "Saint Petersburg"))
+            ),
+            Route(
+                DIRECT,
+                17.64F,
+                483,
+                listOf(Path(TRAIN, 17.64F, 483, "Moscow", "Saint Petersburg"))
+            ),
+            Route(
+                FLYING,
+                58.46F,
+                907,
+                listOf(
+                    Path(FLIGHT, 30.15F, 548, "Moscow", "Petrozavodsk"),
+                    Path(FLIGHT, 28.31F, 359, "Petrozavodsk", "Saint Petersburg")
+                )
+            )
         )
 
         assertTrue(dataSourceWrapper.isAvailable)
