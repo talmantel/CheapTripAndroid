@@ -18,3 +18,4 @@ data class            | **Path**               | Particular section (path) withi
 enum                  | **TransportationType** | Path type in relation to transport.
 enum                  | **Locale**             | Supported language.
 class                 | **DurationConverter**  | Duration conversion to string representations.
+enum                  | **Country**            | Countries relevant to affiliate programs.

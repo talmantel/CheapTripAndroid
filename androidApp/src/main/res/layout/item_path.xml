@@ -65,7 +65,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/duration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/duration" />
+            app:layout_constraintTop_toTopOf="@+id/duration"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/euro_price"

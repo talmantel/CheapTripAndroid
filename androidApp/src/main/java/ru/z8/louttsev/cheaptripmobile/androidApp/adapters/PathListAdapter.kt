@@ -7,13 +7,15 @@ package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemPathBinding
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Country
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
-import ru.z8.louttsev.cheaptripmobile.shared.payload.PayloadActionHandler
+import ru.z8.louttsev.cheaptripmobile.shared.payload.AffiliateProgram
 
 /**
  * Declares adapter for path list as part of route view.
@@ -39,13 +41,19 @@ class PathListAdapter(
         with(holder.binding) {
             model = currentPath // ignore probably IDE error message "Cannot access class..."
             executePendingBindings()
-            actionButton.setOnClickListener {
-                val affiliateUrl = PayloadActionHandler.getAffiliateUrl(currentPath)
 
-                if (affiliateUrl.isNotEmpty()) {
+            // TODO change country stub to auto detected country, issue #3
+            val affiliateUrl = AffiliateProgram.getAffiliateUrl(currentPath, Country.INDEFINITE)
+
+            if (affiliateUrl.isNotEmpty()) {
+                actionButton.visibility = View.VISIBLE
+                actionButton.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(affiliateUrl))
                     root.context.startActivity(intent)
                 }
+            } else {
+                actionButton.visibility = View.GONE
+                actionButton.setOnClickListener(null)
             }
         }
     }

@@ -8,6 +8,6 @@ Contains monetization tools based on affiliate programs with redirection.
 
 ## Summary
 
-Type                  | Name                            | Description
-----------------------|---------------------------------|-----------------------------------------------
-class                 | **PayloadActionHandler**        | Available affiliate programs payload.
+Type                  | Name                        | Description
+----------------------|-----------------------------|-----------------------------------------------
+enum                  | **AffiliateProgram**        | Available affiliate programs.
