@@ -8,11 +8,14 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ru.z8.louttsev.cheaptripmobile.shared.ioDispatcher
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
+import ru.z8.louttsev.cheaptripmobile.shared.uiDispatcher
 
 /**
  * Declares UX logic for managing the data and handling the UI actions.
@@ -40,12 +43,15 @@ class MainViewModel(
         override var isBeingUpdated: Boolean = false
 
         override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
-            viewModelScope.launch {
+            viewModelScope.launch(ioDispatcher) {
                 val result = locationRepository.searchLocationsByName(text, Type.FROM)
-                if (result.isEmpty()) {
-                    emptyResultHandler()
-                } else {
-                    locations.value = result
+
+                withContext(uiDispatcher) {
+                    if (result.isEmpty()) {
+                        emptyResultHandler()
+                    } else {
+                        locations.value = result
+                    }
                 }
             }
         }
@@ -71,12 +77,15 @@ class MainViewModel(
         override var isBeingUpdated: Boolean = false
 
         override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
-            viewModelScope.launch {
+            viewModelScope.launch(ioDispatcher) {
                 val result = locationRepository.searchLocationsByName(text, Type.TO)
-                if (result.isEmpty()) {
-                    emptyResultHandler()
-                } else {
-                    locations.value = result
+
+                withContext(uiDispatcher) {
+                    if (result.isEmpty()) {
+                        emptyResultHandler()
+                    } else {
+                        locations.value = result
+                    }
                 }
             }
         }
@@ -104,14 +113,16 @@ class MainViewModel(
 
         override fun build(emptyResultHandler: () -> Unit) {
             if (isBothPointsSelected()) {
-                viewModelScope.launch {
+                viewModelScope.launch(ioDispatcher) {
                     // null-safety was checked
                     val result = routeRepository.getRoutes(selectedOrigin!!, selectedDestination!!)
 
-                    if (result.isEmpty()) {
-                        emptyResultHandler()
-                    } else {
-                        routes.value = result
+                    withContext(uiDispatcher) {
+                        if (result.isEmpty()) {
+                            emptyResultHandler()
+                        } else {
+                            routes.value = result
+                        }
                     }
                 }
             }

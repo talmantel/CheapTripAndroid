@@ -11,6 +11,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import dev.icerock.moko.mvvm.livedata.LiveData
+import ru.z8.louttsev.cheaptripmobile.androidApp.R
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 
 /**
@@ -37,10 +38,15 @@ class AutoCompleteLocationsListAdapter(
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getView(position: Int, cacheView: View?, parent: ViewGroup): View =
-        TextView(parent.context).apply {
+    override fun getView(position: Int, cacheView: View?, parent: ViewGroup): View {
+        val context = parent.context
+
+        return TextView(context).apply {
             text = mLocations[position].name
+            val padding = context.resources.getDimension(R.dimen.location_item_padding).toInt()
+            setPadding(0, padding, 0, padding)
         }
+    }
 
     // this implementation does nothing,
     // filtering is performed by the model in TextChangedListener

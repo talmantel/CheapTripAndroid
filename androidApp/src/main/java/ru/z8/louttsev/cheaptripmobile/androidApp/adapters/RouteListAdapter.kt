@@ -55,7 +55,6 @@ class RouteListAdapter(
             val context = root.context
 
             model = currentRoute // ignore probably IDE error message "Cannot access class..."
-
             pathList.adapter = PathListAdapter(currentRoute.directPaths)
             executePendingBindings()
 
@@ -68,6 +67,7 @@ class RouteListAdapter(
                 }
             }
 
+            transportIconContainer.removeAllViews()
             currentRoute.directPaths.forEach {
                 val imageview = LayoutInflater.from(context).inflate(
                     R.layout.transport_icon_imageview,

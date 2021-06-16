@@ -17,3 +17,4 @@ package               | **viewmodel**                   | ViewModel layer of the
 file                  | **Database.kt**                 | Declaration of the SQLite driver factory.
 file                  | **Resources.kt**                | Declaration of conversion for common string resources.
 file                  | **System.kt**                   | Property declaration for default language.
+file                  | **Dispatchers.kt**              | Property declaration for coroutine dispatchers.

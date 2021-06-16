@@ -56,6 +56,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.4.2-native-mt")
                 implementation("com.squareup.sqldelight:native-driver:1.4.4")
             }
         }
