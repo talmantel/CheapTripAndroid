@@ -44,7 +44,7 @@ class MainViewModel(
 
         override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
             viewModelScope.launch(ioDispatcher) {
-                val result = locationRepository.searchLocationsByName(text, Type.FROM)
+                val result = locationRepository.searchLocationsByName(text, Type.FROM, limit = 4)
 
                 withContext(uiDispatcher) {
                     if (result.isEmpty()) {
@@ -78,7 +78,7 @@ class MainViewModel(
 
         override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
             viewModelScope.launch(ioDispatcher) {
-                val result = locationRepository.searchLocationsByName(text, Type.TO)
+                val result = locationRepository.searchLocationsByName(text, Type.TO, limit = 4)
 
                 withContext(uiDispatcher) {
                     if (result.isEmpty()) {

@@ -45,6 +45,7 @@ class AutoCompleteLocationsListAdapter(
             text = mLocations[position].name
             val padding = context.resources.getDimension(R.dimen.location_item_padding).toInt()
             setPadding(0, padding, 0, padding)
+            textSize = 18f
         }
     }
 
