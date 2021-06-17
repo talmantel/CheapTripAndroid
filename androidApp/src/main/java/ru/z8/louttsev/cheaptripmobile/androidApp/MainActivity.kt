@@ -1,9 +1,11 @@
 package ru.z8.louttsev.cheaptripmobile.androidApp
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -64,7 +66,11 @@ class MainActivity : AppCompatActivity() {
 
             goButton.setup(
                 isReady = model.routes.isReadyToBuild,
-                listener = { model.routes.build(emptyResultHandler = { showNoResultsMessage() }) }
+                listener = {
+                    model.routes.build(emptyResultHandler = { showNoResultsMessage() })
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                }
             )
 
             with(routeList) {
