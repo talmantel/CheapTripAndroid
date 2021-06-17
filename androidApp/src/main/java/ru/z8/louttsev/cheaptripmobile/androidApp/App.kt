@@ -34,7 +34,7 @@ class App : Application() {
         sRouteRepository = RouteRepository(
             mainSource = RouteDataSourceFullDb(fullDbDriver),
             reserveSource = RouteDb(localDbDriver),
-            strategy = CACHING
+            strategy = DIRECT_READ
         )
     }
 
