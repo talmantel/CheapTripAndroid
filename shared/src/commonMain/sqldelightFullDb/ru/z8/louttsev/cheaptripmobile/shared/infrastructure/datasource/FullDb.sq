@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS travel_data (
   `from` INTEGER AS Int NOT NULL,
   `to` INTEGER AS Int NOT NULL,
   transportation_type INTEGER AS Int DEFAULT NULL,
-  time_in_minutes INTEGER AS Int DEFAULT NULL,
   euro_price REAL AS Float NOT NULL,
+  time_in_minutes INTEGER AS Int DEFAULT NULL,
   FOREIGN KEY (`from`) REFERENCES locations(id),
   FOREIGN KEY (`to`) REFERENCES locations(id)
 );
@@ -303,7 +303,8 @@ WHERE
 
 CREATE TABLE IF NOT EXISTS countries (
   country_name TEXT DEFAULT NULL,
-  country_id INTEGER AS Int NOT NULL PRIMARY KEY
+  country_id INTEGER AS Int NOT NULL PRIMARY KEY,
+  country_name_ru TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS currencies (

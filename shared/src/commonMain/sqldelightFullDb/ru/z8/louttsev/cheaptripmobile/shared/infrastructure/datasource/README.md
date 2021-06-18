@@ -6,7 +6,7 @@ SQL statements for the SQLDelight generator.
 
 Contains the creation of tables and named data queries.
 
-Based on server's DB backup dated 14.02.2021. Data is inserted separately, in a pre-populated database.
+Based on server's DB backup dated 29.05.2021. Data is inserted separately, in a pre-populated database.
 
 ## Summary
 

@@ -120,7 +120,7 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
                     from.id,
                     to.id,
                     // a custom mapper is used since the direct route is the single path itself
-                    mapper = { id, fromId, toId, transportationTypeId, duration, price ->
+                    mapper = { id, fromId, toId, transportationTypeId, price, duration ->
                         Route(
                             routeType = DIRECT,
                             euroPrice = price,
@@ -131,8 +131,8 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
                                     fromId,
                                     toId,
                                     transportationTypeId,
-                                    duration,
-                                    price
+                                    price,
+                                    duration
                                 )
                             )
                         )
@@ -169,8 +169,8 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
         return this.withIndex().sortedBy { reSortedIndexes[it.index] }.map { it.value }
     }
 
-    private fun pathMapper(locale: Locale): (Int, Int, Int, Int?, Int?, Float) -> Path =
-        { _: Int, fromId: Int, toId: Int, transportationTypeId: Int?, duration: Int?, price: Float ->
+    private fun pathMapper(locale: Locale): (Int, Int, Int, Int?, Float, Int?) -> Path =
+        { _: Int, fromId: Int, toId: Int, transportationTypeId: Int?, price: Float, duration: Int? ->
             Path(
                 transportationType = TransportationType.fromValue(
                     selectTransportationTypeNameById(transportationTypeId!!)
