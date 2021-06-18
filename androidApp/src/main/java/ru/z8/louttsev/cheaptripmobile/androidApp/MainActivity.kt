@@ -5,9 +5,11 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
@@ -41,6 +43,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
+
+        supportActionBar?.apply {
+            customView = layoutInflater.inflate(R.layout.action_bar, null)
+            customView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            displayOptions = DISPLAY_SHOW_CUSTOM
+        }
 
         with(binding) {
             originTextView.setup(model.origins)
