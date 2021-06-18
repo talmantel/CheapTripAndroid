@@ -29,9 +29,9 @@ Due to exceeding the size of the DB file over the GitHub limit, it is hosted sep
 >
 > Before build download this file:
 >
-> https://github.com/talmantel/CheapTripAndroid/releases/download/v1.0.0/fullDb.sqlite3
+> https://drive.google.com/file/d/1czU8EphPWzQnDWH1Y6NNhTU4PXYB1cCY/view?usp=sharing
 >
-> and put it under the same name into the directory **shared/src/commonMain/resources/MR/files/**
+> and put it under the name **fullDb.sqlite3** into the directory **shared/src/commonMain/resources/MR/files/**
 of the project.
 
 ## Project structure
