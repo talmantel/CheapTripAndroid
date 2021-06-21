@@ -48,6 +48,53 @@ of the project.
 
 > For more details see README.md into modules/packages directories.
 
+## Architecture
+
+The project is based on MVVM architecture. The shared (cross-platform) codebase covers the Model
+(data classes and repositories) and ViewModel (UX logic and retained application state) levels.
+Also, infrastructure and payload (monetization) are placed in the shared module too.
+View level (UI) moved to platform-dependent modules.
+
+> The payload concentrated in `AffiliateProgram` class that including available partners enumeration
+> with the properties of their of applicability for concrete places. 
+>
+> Currently, it is planned to monetize based on redirects, therefore `AffiliateProgram` implements
+> only choose suitable redirect URL. If necessary, the URL can be supplemented origin/destination
+> locations, equipped UTM or changed to affiliate aggregator's URL.
+>
+> Implementation of the redirect to the selected affiliate URL is assigned to platform-dependent
+> modules (VIEW_ACTION Intent for Android).
+
+For the Android application, the View level is presented by `MainActivity` as the main UI controller
+inflating views from xml-layouts. Also it binds UI action views to them handlers into ViewModel,
+sets adapters for search results representation and subscribes on changing the state of the
+ViewModel through the `LiveData` properties.
+
+The `App` class as point of entry is responsible for dependencies injecting from the common code
+into the android application, by providing the necessary implementations of platform-specific
+components with application context.
+
+![](application_architecture_schema.png)
+
+Application resources (strings and images) related to the model and UI classes are allocated in the
+shared module. For platform-specific modules they become available as native ones after (re-) building
+the application.
+
+> The [SqlDeLight cross-platform library](https://cashapp.github.io/sqldelight/multiplatform_sqlite/)
+> (inside it's SQLite database on platform-specific driver) is used for access to the databases
+> from shared code.
+>
+> SQL statements, needed for create DB structure and data operations, is concentrated in .sq files
+> into **sqldelight...** directories.
+>
+> **IMPORTANT (1)!** Can't directly use the MySQL syntax (from server's DB backups) to update the
+> structure and/or queries to the SQLite database, since their syntax is different.
+>
+> **IMPORTANT (2)!** Can't directly use the server's DB backup files for insert data to the SQLite
+> database, since this files are too big for SqlDeLight generator. Ahead of time prepare a
+> pre-populated database **fullDb.sqlite3** into the directory **shared/src/commonMain/resources/MR/files/**
+> using one of the editors (such as SQLiteStudio) and row-by-row insert.
+
 ## Conventions
 
 ### Branching
