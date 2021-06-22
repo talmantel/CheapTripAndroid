@@ -74,6 +74,12 @@ class RouteRepositoryTest {
                 listOf(Path(RIDE_SHARE, 15.32F, 687, "Moscow", "Saint Petersburg"))
             ),
             Route(
+                FLYING,
+                16.43F,
+                224,
+                listOf(Path(FLIGHT, 16.43F, 224, "Moscow", "Saint Petersburg"))
+            ),
+            Route(
                 FIXED_WITHOUT_RIDE_SHARE,
                 16.83F,
                 765,
@@ -84,15 +90,6 @@ class RouteRepositoryTest {
                 17.64F,
                 483,
                 listOf(Path(TRAIN, 17.64F, 483, "Moscow", "Saint Petersburg"))
-            ),
-            Route(
-                FLYING,
-                58.46F,
-                907,
-                listOf(
-                    Path(FLIGHT, 30.15F, 548, "Moscow", "Petrozavodsk"),
-                    Path(FLIGHT, 28.31F, 359, "Petrozavodsk", "Saint Petersburg")
-                )
             )
         )
 

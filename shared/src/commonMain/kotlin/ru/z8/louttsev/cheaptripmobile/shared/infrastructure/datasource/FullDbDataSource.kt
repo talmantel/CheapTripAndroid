@@ -9,6 +9,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.DataSource
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.*
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale.RU
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type.*
+import kotlin.math.round
 
 /**
  * Declares data source implementation based on a copy of the server DB.
@@ -123,7 +124,7 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
                     mapper = { id, fromId, toId, transportationTypeId, price, duration ->
                         Route(
                             routeType = DIRECT,
-                            euroPrice = price,
+                            euroPrice = round(price*100)/100,
                             durationMinutes = duration!!,
                             directPaths = listOf(
                                 pathMapper(locale)(
@@ -152,7 +153,7 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
             val paths = selectPathsByIds(pathIds, locale).sortByListOrder(pathIds)
             Route(
                 routeType = type,
-                euroPrice = price,
+                euroPrice = round(price*100)/100,
                 durationMinutes = paths.sumOf { it.durationMinutes },
                 directPaths = paths
             )
@@ -175,7 +176,7 @@ abstract class FullDbDataSource<T>(sqlDriver: SqlDriver) : DataSource<T> {
                 transportationType = TransportationType.fromValue(
                     selectTransportationTypeNameById(transportationTypeId!!)
                 ),
-                euroPrice = price,
+                euroPrice = round(price*100)/100,
                 durationMinutes = duration!!,
                 from = selectLocationNameById(fromId, locale),
                 to = selectLocationNameById(toId, locale)
