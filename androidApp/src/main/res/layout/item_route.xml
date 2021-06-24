@@ -12,7 +12,6 @@
             type="ru.z8.louttsev.cheaptripmobile.shared.model.data.Route" />
     </data>
 
-    <!--suppress CheckTagEmptyBody -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/route_main_view"
         android:layout_width="match_parent"
@@ -20,25 +19,36 @@
         android:background="@drawable/route_item_background"
         android:padding="8dp">
 
-        <LinearLayout
-            android:id="@+id/transport_icon_container"
+        <HorizontalScrollView
+            android:id="@+id/transport_icon_container_scroll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:scrollIndicators="start|end"
+            android:fadeScrollbars="false"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_height="36dp">
+
+            <LinearLayout
+                android:id="@+id/transport_icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/route_plan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@{model.routePlan}"
             android:textColor="@color/colorTextPrimary"
             app:layout_constraintEnd_toStartOf="@+id/open_indicator"
-            app:layout_constraintStart_toEndOf="@+id/transport_icon_container"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/transport_icon_container_scroll"
             tools:text="Muscat → Abu Dhabi" />
 
         <TextView
@@ -51,7 +61,7 @@
             android:textColor="@color/colorTextSecondary"
             app:layout_constraintBottom_toBottomOf="@+id/euro_price"
             app:layout_constraintEnd_toStartOf="@+id/euro_price"
-            app:layout_constraintStart_toEndOf="@+id/transport_icon_container"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/euro_price"
             tools:text="1 d 16 h 39 min" />
 
@@ -79,24 +89,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/route_plan" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:barrierMargin="8dp"
-            app:constraint_referenced_ids="duration,transport_icon_container,open_indicator,euro_price,route_plan"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="220dp" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/path_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
+            app:layout_constraintTop_toBottomOf="@id/duration"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

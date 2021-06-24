@@ -4,6 +4,7 @@
  */
 package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,14 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.androidApp.R
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemRouteBinding
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
 
 /**
@@ -67,21 +71,21 @@ class RouteListAdapter(
                 }
             }
 
-            transportIconContainer.removeAllViews()
-            currentRoute.directPaths.forEach {
-                val imageview = LayoutInflater.from(context).inflate(
-                    R.layout.transport_icon_imageview,
-                    transportIconContainer,
-                    false
-                ) as ImageView
-                imageview.apply {
-                    setImageResource(it.transportationType.imageResource.drawableResId)
-                    layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
-                        setMargins(0, 8, 0, 8)
-                    }
+            transportIconContainer.addIcons(currentRoute.directPaths, context)
+        }
+    }
+
+    private fun LinearLayout.addIcons(paths: List<Path>, context: Context) {
+        removeAllViews()
+
+        paths.forEach { path ->
+            addView(
+                ImageView(context).apply {
+                    setImageResource(path.transportationType.imageResource.drawableResId)
+                    val padding = context.resources.getDimension(R.dimen.transport_icon_margin).toInt()
+                    setPadding(padding)
                 }
-                transportIconContainer.addView(imageview)
-            }
+            )
         }
     }
 
