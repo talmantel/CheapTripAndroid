@@ -29,4 +29,5 @@
     <string name="go_button_text">Let\'s go</string>
     <string name="no_data_error_message">Sorry, the data we have accumulated is not enough to build a route between the indicated cities. Try changing your request.</string>
     <string name="action_button_text">Buy ticket</string>
+    <string name="clause_duration_included_airport_transfer_text">duration includes transfer to/from airport</string>
 </resources>

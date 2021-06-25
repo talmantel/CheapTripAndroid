@@ -7,12 +7,13 @@ package ru.z8.louttsev.cheaptripmobile.androidApp.adapters
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemPathBinding
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.ConditionalClause
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Country
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
 import ru.z8.louttsev.cheaptripmobile.shared.payload.AffiliateProgram
@@ -42,18 +43,32 @@ class PathListAdapter(
             model = currentPath // ignore probably IDE error message "Cannot access class..."
             executePendingBindings()
 
-            // TODO change country stub to auto detected country, issue #3
-            val affiliateUrl = AffiliateProgram.getAffiliateUrl(currentPath, Country.INDEFINITE)
+            with(actionButton) {
+                // TODO change country stub to auto detected country, issue #3
+                val affiliateUrl = AffiliateProgram.getAffiliateUrl(currentPath, Country.INDEFINITE)
 
-            if (affiliateUrl.isNotEmpty()) {
-                actionButton.visibility = View.VISIBLE
-                actionButton.setOnClickListener {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(affiliateUrl))
-                    root.context.startActivity(intent)
+                if (affiliateUrl.isNotEmpty()) {
+                    visibility = VISIBLE
+                    setOnClickListener {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(affiliateUrl))
+                        root.context.startActivity(intent)
+                    }
+                } else {
+                    visibility = GONE
+                    setOnClickListener(null)
                 }
-            } else {
-                actionButton.visibility = View.GONE
-                actionButton.setOnClickListener(null)
+            }
+
+            with(conditionalClause) {
+                val clauses = ConditionalClause.getClausesFor(currentPath)
+
+                if (clauses.isNotEmpty()) {
+                    text = clauses.joinToString("\n")
+                    visibility = VISIBLE
+                } else {
+                    text = ""
+                    visibility = GONE
+                }
             }
         }
     }

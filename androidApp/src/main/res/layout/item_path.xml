@@ -20,7 +20,7 @@
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/path_plan"
@@ -78,5 +78,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/path_plan"
             tools:text="125.30 €" />
+
+        <TextView
+            android:id="@+id/conditional_clause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/colorTextPrimary"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/euro_price"
+            app:layout_constraintStart_toStartOf="@id/duration"
+            app:layout_constraintTop_toBottomOf="@id/euro_price"
+            tools:text="duration includes transfer to/from airport"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

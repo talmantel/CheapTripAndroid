@@ -66,6 +66,7 @@ class RouteListAdapter(
                     pathList.visibility = View.GONE
                 }
             }
+            openIndicator.isChecked = false
 
             transportIconContainer.removeAllViews()
             currentRoute.directPaths.forEach {

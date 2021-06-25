@@ -29,4 +29,5 @@
     <string name="go_button_text">Поехали!</string>
     <string name="no_data_error_message">Простите. У нас пока нет информации по этому маршруту. Мы работаем над ее получением.</string>
     <string name="action_button_text">Купить билет</string>
+    <string name="clause_duration_included_airport_transfer_text">продолжительность включает трансфер в/из аэропорта</string>
 </resources>
