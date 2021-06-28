@@ -21,10 +21,10 @@
 
         <HorizontalScrollView
             android:id="@+id/transport_icon_container_scroll"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scrollIndicators="start|end"
             android:fadeScrollbars="false"
+            android:scrollIndicators="start|end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
