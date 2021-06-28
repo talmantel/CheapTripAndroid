@@ -10,6 +10,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.activity:activity-ktx:1.2.3")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("com.yandex.android:mobmetricalib:3.21.0")
 }
 
 android {

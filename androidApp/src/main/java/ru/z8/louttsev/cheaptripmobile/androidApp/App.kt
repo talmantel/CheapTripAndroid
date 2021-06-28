@@ -1,6 +1,8 @@
 package ru.z8.louttsev.cheaptripmobile.androidApp
 
 import android.app.Application
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import ru.z8.louttsev.cheaptripmobile.shared.DatabaseDriverFactory
 import ru.z8.louttsev.cheaptripmobile.shared.convertToString
 import ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource.FullDb
@@ -20,10 +22,19 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        YandexMetrica.activate(
+            applicationContext,
+            YandexMetricaConfig
+                .newConfigBuilder("cfc4505a-fc5f-499d-abe1-e571d77f9d52")
+                .build()
+        )
+        YandexMetrica.enableActivityAutoTracking(this)
+
         convertToString = { toString(this@App) }
 
         val fullDbDriver = DatabaseDriverFactory(this).getDriver(FullDb.Schema, "fullDb.sqlite3")
-        val localDbDriver = DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
+        val localDbDriver =
+            DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
 
         sLocationRepository = LocationRepository(
             mainSource = LocationDataSourceFullDb(fullDbDriver),
@@ -46,6 +57,6 @@ class App : Application() {
      */
     companion object {
         lateinit var sLocationRepository: LocationRepository
-        lateinit var  sRouteRepository: RouteRepository
+        lateinit var sRouteRepository: RouteRepository
     }
 }
