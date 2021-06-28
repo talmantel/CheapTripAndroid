@@ -75,7 +75,16 @@ class MainActivity : AppCompatActivity() {
             goButton.setup(
                 isReady = model.routes.isReadyToBuild,
                 listener = {
-                    model.routes.build(emptyResultHandler = { showNoResultsMessage() })
+                    model.routes.build(
+                        emptyResultHandler = { showNoResultsMessage() },
+                        onUpdate = {
+                            routeList.smoothScrollToPosition(0)
+                            routeList.visibility = View.VISIBLE
+                        }
+                    )
+
+                    routeList.visibility = View.GONE
+
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
                 }

@@ -22,5 +22,5 @@ interface GoButtonHandler {
      *
      * @param emptyResultHandler UI function called if no possible routes found
      */
-    fun build(emptyResultHandler: () -> Unit)
+    fun build(emptyResultHandler: () -> Unit, onUpdate: () -> Unit)
 }

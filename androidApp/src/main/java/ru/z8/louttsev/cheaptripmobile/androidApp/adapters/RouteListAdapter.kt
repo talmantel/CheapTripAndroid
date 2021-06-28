@@ -17,6 +17,7 @@ import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.icerock.moko.mvvm.livedata.LiveData
+import kotlinx.coroutines.delay
 import ru.z8.louttsev.cheaptripmobile.androidApp.R
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemRouteBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path

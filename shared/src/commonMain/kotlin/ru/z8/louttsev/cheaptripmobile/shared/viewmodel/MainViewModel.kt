@@ -7,6 +7,7 @@ package ru.z8.louttsev.cheaptripmobile.shared.viewmodel
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.z8.louttsev.cheaptripmobile.shared.ioDispatcher
@@ -111,7 +112,7 @@ class MainViewModel(
         override val isReadyToBuild: LiveData<Boolean>
             get() = routeBuildReadiness
 
-        override fun build(emptyResultHandler: () -> Unit) {
+        override fun build(emptyResultHandler: () -> Unit, onUpdate: () -> Unit) {
             if (isBothPointsSelected()) {
                 viewModelScope.launch(ioDispatcher) {
                     // null-safety was checked
@@ -122,6 +123,8 @@ class MainViewModel(
                             emptyResultHandler()
                         } else {
                             routes.value = result
+                            delay(100)
+                            onUpdate()
                         }
                     }
                 }
