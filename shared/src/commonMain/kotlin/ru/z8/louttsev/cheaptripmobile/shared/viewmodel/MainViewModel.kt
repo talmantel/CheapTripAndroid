@@ -10,9 +10,11 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.z8.louttsev.cheaptripmobile.shared.currentLocale
 import ru.z8.louttsev.cheaptripmobile.shared.ioDispatcher
 import ru.z8.louttsev.cheaptripmobile.shared.model.LocationRepository
 import ru.z8.louttsev.cheaptripmobile.shared.model.RouteRepository
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route
@@ -31,6 +33,8 @@ class MainViewModel(
     private val locationRepository: LocationRepository,
     private val routeRepository: RouteRepository
 ) : ViewModel() {
+    private var inputLocale = currentLocale
+
     private var selectedOrigin: Location? = null
     private var selectedDestination: Location? = null
 
@@ -43,9 +47,15 @@ class MainViewModel(
 
         override var isBeingUpdated: Boolean = false
 
-        override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
+        override fun onTextChanged(text: String, locale: Locale, emptyResultHandler: () -> Unit) {
+            inputLocale = locale
             viewModelScope.launch(ioDispatcher) {
-                val result = locationRepository.searchLocationsByName(text, Type.FROM, limit = 4)
+                val result = locationRepository.searchLocationsByName(
+                    needle = text,
+                    type = Type.FROM,
+                    limit = 4,
+                    locale = inputLocale
+                )
 
                 withContext(uiDispatcher) {
                     if (result.isEmpty()) {
@@ -77,9 +87,15 @@ class MainViewModel(
 
         override var isBeingUpdated: Boolean = false
 
-        override fun onTextChanged(text: String, emptyResultHandler: () -> Unit) {
+        override fun onTextChanged(text: String, locale: Locale, emptyResultHandler: () -> Unit) {
+            inputLocale = locale
             viewModelScope.launch(ioDispatcher) {
-                val result = locationRepository.searchLocationsByName(text, Type.TO, limit = 4)
+                val result = locationRepository.searchLocationsByName(
+                    needle = text,
+                    type = Type.TO,
+                    limit = 4,
+                    locale = inputLocale
+                )
 
                 withContext(uiDispatcher) {
                     if (result.isEmpty()) {
@@ -116,7 +132,11 @@ class MainViewModel(
             if (isBothPointsSelected()) {
                 viewModelScope.launch(ioDispatcher) {
                     // null-safety was checked
-                    val result = routeRepository.getRoutes(selectedOrigin!!, selectedDestination!!)
+                    val result = routeRepository.getRoutes(
+                        from = selectedOrigin!!,
+                        to = selectedDestination!!,
+                        locale = inputLocale
+                    )
 
                     withContext(uiDispatcher) {
                         if (result.isEmpty()) {

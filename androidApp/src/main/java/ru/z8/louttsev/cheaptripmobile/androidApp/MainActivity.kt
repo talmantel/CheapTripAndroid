@@ -7,6 +7,7 @@ import android.text.Editable
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.*
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar.*
@@ -20,6 +21,7 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.androidApp.adapters.AutoCompleteLocationsListAdapter
 import ru.z8.louttsev.cheaptripmobile.androidApp.adapters.RouteListAdapter
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ActivityMainBinding
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.AutoCompleteHandler
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
@@ -28,10 +30,14 @@ import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
  * Declares main UI controller.
  */
 class MainActivity : AppCompatActivity() {
+    private lateinit var mInputMethodManager: InputMethodManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
         super.onCreate(savedInstanceState)
+
+        mInputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         val model by viewModels<MainViewModel> {
             createWithFactory { MainViewModel(App.sLocationRepository, App.sRouteRepository) }
@@ -84,9 +90,7 @@ class MainActivity : AppCompatActivity() {
                     )
 
                     routeList.visibility = View.GONE
-
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                    mInputMethodManager.hideSoftInputFromWindow(it.windowToken, HIDE_NOT_ALWAYS)
                 }
             )
 
@@ -126,7 +130,8 @@ class MainActivity : AppCompatActivity() {
             handler.onItemReset()
             handler.isBeingUpdated = true
             handler.onTextChanged(
-                changedEditableText.toString(),
+                text = changedEditableText.toString(),
+                locale = getInputLocale(),
                 emptyResultHandler = {
                     showNoResultsMessage()
                     selectSuitableLocation(handler)
@@ -150,6 +155,10 @@ class MainActivity : AppCompatActivity() {
             handler.isBeingUpdated = false
         }
     }
+
+    private fun getInputLocale(): Locale = Locale.fromLanguageCode(
+        @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
+    )
 
     private fun showNoResultsMessage() {
         Toast.makeText(

@@ -12,12 +12,10 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.icerock.moko.mvvm.livedata.LiveData
-import kotlinx.coroutines.delay
 import ru.z8.louttsev.cheaptripmobile.androidApp.R
 import ru.z8.louttsev.cheaptripmobile.androidApp.databinding.ItemRouteBinding
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Path
@@ -84,7 +82,8 @@ class RouteListAdapter(
             addView(
                 ImageView(context).apply {
                     setImageResource(path.transportationType.imageResource.drawableResId)
-                    val padding = context.resources.getDimension(R.dimen.transport_icon_margin).toInt()
+                    val padding =
+                        context.resources.getDimension(R.dimen.transport_icon_margin).toInt()
                     setPadding(padding)
                 }
             )

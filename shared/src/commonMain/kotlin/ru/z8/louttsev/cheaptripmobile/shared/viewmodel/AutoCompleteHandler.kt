@@ -5,6 +5,7 @@
 package ru.z8.louttsev.cheaptripmobile.shared.viewmodel
 
 import dev.icerock.moko.mvvm.livedata.LiveData
+import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 
 /**
  * Determines UI actions handle logic and data for autocomplete input field.
@@ -21,7 +22,7 @@ interface AutoCompleteHandler<T> {
      *
      * @param text Typed part of autocomplete input field
      */
-    fun onTextChanged(text: String, emptyResultHandler: () -> Unit)
+    fun onTextChanged(text: String, locale: Locale, emptyResultHandler: () -> Unit)
 
     /**
      * Sets selected item.
