@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
 import dev.icerock.moko.mvvm.livedata.LiveData
 import ru.z8.louttsev.cheaptripmobile.androidApp.adapters.AutoCompleteLocationsListAdapter
 import ru.z8.louttsev.cheaptripmobile.androidApp.adapters.RouteListAdapter
@@ -25,6 +28,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.AutoCompleteHandler
 import ru.z8.louttsev.cheaptripmobile.shared.viewmodel.MainViewModel
+import kotlin.text.RegexOption.*
 
 /**
  * Declares main UI controller.
@@ -57,14 +61,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         with(binding) {
-            originTextView.setup(model.origins)
+            originTextView.setup(model.origins, binding.originInputLayout)
 
             originClearIcon.setOnClickListener {
                 model.origins.onItemReset()
                 originTextView.clearText()
             }
 
-            destinationTextView.setup(model.destinations)
+            destinationTextView.setup(model.destinations, binding.destinationInputLayout)
 
             destinationClearIcon.setOnClickListener {
                 model.destinations.onItemReset()
@@ -119,11 +123,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun AutoCompleteTextView.setup(handler: AutoCompleteHandler<Location>) {
+    private fun AutoCompleteTextView.setup(
+        handler: AutoCompleteHandler<Location>,
+        inputLayout: TextInputLayout
+    ) {
         threshold = 1
 
         setAdapter(
             AutoCompleteLocationsListAdapter(handler.data)
+        )
+
+        filters = arrayOf(
+            object : InputFilter {
+                override fun filter(
+                    source: CharSequence,
+                    start: Int,
+                    end: Int,
+                    dest: Spanned?,
+                    dstart: Int,
+                    dend: Int
+                ): CharSequence? {
+                    val changedText = source.subSequence(start, end)
+
+                    val allowable = Regex("^[-a-zа-яё0-9 .]+$", IGNORE_CASE)
+
+                    if (source.isNotEmpty() && !allowable.matches(changedText)) {
+                        inputLayout.showErrorMessage(getString(R.string.not_allowable_character_error_message))
+                        return source.filter { allowable.matches(it.toString()) }
+                    } else {
+                        inputLayout.hideErrorMessage()
+                        return source
+                    }
+                }
+            }
         )
 
         addTextChangedListener { changedEditableText: Editable? ->
@@ -153,6 +185,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             handler.isBeingUpdated = false
+        }
+
+        setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                inputLayout.hideErrorMessage()
+            }
         }
     }
 
@@ -192,5 +230,13 @@ class MainActivity : AppCompatActivity() {
                 setBackgroundColor(getColor(R.color.colorInactiveViewBackground))
             }
         }
+    }
+
+    private fun TextInputLayout.showErrorMessage(message: String) {
+        error = message
+    }
+
+    private fun TextInputLayout.hideErrorMessage() {
+        error = null
     }
 }

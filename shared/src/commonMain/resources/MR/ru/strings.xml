@@ -28,6 +28,7 @@
     <string name="clear_button_text">Очистить</string>
     <string name="go_button_text">Поехали!</string>
     <string name="no_data_error_message">Простите. У нас пока нет информации по этому маршруту. Мы работаем над ее получением.</string>
+    <string name="not_allowable_character_error_message">Простите! На данный момент мы поддерживаем только русский и английский языки ввода.</string>
     <string name="action_button_text">Купить билет</string>
     <string name="clause_duration_included_airport_transfer_text">продолжительность включает трансфер в/из аэропорта</string>
 </resources>

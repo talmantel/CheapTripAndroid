@@ -25,6 +25,7 @@
             android:layout_marginEnd="4dp"
             android:background="@android:color/white"
             android:hint="@string/from_location_input_field_hint"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@+id/origin_clear_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,11 +42,9 @@
         <ImageView
             android:id="@+id/origin_clear_icon"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/origin_input_layout"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/origin_input_layout"
@@ -60,6 +59,7 @@
             android:layout_marginEnd="4dp"
             android:background="@android:color/white"
             android:hint="@string/to_location_input_field_hint"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@+id/destination_clear_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/origin_input_layout">
@@ -75,11 +75,9 @@
         <ImageView
             android:id="@+id/destination_clear_icon"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/destination_input_layout"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/destination_input_layout"
