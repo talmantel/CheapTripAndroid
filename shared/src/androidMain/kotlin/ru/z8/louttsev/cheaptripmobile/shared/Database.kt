@@ -22,18 +22,42 @@ actual class DatabaseDriverFactory(private val context: Context) {
 
     actual fun getDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
         val database: File = context.getDatabasePath(fileName)
+        val checkCode = BuildConfig.DB_FILE_CHECK_CODE
 
         if (!database.exists()) {
-            val inputStream = context.resources.openRawResource(MR.files.fullDb.rawResId)
-            val outputStream = FileOutputStream(database.absolutePath)
-
-            inputStream.use { input: InputStream ->
-                outputStream.use { output: FileOutputStream ->
-                    input.copyTo(output)
-                }
+            deployDatabase(database)
+            saveDbCheckCodePreference(checkCode)
+        } else {
+            if (checkCode != loadDbCheckCodePreference()) {
+                database.delete()
+                deployDatabase(database)
+                saveDbCheckCodePreference(checkCode)
             }
         }
 
         return AndroidSqliteDriver(schema, context, fileName)
     }
+
+    private fun deployDatabase(database: File) {
+        val inputStream = context.resources.openRawResource(MR.files.fullDb.rawResId)
+        val outputStream = FileOutputStream(database.absolutePath)
+
+        inputStream.use { input: InputStream ->
+            outputStream.use { output: FileOutputStream ->
+                input.copyTo(output)
+            }
+        }
+    }
+
+    @Suppress("SameParameterValue")
+    private fun saveDbCheckCodePreference(checkCode: String) {
+        context.getSharedPreferences("application-settings", Context.MODE_PRIVATE)
+            .edit()
+            .putString("db-file-check-code", checkCode)
+            .apply()
+    }
+
+    private fun loadDbCheckCodePreference() =
+        context.getSharedPreferences("application-settings", Context.MODE_PRIVATE)
+            .getString("db-file-check-code", "")
 }

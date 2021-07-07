@@ -1,4 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import java.io.BufferedInputStream
+import java.io.FileInputStream
+import java.security.DigestInputStream
+import java.security.MessageDigest
 
 plugins {
     kotlin("multiplatform")
@@ -35,7 +39,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
-                implementation("com.google.android.material:material:1.3.0")
+                implementation("com.google.android.material:material:1.4.0")
                 implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
                 api("dev.icerock.moko:mvvm-livedata-material:0.10.1")
@@ -48,7 +52,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
-                implementation("androidx.test:core:1.3.0")
+                implementation("androidx.test:core:1.4.0")
                 implementation("com.android.support:support-annotations:28.0.0")
                 implementation("com.android.support.test:runner:1.0.2")
                 implementation("org.robolectric:robolectric:4.4")
@@ -56,7 +60,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.4.2-native-mt")
+                // TODO define the appropriate library dependency for coroutines
                 implementation("com.squareup.sqldelight:native-driver:1.4.4")
             }
         }
@@ -75,12 +79,28 @@ kotlin {
     }
 }
 
+fun getMd5EncryptedString(file: File): String = DigestInputStream(
+    BufferedInputStream(FileInputStream(file)),
+    MessageDigest.getInstance("MD5")
+).use {
+    @Suppress("ControlFlowWithEmptyBody")
+    while (it.read() != -1) { }
+
+    it.messageDigest.digest()
+        .map { String.format("%02x", it) }
+        .reduce { result, string -> result + string }
+}
+
 android {
     compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(30)
+
+        val dbFile = File("shared/src/commonMain/resources/MR/files/fullDb.sqlite3")
+        val checkCode = getMd5EncryptedString(dbFile)
+        buildConfigField("String", "DB_FILE_CHECK_CODE", "\"$checkCode\"")
     }
     buildFeatures {
         viewBinding = true
