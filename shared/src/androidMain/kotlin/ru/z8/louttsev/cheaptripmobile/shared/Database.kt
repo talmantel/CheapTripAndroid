@@ -20,6 +20,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
         return AndroidSqliteDriver(schema, context, fileName)
     }
 
+    // TODO mark deprecate and/or remove, issue #1
     actual fun getDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
         val database: File = context.getDatabasePath(fileName)
         val checkCode = BuildConfig.DB_FILE_CHECK_CODE
@@ -38,6 +39,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
         return AndroidSqliteDriver(schema, context, fileName)
     }
 
+    // TODO mark deprecate and/or remove, issue #1
     private fun deployDatabase(database: File) {
         val inputStream = context.resources.openRawResource(MR.files.fullDb.rawResId)
         val outputStream = FileOutputStream(database.absolutePath)
@@ -49,6 +51,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
         }
     }
 
+    // TODO mark deprecate and/or remove, issue #1
     @Suppress("SameParameterValue")
     private fun saveDbCheckCodePreference(checkCode: String) {
         context.getSharedPreferences("application-settings", Context.MODE_PRIVATE)
@@ -57,6 +60,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
             .apply()
     }
 
+    // TODO mark deprecate and/or remove, issue #1
     private fun loadDbCheckCodePreference() =
         context.getSharedPreferences("application-settings", Context.MODE_PRIVATE)
             .getString("db-file-check-code", "")

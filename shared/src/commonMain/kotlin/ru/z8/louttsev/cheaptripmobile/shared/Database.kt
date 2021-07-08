@@ -19,6 +19,7 @@ expect class DatabaseDriverFactory {
      */
     fun createDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver
 
+    // TODO mark deprecate and/or remove, issue #1
     /**
      * Provides implementation of platform-specific SQL driver for pre-populated database.
      *

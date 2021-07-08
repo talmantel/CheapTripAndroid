@@ -14,6 +14,7 @@ actual class DatabaseDriverFactory {
         TODO("Not yet implemented")
     }
 
+    // TODO mark deprecate and/or remove, issue #1
     actual fun getDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
         TODO("Not yet implemented")
     }

@@ -12,6 +12,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Location.Type.*
 
+// TODO mark deprecate and/or remove, issue #1
 /**
  * Declares locations data source implementation based on a copy of the server DB.
  *

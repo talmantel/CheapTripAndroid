@@ -4,6 +4,8 @@
  */
 package ru.z8.louttsev.cheaptripmobile.shared.model
 
+// TODO add implementation based on Ktor multi-platform client
+// to package ru.z8.louttsev.cheaptripmobile.shared.infrastructure.datasource, issue #1
 /**
  * Determines read-only data access logic.
  */

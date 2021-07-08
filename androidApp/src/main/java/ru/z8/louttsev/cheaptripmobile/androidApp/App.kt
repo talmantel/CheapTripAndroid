@@ -37,15 +37,17 @@ class App : Application() {
             DatabaseDriverFactory(this).createDriver(LocalDb.Schema, "localDb.sqlite3")
 
         sLocationRepository = LocationRepository(
+            // TODO change to network implementation, issue #1
             mainSource = LocationDataSourceFullDb(fullDbDriver),
             reserveSource = LocationDb(localDbDriver),
             strategy = DIRECT_READ
         )
 
         sRouteRepository = RouteRepository(
+            // TODO change to network implementation, issue #1
             mainSource = RouteDataSourceFullDb(fullDbDriver),
             reserveSource = RouteDb(localDbDriver),
-            strategy = DIRECT_READ
+            strategy = DIRECT_READ // TODO change to BACKUP, issue #1 (first solve issue #10)
         )
     }
 

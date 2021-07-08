@@ -11,6 +11,7 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale.RU
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Route.Type.*
 import kotlin.math.round
 
+// TODO mark deprecate and/or remove, issue #1
 /**
  * Declares data source implementation based on a copy of the server DB.
  *
