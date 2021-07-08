@@ -2,6 +2,8 @@
  * CheapTrip Mobile
  * This is mobile client for LowCostsTrip server.
  */
+@file:Suppress("unused")
+
 package ru.z8.louttsev.cheaptripmobile.shared.payload
 
 import ru.z8.louttsev.cheaptripmobile.shared.model.data.Country
@@ -88,6 +90,7 @@ enum class AffiliateProgram(
          */
         fun getAffiliateUrl(path: Path, country: Country): String =
             try {
+                @Suppress("SimplifiableCallChain")
                 values()
                     .filter {
                         it.affiliateUrls.containsKey(path.transportationType)

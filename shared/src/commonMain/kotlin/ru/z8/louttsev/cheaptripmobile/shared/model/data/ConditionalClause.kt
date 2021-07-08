@@ -46,7 +46,11 @@ enum class ConditionalClause(
         fun getClausesFor(path: Path): List<String> {
             return values()
                 .filter { it.applicableTransportationTypes.contains(path.transportationType) }
-                .filter { it.excludableLocations.none { it.name == path.from || it.name == path.to } }
+                .filter {
+                    it.excludableLocations.none { location ->
+                        location.name == path.from || location.name == path.to
+                    }
+                }
                 .map { it.toString() }
         }
     }

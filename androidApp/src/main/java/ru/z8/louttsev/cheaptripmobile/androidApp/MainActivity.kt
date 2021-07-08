@@ -1,5 +1,6 @@
 package ru.z8.louttsev.cheaptripmobile.androidApp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
@@ -37,6 +38,7 @@ import kotlin.text.RegexOption.*
 class MainActivity : AppCompatActivity() {
     private lateinit var mInputMethodManager: InputMethodManager
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -152,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                     dest: Spanned?,
                     dstart: Int,
                     dend: Int
-                ): CharSequence? {
+                ): CharSequence {
                     val changedText = source.subSequence(start, end)
 
                     val allowable = Regex("^[-a-zа-яё0-9 .]+$", IGNORE_CASE)

@@ -20,10 +20,11 @@ class RepositoryStrategyTest {
                 return null
             }
             val needle = parameters.get(Key.NEEDLE).toString()
-            if (needle.isEmpty() || needle.isBlank()) {
-                return emptyList()
+
+            return if (needle.isEmpty() || needle.isBlank()) {
+                emptyList()
             } else {
-                return listOf(
+                listOf(
                     "$needle-started-string"
                 )
             }
@@ -39,10 +40,10 @@ class RepositoryStrategyTest {
 
         override fun get(parameters: ParamsBundle): List<String> {
             val needle = parameters.get(Key.NEEDLE).toString()
-            if (needle.isEmpty() || needle.isBlank()) {
-                return emptyList()
+            return if (needle.isEmpty() || needle.isBlank()) {
+                emptyList()
             } else {
-                return storage.filterKeys { it.contains(needle) }.values.toList()
+                storage.filterKeys { it.contains(needle) }.values.toList()
             }
         }
     }

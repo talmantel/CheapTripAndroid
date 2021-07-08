@@ -38,13 +38,12 @@ class RouteRepositoryTest {
 
         var isAvailable: Boolean = true
 
-        override fun get(parameters: ParamsBundle): List<Route>? {
+        override fun get(parameters: ParamsBundle): List<Route>? =
             if (isAvailable) {
-                return dataSource.get(parameters)
+                dataSource.get(parameters)
             } else {
-                return null
+                null
             }
-        }
     }
 
     private val dataStorage: LocalDbStorage<Route>

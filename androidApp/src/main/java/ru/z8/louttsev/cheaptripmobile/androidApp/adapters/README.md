@@ -12,4 +12,4 @@ Type                  | Name                                 | Description
 ----------------------|--------------------------------------|-----------------------------------------------
 class                 | **AutoCompleteLocationsListAdapter** | Adapter for location list as base for autocomplete input fields.
 class                 | **RouteListAdapter**                 | Adapter for route list as result of searching.
-class                 | **PathListAdapder**                  | Adapter for path list as part of route view.
+class                 | **PathListAdapter**                  | Adapter for path list as part of route view.

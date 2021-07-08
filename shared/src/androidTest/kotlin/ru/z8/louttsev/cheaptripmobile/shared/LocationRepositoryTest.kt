@@ -35,13 +35,12 @@ class LocationRepositoryTest {
 
         var isAvailable = true
 
-        override fun get(parameters: ParamsBundle): List<Location>? {
+        override fun get(parameters: ParamsBundle): List<Location>? =
             if (isAvailable) {
-                return dataSource.get(parameters)
+                dataSource.get(parameters)
             } else {
-                return null
+                null
             }
-        }
     }
 
     private val dataStorage: LocalDbStorage<Location>
