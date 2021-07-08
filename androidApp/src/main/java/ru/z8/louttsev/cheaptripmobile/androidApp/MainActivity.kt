@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar.*
 import androidx.appcompat.app.AppCompatActivity
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -61,14 +62,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         with(binding) {
-            originTextView.setup(model.origins, binding.originInputLayout)
+            originTextView.setup(
+                handler = model.origins,
+                inputLayout = binding.originInputLayout,
+                nextFocusedView = destinationTextView
+            )
 
             originClearIcon.setOnClickListener {
                 model.origins.onItemReset()
                 originTextView.clearText()
             }
 
-            destinationTextView.setup(model.destinations, binding.destinationInputLayout)
+            destinationTextView.setup(
+                handler = model.destinations,
+                inputLayout = binding.destinationInputLayout,
+                nextFocusedView = originTextView
+            )
 
             destinationClearIcon.setOnClickListener {
                 model.destinations.onItemReset()
@@ -125,7 +134,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun AutoCompleteTextView.setup(
         handler: AutoCompleteHandler<Location>,
-        inputLayout: TextInputLayout
+        inputLayout: TextInputLayout,
+        nextFocusedView: View
     ) {
         threshold = 1
 
@@ -171,6 +181,22 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        setOnEditorActionListener { view, actionId, _ ->
+            when(actionId) {
+                EditorInfo.IME_ACTION_NEXT -> {
+                    selectSuitableLocation(handler)
+                    nextFocusedView.requestFocus()
+                    true
+                }
+                EditorInfo.IME_ACTION_GO -> {
+                    selectSuitableLocation(handler)
+                    nextFocusedView.requestFocus()
+                    true
+                }
+                else -> false
+            }
+        }
+        
         setOnItemClickListener { parent: AdapterView<*>, _, position: Int, _ ->
             val selectedLocation = parent.getItemAtPosition(position) as Location
 
