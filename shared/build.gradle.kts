@@ -60,7 +60,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                // TODO define the appropriate library dependency for coroutines
+                // TODO define the appropriate library dependency for coroutines, issue #25
                 implementation("com.squareup.sqldelight:native-driver:1.4.4")
             }
         }

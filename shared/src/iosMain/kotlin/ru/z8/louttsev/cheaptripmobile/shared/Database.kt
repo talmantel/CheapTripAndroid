@@ -11,12 +11,12 @@ import com.squareup.sqldelight.db.SqlDriver
  */
 actual class DatabaseDriverFactory {
     actual fun createDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented, issue #25")
     }
 
     // TODO mark deprecate and/or remove, issue #1
     actual fun getDriver(schema: SqlDriver.Schema, fileName: String): SqlDriver {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented, issue #25")
     }
 
 }

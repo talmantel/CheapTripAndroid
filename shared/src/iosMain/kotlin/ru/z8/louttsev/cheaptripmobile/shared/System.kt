@@ -11,6 +11,6 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
  */
 actual val currentLocale: Locale
     // TODO change implementation to use the saved user select as the current locale, issue #13
-    get() = TODO("Not yet implemented")
+    get() = TODO("Not yet implemented, issue#25")
 
 // TODO implement val currentCountry, issue #3
