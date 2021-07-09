@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
             originClearIcon.setOnClickListener {
                 model.origins.onItemReset()
                 originTextView.clearText()
+                originTextView.requestFocus()
             }
 
             destinationTextView.setup(
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             destinationClearIcon.setOnClickListener {
                 model.destinations.onItemReset()
                 destinationTextView.clearText()
+                destinationTextView.requestFocus()
             }
 
             clearButton.setOnClickListener {
