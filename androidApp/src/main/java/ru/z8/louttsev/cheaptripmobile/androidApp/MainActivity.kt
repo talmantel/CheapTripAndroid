@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                 originTextView.clearText()
                 model.destinations.onItemReset()
                 destinationTextView.clearText()
+                originTextView.requestFocus()
             }
 
             goButton.setup(
