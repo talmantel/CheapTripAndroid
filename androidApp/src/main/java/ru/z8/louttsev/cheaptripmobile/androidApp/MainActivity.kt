@@ -9,13 +9,13 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.*
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar.*
 import androidx.appcompat.app.AppCompatActivity
-import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -66,26 +66,26 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             originTextView.setup(
                 handler = model.origins,
-                inputLayout = binding.originInputLayout,
-                nextFocusedView = destinationTextView
+                inputLayout = binding.originInputLayout
             )
 
             originClearIcon.setOnClickListener {
                 model.origins.onItemReset()
                 originTextView.clearText()
                 originTextView.requestFocus()
+                mInputMethodManager.showSoftInput(originTextView, SHOW_IMPLICIT)
             }
 
             destinationTextView.setup(
                 handler = model.destinations,
-                inputLayout = binding.destinationInputLayout,
-                nextFocusedView = originTextView
+                inputLayout = binding.destinationInputLayout
             )
 
             destinationClearIcon.setOnClickListener {
                 model.destinations.onItemReset()
                 destinationTextView.clearText()
                 destinationTextView.requestFocus()
+                mInputMethodManager.showSoftInput(destinationTextView, SHOW_IMPLICIT)
             }
 
             clearButton.setOnClickListener {
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
                 model.destinations.onItemReset()
                 destinationTextView.clearText()
                 originTextView.requestFocus()
+                mInputMethodManager.showSoftInput(originTextView, SHOW_IMPLICIT)
             }
 
             goButton.setup(
@@ -108,7 +109,10 @@ class MainActivity : AppCompatActivity() {
                     )
 
                     routeList.visibility = View.GONE
-                    mInputMethodManager.hideSoftInputFromWindow(it.windowToken, HIDE_NOT_ALWAYS)
+                    mInputMethodManager.hideSoftInputFromWindow(
+                        it.windowToken,
+                        HIDE_NOT_ALWAYS
+                    )
                 }
             )
 
@@ -139,8 +143,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun AutoCompleteTextView.setup(
         handler: AutoCompleteHandler<Location>,
-        inputLayout: TextInputLayout,
-        nextFocusedView: View
+        inputLayout: TextInputLayout
     ) {
         threshold = 1
 
@@ -186,22 +189,16 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        setOnEditorActionListener { view, actionId, _ ->
-            when(actionId) {
-                EditorInfo.IME_ACTION_NEXT -> {
-                    selectSuitableLocation(handler)
-                    nextFocusedView.requestFocus()
-                    true
-                }
-                EditorInfo.IME_ACTION_GO -> {
-                    selectSuitableLocation(handler)
-                    nextFocusedView.requestFocus()
+        setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    dismissDropDown()
                     true
                 }
                 else -> false
             }
         }
-        
+
         setOnItemClickListener { parent: AdapterView<*>, _, position: Int, _ ->
             val selectedLocation = parent.getItemAtPosition(position) as Location
 
@@ -259,6 +256,12 @@ class MainActivity : AppCompatActivity() {
             } else {
                 setOnClickListener(null)
                 setBackgroundColor(getColor(R.color.colorInactiveViewBackground))
+            }
+        }
+
+        setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                view.performClick()
             }
         }
     }
