@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 ): CharSequence {
                     val changedText = source.subSequence(start, end)
 
-                    val allowable = Regex("^[-a-zа-яё0-9 .]+$", IGNORE_CASE)
+                    val allowable = Regex("^[-a-zа-яё .]+$", IGNORE_CASE)
 
                     if (source.isNotEmpty() && !allowable.matches(changedText)) {
                         inputLayout.showErrorMessage(getString(R.string.not_allowable_character_error_message))
