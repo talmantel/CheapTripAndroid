@@ -17,7 +17,7 @@ android {
     compileSdkVersion(30)
     defaultConfig {
         applicationId = "ru.z8.louttsev.cheaptripmobile.androidApp"
-        minSdkVersion(24)
+        minSdkVersion(21)
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0.0"
