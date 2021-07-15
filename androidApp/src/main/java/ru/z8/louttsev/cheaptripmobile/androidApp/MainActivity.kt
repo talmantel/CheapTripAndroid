@@ -244,12 +244,19 @@ class MainActivity : AppCompatActivity() {
         @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
     )
 
+    private var mNoDataErrorToast: Toast? = null
+
     private fun showNoResultsMessage() {
-        Toast.makeText(
+        mNoDataErrorToast?.let {
+            it.cancel()
+            mNoDataErrorToast = null
+        }
+
+        mNoDataErrorToast = Toast.makeText(
             this@MainActivity,
             getString(R.string.no_data_error_message),
-            Toast.LENGTH_LONG
-        ).show()
+            Toast.LENGTH_SHORT
+        ).apply { show() }
     }
 
     private fun AutoCompleteTextView.clearText() {
