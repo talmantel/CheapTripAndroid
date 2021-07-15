@@ -17,6 +17,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doBeforeTextChanged
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -165,6 +166,7 @@ class MainActivity : AppCompatActivity() {
 
                     val allowable = Regex("^[-a-zа-яё .]+$", IGNORE_CASE)
 
+                    @Suppress("LiftReturnOrAssignment")
                     if (source.isNotEmpty() && !allowable.matches(changedText)) {
                         inputLayout.showErrorMessage(getString(R.string.not_allowable_character_error_message))
                         return source.filter { allowable.matches(it.toString()) }
@@ -176,15 +178,25 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
+        doBeforeTextChanged { _, _, count, after ->
+            handler.isBeingBackspaced = after < count
+            handler.wasSelected = handler.isItemSelected()
+        }
+
         addTextChangedListener { changedEditableText: Editable? ->
             handler.onItemReset()
             handler.isBeingUpdated = true
+
             handler.onTextChanged(
                 text = changedEditableText.toString(),
                 locale = getInputLocale(),
                 emptyResultHandler = {
-                    showNoResultsMessage()
-                    selectSuitableLocation(handler)
+                    if (textLength() > 1) {
+                        showNoResultsMessage()
+                        selectSuitableLocation(handler)
+                    } else {
+                        clearText()
+                    }
                 }
             )
         }
@@ -207,12 +219,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         setOnDismissListener {
-            if (!handler.isItemSelected()) {
-                if (!handler.isBeingUpdated || text.toString().length == 1) {
+            fun firstSymbolInputted() = textLength() == 1 && !handler.isBeingBackspaced
+            fun lastSymbolDeleted() = handler.wasSelected && handler.isBeingBackspaced
+
+            if (!handler.isItemSelected() && textLength() > 0) {
+                if (!handler.isBeingUpdated || firstSymbolInputted() || lastSymbolDeleted()) {
                     selectSuitableLocation(handler)
                 }
             }
             handler.isBeingUpdated = false
+            handler.wasSelected = false
         }
 
         setOnFocusChangeListener { _, hasFocus ->
@@ -221,6 +237,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun AutoCompleteTextView.textLength() = text.toString().length
 
     private fun getInputLocale(): Locale = Locale.fromLanguageCode(
         @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)

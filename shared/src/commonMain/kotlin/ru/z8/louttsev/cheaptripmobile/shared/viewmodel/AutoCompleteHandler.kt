@@ -16,6 +16,8 @@ import ru.z8.louttsev.cheaptripmobile.shared.model.data.Locale
 interface AutoCompleteHandler<T> {
     val data: LiveData<List<T>>
     var isBeingUpdated: Boolean
+    var isBeingBackspaced: Boolean
+    var wasSelected: Boolean
 
     /**
      * Updates data accordingly search pattern.

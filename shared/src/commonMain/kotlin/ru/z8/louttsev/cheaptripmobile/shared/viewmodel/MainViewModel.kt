@@ -46,6 +46,8 @@ class MainViewModel(
             get() = locations
 
         override var isBeingUpdated: Boolean = false
+        override var isBeingBackspaced: Boolean = false
+        override var wasSelected: Boolean = false
 
         override fun onTextChanged(text: String, locale: Locale, emptyResultHandler: () -> Unit) {
             inputLocale = locale
@@ -86,6 +88,8 @@ class MainViewModel(
             get() = locations
 
         override var isBeingUpdated: Boolean = false
+        override var isBeingBackspaced: Boolean = false
+        override var wasSelected: Boolean = false
 
         override fun onTextChanged(text: String, locale: Locale, emptyResultHandler: () -> Unit) {
             inputLocale = locale
