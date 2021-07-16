@@ -50,7 +50,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
         }
 
         val inputStream = context.resources.openRawResource(MR.files.fullDb.rawResId)
-        
+
         createDirectoryIfNotExist(database)
         val outputStream = FileOutputStream(database.absolutePath)
 
