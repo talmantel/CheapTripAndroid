@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 tools:text="Muscat" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:imeOptions="actionGo"
+                android:imeOptions="actionDone"
                 tools:text="Abu Dhabi" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -115,6 +115,8 @@
             android:text="@string/go_button_text"
             android:textColor="@android:color/white"
             android:textStyle="bold"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
