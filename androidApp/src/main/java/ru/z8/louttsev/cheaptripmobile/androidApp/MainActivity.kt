@@ -241,23 +241,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun AutoCompleteTextView.textLength() = text.toString().length
 
-    @SuppressLint("NewApi")
-    private fun getInputLocale(): Locale {
-        val inputMethodSubtype = mInputMethodManager.currentInputMethodSubtype
-        val languageTag = inputMethodSubtype.languageTag
-        @Suppress("DEPRECATION") val locale = inputMethodSubtype.locale
-
-//        return if (languageTag.isEmpty()) {
-//            Locale.RU
-//        } else {
-//            Locale.fromLanguageCode(languageTag)
-//        }
-
-        // TODO: find the best solution for get the language of the current input, issue #37
-        return Locale.fromLanguageCode(
-            @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
-        )
-    }
+    private fun getInputLocale(): Locale = Locale.fromLanguageCode(
+        @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
+    )
 
     private var mNoDataErrorToast: Toast? = null
 
