@@ -188,9 +188,11 @@ class MainActivity : AppCompatActivity() {
             handler.onItemReset()
             handler.isBeingUpdated = true
 
+            val changedText = changedEditableText.toString()
+
             handler.onTextChanged(
-                text = changedEditableText.toString(),
-                locale = getInputLocale(),
+                text = changedText,
+                locale = getInputLocale(changedText),
                 emptyResultHandler = {
                     if (textLength() > 1) {
                         showNoResultsMessage()
@@ -241,8 +243,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun AutoCompleteTextView.textLength() = text.toString().length
 
-    private fun getInputLocale(): Locale = Locale.fromLanguageCode(
-        @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
+    private fun getInputLocale(text: String): Locale = Locale.fromLanguageCode(
+        if (Regex("^[-а-яё .]+$", IGNORE_CASE).matches(text)) {
+            "ru"
+        } else {
+            "en"
+        }
     )
 
     private var mNoDataErrorToast: Toast? = null
