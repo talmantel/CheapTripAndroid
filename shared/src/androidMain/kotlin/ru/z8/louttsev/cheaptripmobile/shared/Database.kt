@@ -41,7 +41,17 @@ actual class DatabaseDriverFactory(private val context: Context) {
 
     // TODO mark deprecate and/or remove, issue #1
     private fun deployDatabase(database: File) {
+        fun createDirectoryIfNotExist(database: File) {
+            val directory = File(database.absolutePath.substringBeforeLast('/'))
+
+            if (!directory.exists()) {
+                directory.mkdir()
+            }
+        }
+
         val inputStream = context.resources.openRawResource(MR.files.fullDb.rawResId)
+        
+        createDirectoryIfNotExist(database)
         val outputStream = FileOutputStream(database.absolutePath)
 
         inputStream.use { input: InputStream ->

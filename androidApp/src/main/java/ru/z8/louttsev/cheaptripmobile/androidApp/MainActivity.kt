@@ -16,6 +16,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doBeforeTextChanged
 import androidx.lifecycle.ViewModel
@@ -240,20 +241,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun AutoCompleteTextView.textLength() = text.toString().length
 
+    @SuppressLint("NewApi")
     private fun getInputLocale(): Locale {
         val inputMethodSubtype = mInputMethodManager.currentInputMethodSubtype
         val languageTag = inputMethodSubtype.languageTag
+        @Suppress("DEPRECATION") val locale = inputMethodSubtype.locale
 
-        return if (languageTag.isEmpty()) {
-            Locale.RU
-        } else {
-            Locale.fromLanguageCode(languageTag)
-        }
+//        return if (languageTag.isEmpty()) {
+//            Locale.RU
+//        } else {
+//            Locale.fromLanguageCode(languageTag)
+//        }
 
         // TODO: find the best solution for get the language of the current input, issue #37
-//        return Locale.fromLanguageCode(
-//            @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
-//        )
+        return Locale.fromLanguageCode(
+            @Suppress("DEPRECATION") mInputMethodManager.currentInputMethodSubtype.locale.take(2)
+        )
     }
 
     private var mNoDataErrorToast: Toast? = null
@@ -289,10 +292,14 @@ class MainActivity : AppCompatActivity() {
         isReady.addObserver {
             if (it) {
                 setOnClickListener(listener)
-                setBackgroundColor(getColor(R.color.colorAccent))
+                setBackgroundColor(
+                    ContextCompat.getColor(this@MainActivity, R.color.colorAccent)
+                )
             } else {
                 setOnClickListener(null)
-                setBackgroundColor(getColor(R.color.colorInactiveViewBackground))
+                setBackgroundColor(
+                    ContextCompat.getColor(this@MainActivity, R.color.colorInactiveViewBackground)
+                )
             }
         }
 
