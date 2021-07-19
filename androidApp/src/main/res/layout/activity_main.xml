@@ -34,8 +34,9 @@
                 android:id="@+id/origin_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textAutoComplete"
                 android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions"
+                android:importantForAutofill="no"
                 tools:text="Muscat" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -70,8 +71,9 @@
                 android:id="@+id/destination_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textAutoComplete"
                 android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions"
+                android:importantForAutofill="no"
                 tools:text="Abu Dhabi" />
 
         </com.google.android.material.textfield.TextInputLayout>
