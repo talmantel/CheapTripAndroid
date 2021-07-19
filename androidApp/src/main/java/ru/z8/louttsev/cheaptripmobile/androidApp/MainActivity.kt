@@ -106,11 +106,13 @@ class MainActivity : AppCompatActivity() {
                         emptyResultHandler = { showNoResultsMessage() },
                         onUpdate = {
                             routeList.smoothScrollToPosition(0)
+                            logo?.visibility = View.GONE
                             routeList.visibility = View.VISIBLE
                         }
                     )
 
                     routeList.visibility = View.GONE
+                    logo?.visibility = View.VISIBLE
                     mInputMethodManager.hideSoftInputFromWindow(
                         it.windowToken,
                         HIDE_NOT_ALWAYS
