@@ -25,6 +25,9 @@ enum class AffiliateProgram(
     private val applicableLocations: Set<Location>,
     private val affiliateUrls: Map<TransportationType, String>
 ) {
+    // TODO: implement new item for transferbuses.com affiliate program, issue #40
+    // TODO: Eliminate conflicts with other items that have BUS as affiliateUrls key, isuue #40
+
     SKYSCANNER(
         applicableCountries = emptySet(),
         applicableLocations = emptySet(),
