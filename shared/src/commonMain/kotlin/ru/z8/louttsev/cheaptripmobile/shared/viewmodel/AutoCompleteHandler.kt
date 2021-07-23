@@ -31,7 +31,7 @@ interface AutoCompleteHandler<T> {
      *
      * @param item Selected item into autocomplete input field
      */
-    fun onItemSelected(item: T)
+    fun onItemSelected(item: T, invalidSelectionHandler: () -> Unit)
 
     /**
      * Resets the previously selected item.

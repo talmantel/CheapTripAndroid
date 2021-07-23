@@ -38,7 +38,7 @@ class MainViewModel(
     private var selectedOrigin: Location? = null
     private var selectedDestination: Location? = null
 
-    private val routeBuildReadiness = MutableLiveData(isBothPointsSelected())
+    private val routeBuildReadiness = MutableLiveData(isBothPointsSelected() && isPointsVarious())
 
     val origins = object : AutoCompleteHandler<Location> {
         private val locations = MutableLiveData<List<Location>>(emptyList())
@@ -69,9 +69,12 @@ class MainViewModel(
             }
         }
 
-        override fun onItemSelected(item: Location) {
+        override fun onItemSelected(item: Location, invalidSelectionHandler: () -> Unit) {
             selectedOrigin = item
             updateReadiness()
+            if (!isPointsVarious()) {
+                invalidSelectionHandler()
+            }
         }
 
         override fun onItemReset() {
@@ -111,9 +114,12 @@ class MainViewModel(
             }
         }
 
-        override fun onItemSelected(item: Location) {
+        override fun onItemSelected(item: Location, invalidSelectionHandler: () -> Unit) {
             selectedDestination = item
             updateReadiness()
+            if (!isPointsVarious()) {
+                invalidSelectionHandler()
+            }
         }
 
         override fun onItemReset() {
@@ -157,9 +163,12 @@ class MainViewModel(
     }
 
     private fun updateReadiness() {
-        routeBuildReadiness.value = isBothPointsSelected()
+        routeBuildReadiness.value = isBothPointsSelected() && isPointsVarious()
     }
 
     private fun isBothPointsSelected() =
         selectedOrigin != null && selectedDestination != null
+
+    private fun isPointsVarious() =
+        selectedOrigin != selectedDestination
 }

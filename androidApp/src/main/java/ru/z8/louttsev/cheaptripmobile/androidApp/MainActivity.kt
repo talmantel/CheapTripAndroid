@@ -219,7 +219,10 @@ class MainActivity : AppCompatActivity() {
         setOnItemClickListener { parent: AdapterView<*>, _, position: Int, _ ->
             val selectedLocation = parent.getItemAtPosition(position) as Location
 
-            handler.onItemSelected(selectedLocation)
+            handler.onItemSelected(
+                selectedLocation,
+                invalidSelectionHandler = ::showInvalidSelectionMessage
+            )
             performCompletion()
         }
 
@@ -268,6 +271,14 @@ class MainActivity : AppCompatActivity() {
         ).apply { show() }
     }
 
+    private fun showInvalidSelectionMessage() {
+        Toast.makeText(
+            this@MainActivity,
+            getString(R.string.invalid_selection_error_message),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     private fun AutoCompleteTextView.clearText() {
         text.clear()
     }
@@ -277,7 +288,10 @@ class MainActivity : AppCompatActivity() {
             val suitableLocation = handler.data.value.first()
 
             setText(suitableLocation.name)
-            handler.onItemSelected(suitableLocation)
+            handler.onItemSelected(
+                suitableLocation,
+                invalidSelectionHandler = ::showInvalidSelectionMessage
+            )
             performCompletion()
         }
     }
