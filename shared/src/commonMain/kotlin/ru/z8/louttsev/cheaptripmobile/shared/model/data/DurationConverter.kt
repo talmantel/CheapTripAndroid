@@ -23,8 +23,18 @@ class DurationConverter {
             fun divmod(dividend: Int, divider: Int): Pair<Int, Int> =
                 dividend / divider to dividend % divider
 
-            val (days, residue) = divmod(value, 1440)
-            val (hours, minutes) = divmod(residue, 60)
+            var (days, residue) = divmod(value, 1440)
+            var (hours, minutes) = divmod(residue, 60)
+
+            // reason: display no more than two groups together
+            // solution: if there are already days and hours, round up minutes
+            // and correct the values of hours and days if necessary
+            if (days > 0 && hours != 0) {
+                hours += minutes / 30
+                minutes = 0
+                days += hours / 24
+                hours %= 24
+            }
 
             return listOf(
                 days.format(MR.strings.formatted_days_time_component),
