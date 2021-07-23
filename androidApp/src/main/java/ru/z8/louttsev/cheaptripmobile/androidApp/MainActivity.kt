@@ -2,6 +2,7 @@ package ru.z8.louttsev.cheaptripmobile.androidApp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
@@ -40,7 +41,7 @@ import kotlin.text.RegexOption.*
 class MainActivity : AppCompatActivity() {
     private lateinit var mInputMethodManager: InputMethodManager
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -58,6 +59,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
+
+        if (resources.getBoolean(R.bool.isPhone)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         supportActionBar?.apply {
             customView = layoutInflater.inflate(R.layout.action_bar, null)
