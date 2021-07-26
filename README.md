@@ -106,9 +106,6 @@ testing and final bugfixes.
 * **dev** - Main development branch. All new features and all bugs for current version should be
 done here.
 
-> The **kmm-version** branch, forked from **dev**, is currently a basic for cross-platform
-> implementation.
-
 ### Versioning
 
 * dev - **d**x.x.x
