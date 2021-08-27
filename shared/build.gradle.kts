@@ -23,10 +23,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-                api("dev.icerock.moko:resources:0.15.1")
-                api("dev.icerock.moko:mvvm-core:0.10.1")
-                api("dev.icerock.moko:mvvm-livedata:0.10.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+                api("dev.icerock.moko:resources:0.17.0")
+                api("dev.icerock.moko:mvvm-core:0.11.0")
+                api("dev.icerock.moko:mvvm-livedata:0.11.0")
                 implementation("com.squareup.sqldelight:runtime:1.4.4")
             }
         }
@@ -42,9 +42,9 @@ kotlin {
                 implementation("com.google.android.material:material:1.4.0")
                 implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-                api("dev.icerock.moko:mvvm-livedata-material:0.10.1")
-                api("dev.icerock.moko:mvvm-databinding:0.10.1")
-                api("dev.icerock.moko:mvvm-viewbinding:0.10.1")
+                api("dev.icerock.moko:mvvm-livedata-material:0.11.0")
+                api("dev.icerock.moko:mvvm-databinding:0.11.0")
+                api("dev.icerock.moko:mvvm-viewbinding:0.11.0")
                 implementation("com.squareup.sqldelight:android-driver:1.4.4")
             }
         }
@@ -68,13 +68,15 @@ kotlin {
     }
     // export correct artifact to use all classes of library directly from Swift
     targets.withType(KotlinNativeTarget::class.java).all {
-        val arch = when (this.konanTarget) {
+/*        val arch = when (this.konanTarget) {
             org.jetbrains.kotlin.konan.target.KonanTarget.IOS_ARM64 -> "iosarm64"
             org.jetbrains.kotlin.konan.target.KonanTarget.IOS_X64 -> "iosx64"
             else -> throw IllegalArgumentException()
-        }
+        }*/
         binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-            export("dev.icerock.moko:mvvm-$arch:0.10.1")
+//            export("dev.icerock.moko:mvvm-$arch:0.11.0")
+            export("dev.icerock.moko:mvvm-core:0.11.0")
+            export("dev.icerock.moko:mvvm-livedata:0.11.0")
         }
     }
 }
